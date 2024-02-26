@@ -14,14 +14,14 @@ include('../includes/admin_header.php');
             <div class="p-3">
                 <div class="form-floating py-1 col-12">
                     <input class="form-control border shadow" />
-                    <label  class="ms-2">input1</label>
+                    <label class="ms-2">Câu hỏi</label>
                     <span></span>
                 </div>
             </div>
-             <div class="p-3">
+            <div class="p-3">
                 <div class="form-floating py-1 col-12">
-                    <input  class="form-control border shadow" />
-                    <label  class="ms-2">input 2</label>
+                    <input class="form-control border shadow" />
+                    <label class="ms-2">Câu trả lời</label>
                 </div>
             </div>
             <div class="row pt-2">
@@ -31,7 +31,7 @@ include('../includes/admin_header.php');
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a  class="btn btn-secondary w-100" href="../admin/cauhoi.php">
+                    <a class="btn btn-secondary w-100" href="../admin/cauhoi.php">
                         <i class="bi bi-x-circle"></i> Trở về
                     </a>
                 </div>
