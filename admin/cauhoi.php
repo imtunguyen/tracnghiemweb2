@@ -18,6 +18,7 @@ include('../includes/admin_header.php');
             </div>
         </div>
         <table class="table table-bordered table-striped align-middle text-center">
+
             <thead>
                 <tr>
                     <th>STT</th>
@@ -27,12 +28,14 @@ include('../includes/admin_header.php');
                 </tr>
             </thead>
             <tbody>
-               
+
             </tbody>
         </table>
     </div>
 </div>
 </div>
 <?php
+echo"hello world";
+include('../includes/database.php');
 include('../includes/admin_footer.php');
 ?>
