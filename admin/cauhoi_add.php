@@ -11,17 +11,47 @@ include('../includes/admin_header.php');
     </div>
     <div class="card-body border p-4">
         <form method="post" class="row">
-            <div class="p-3">
+            <div>
+                <p>Câu hỏi</p>
+            </div>
+            <div class="p-3 pt-0">
                 <div class="form-floating py-1 col-12">
                     <input class="form-control border shadow" />
-                    <label class="ms-2">Câu hỏi</label>
+                    <label class="ms-2">Nội dung</label>
                     <span></span>
                 </div>
             </div>
             <div class="p-3">
+                <p>Câu trả lời</p>
+                <select class="form-select" name="" id="">
+                    <option>--Chọn số câu trả lời--</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="p-3 pt-0">
                 <div class="form-floating py-1 col-12">
                     <input class="form-control border shadow" />
-                    <label class="ms-2">Câu trả lời</label>
+                    <label class="ms-2">Câu A</label>
+                </div>
+                <input type="radio" name="answer" value="A" class="ms-2 mt-2"/>
+            </div>
+            <div class="p-3 pt-0">
+                <div class="form-floating py-1 col-12">
+                    <input class="form-control border shadow" />
+                    <label class="ms-2">Câu B</label>
+                </div>
+            </div>
+            <div class="p-3 pt-0">
+                <div class="form-floating py-1 col-12">
+                    <input class="form-control border shadow" />
+                    <label class="ms-2">Câu C</label>
+                </div>
+            </div>
+            <div class="p-3 pt-0">
+                <div class="form-floating py-1 col-12">
+                    <input class="form-control border shadow" />
+                    <label class="ms-2">Câu D</label>
                 </div>
             </div>
             <div class="row pt-2">
