@@ -26,6 +26,7 @@ if(isset($_GET['delete'])){
         die();
     }
 }
+
 if ($stm = $connect->prepare('SELECT * FROM mon_hoc WHERE trang_thai = 1')) {
 $stm->execute();
 $result = $stm->get_result();
@@ -44,7 +45,7 @@ if ($result->num_rows >0 ) {
     <div class="card-body border p-4">
         <div class="row pb-3">
             <div class="col-7">
-                <form action="../admin/monhoc_search.php" method=post>
+                <form action="" method=post>
                 <div class="input-group mb-3 ">
                     <input type="text" class="form-control" name="search" id="floatingInputGroup1" placeholder="Tên môn học">
                     <button type="submit" name="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
@@ -66,7 +67,18 @@ if ($result->num_rows >0 ) {
                     <th>Sửa | Xóa</th>
                 </tr>
             </thead>
-            <?php while($record = mysqli_fetch_assoc($result)){ ?>
+        <?php
+        if(isset($_POST['submit'])){
+    $search = $_POST['search'];
+    $stm = $connect->prepare("SELECT * FROM mon_hoc WHERE trang_thai = 1 AND ten_mon_hoc LIKE '%$search%'");
+    $stm->execute();
+    $result = $stm->get_result();
+    $count = mysqli_num_rows($result);
+    if($count ==0){
+        echo "<h1>No RESULT</h1>";
+    }
+    else{
+         while($record = mysqli_fetch_assoc($result)){ ?>
             <tbody>
                 <td><?php echo $record['ma_mon_hoc'];?> </td>
                 <td><?php echo $record['ten_mon_hoc'];?></td>
@@ -84,7 +96,11 @@ if ($result->num_rows >0 ) {
                 </td>
 
             </tbody>
-            <?php } ?>
+            <?php } 
+    }
+}?>
+       
+           
         </table>
     </div>
 </div>

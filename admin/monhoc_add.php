@@ -5,10 +5,12 @@ include('../includes/admin_header.php');
 include('../includes/functions.php');
 
 if (isset($_POST['ten_mon_hoc'])) {
-    if ($stm = $connect->prepare('INSERT INTO mon_hoc (ten_mon_hoc) VALUES (?)')) {
-        $stm->bind_param('s',$_POST['ten_mon_hoc']);
+    if ($stm = $connect->prepare('INSERT INTO mon_hoc (ten_mon_hoc, trang_thai) VALUES (?, ?)')) {
+        $stm->bind_param('si', $_POST['ten_mon_hoc'], $trang_thai);
+        
+        $trang_thai = 1;
+        
         $stm->execute();
-
         $_SESSION['toastr'] = 'Thêm môn học mới thành công';
         header('Location: monhoc.php');
         
