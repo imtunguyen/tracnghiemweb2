@@ -2,35 +2,18 @@
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
+include('../includes/functionMonHoc.php');
+include('../includes/functions.php');
 
-if (isset($_SESSION['toastr'])) { ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-<script type="text/javascript">
-toastr.success("<?php echo $_SESSION['toastr']; ?>");
-</script>"
-<?php
-unset($_SESSION['toastr']);
-}
-
-
+thongBao();
 
 if(isset($_GET['delete'])){
-    if($stm = $connect->prepare('UPDATE mon_hoc SET trang_thai = 0 WHERE ma_mon_hoc = ?')){
-        $stm->bind_param('i', $_GET['delete']);
-        $stm->execute();
-
-        $_SESSION['toastr'] = 'Xóa môn học thành công';
-        header('Location: monhoc.php');
-        $stm->close();
-        die();
-    }
+    deleteMonHoc($connect, $_GET['delete']);
+    $_SESSION['toastr'] = 'Xóa môn học thành công';
+    header('Location: monhoc.php');
 }
-if ($stm = $connect->prepare('SELECT * FROM mon_hoc WHERE trang_thai = 1')) {
-$stm->execute();
-$result = $stm->get_result();
-
-if ($result->num_rows >0 ) {
+$result = getMonHoc($connect);
+if ($result->num_rows >=0 ) {
 ?>
 
 <div class="w-100 card border-0 p-4">
@@ -46,7 +29,7 @@ if ($result->num_rows >0 ) {
             <div class="col-7">
                 <form action="../admin/monhoc_search.php" method=post>
                 <div class="input-group mb-3 ">
-                    <input type="text" class="form-control" name="search" id="floatingInputGroup1" placeholder="Tên môn học">
+                    <input type="text" class="form-control" name="search" id="floatingInputGroup1" placeholder="Tìm kiếm môn học">
                     <button type="submit" name="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
                 </div>
                 </form>
@@ -66,40 +49,31 @@ if ($result->num_rows >0 ) {
                     <th>Sửa | Xóa</th>
                 </tr>
             </thead>
-            <?php while($record = mysqli_fetch_assoc($result)){ ?>
+             <?php $i=1; while($record = mysqli_fetch_assoc($result)){ ?> 
             <tbody>
-                <td><?php echo $record['ma_mon_hoc'];?> </td>
+                <td> <?php echo $i++;?></td>
                 <td><?php echo $record['ten_mon_hoc'];?></td>
                 <td>
                     <div class="w-75 btn-group" role="group">
                         <a class=" btn btn-primary mx-2"
                             href="../admin/monhoc_edit.php?id=<?php echo $record['ma_mon_hoc']; ?>">
-                            <i class=" bi bi-pencil-square"></i> Edit
+                            <i class=" bi bi-pencil-square"></i> Sửa
                         </a>
-                        <a class=" btn btn-danger mx-2" 
-                            href="../admin/monhoc.php?delete=<?php echo $record['ma_mon_hoc']; ?>">
-                            <i class="bi bi-trash"></i> Delete
+                        <a class=" btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                           >
+                            <i class="bi bi-trash"></i> Xóa
                         </a>
                     </div>
                 </td>
-
+                <?php xacNhanXoaMH($record['ma_mon_hoc']);?>
             </tbody>
-            <?php } ?>
+             <?php } ?> 
         </table>
     </div>
 </div>
 </div>
+
 <?php
-   } else 
-   {
-    echo 'No mon_hoc found';
-   }
-
-    
-   $stm->close();
-
-} else {
-   echo 'Could not prepare statement!';
 }
 
 

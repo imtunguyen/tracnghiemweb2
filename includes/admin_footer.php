@@ -7,11 +7,8 @@
         Made with <i class="bi bi-heart-fill"></i> by DotNetMastery
     </div>
 </footer>
-<!-- MDB -->
-<!-- <script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
-></script> -->
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/script.js"></script>
 </body>
 
 </html>

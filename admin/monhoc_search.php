@@ -2,36 +2,18 @@
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
+include('../includes/functionMonHoc.php');
+include('../includes/functions.php');
 
-if (isset($_SESSION['toastr'])) { ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-<script type="text/javascript">
-toastr.success("<?php echo $_SESSION['toastr']; ?>");
-</script>"
-<?php
-unset($_SESSION['toastr']);
-}
-
-
+thongBao();
 
 if(isset($_GET['delete'])){
-    if($stm = $connect->prepare('UPDATE mon_hoc SET trang_thai = 0 WHERE ma_mon_hoc = ?')){
-        $stm->bind_param('i', $_GET['delete']);
-        $stm->execute();
-
-        $_SESSION['toastr'] = 'Xóa môn học thành công';
-        header('Location: monhoc.php');
-        $stm->close();
-        die();
-    }
+    deleteMonHoc($connect, $_GET['delete']);
+    $_SESSION['toastr'] = 'Xóa môn học thành công';
+    header('Location: monhoc.php');
 }
-
-if ($stm = $connect->prepare('SELECT * FROM mon_hoc WHERE trang_thai = 1')) {
-$stm->execute();
-$result = $stm->get_result();
-
-if ($result->num_rows >0 ) {
+$result = getMonHoc($connect);
+if ($result->num_rows >=0 ) {
 ?>
 
 <div class="w-100 card border-0 p-4">
@@ -47,7 +29,7 @@ if ($result->num_rows >0 ) {
             <div class="col-7">
                 <form action="" method=post>
                 <div class="input-group mb-3 ">
-                    <input type="text" class="form-control" name="search" id="floatingInputGroup1" placeholder="Tên môn học">
+                    <input type="text" class="form-control" name="search" id="floatingInputGroup1" placeholder="Tìm kiếm môn học">
                     <button type="submit" name="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
                 </div>
                 </form>
@@ -70,12 +52,10 @@ if ($result->num_rows >0 ) {
         <?php
         if(isset($_POST['submit'])){
     $search = $_POST['search'];
-    $stm = $connect->prepare("SELECT * FROM mon_hoc WHERE trang_thai = 1 AND ten_mon_hoc LIKE '%$search%'");
-    $stm->execute();
-    $result = $stm->get_result();
+    $result = searchMonHoc( $connect, $search);
     $count = mysqli_num_rows($result);
     if($count ==0){
-        echo "<h1>No RESULT</h1>";
+        echo "<h1>Tên môn học không tồn tại</h1>";
     }
     else{
          while($record = mysqli_fetch_assoc($result)){ ?>
@@ -106,18 +86,6 @@ if ($result->num_rows >0 ) {
 </div>
 </div>
 <?php
-   } else 
-   {
-    echo 'No mon_hoc found';
-   }
-
-    
-   $stm->close();
-
-} else {
-   echo 'Could not prepare statement!';
-}
-
-
+   } 
 include('../includes/admin_footer.php');
 ?>

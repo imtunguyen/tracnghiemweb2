@@ -2,7 +2,7 @@
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
-include('../includes/functions.php');
+include('../includes/functionMonHoc.php');
 
 if (isset($_POST['ten_mon_hoc'])) {
     $ten_mon_hoc = trim($_POST['ten_mon_hoc']);
@@ -15,21 +15,10 @@ if (isset($_POST['ten_mon_hoc'])) {
         </script>"
         <?php
     } else {
-    if ($stm = $connect->prepare('INSERT INTO mon_hoc (ten_mon_hoc, trang_thai) VALUES (?, ?)')) {
-        $stm->bind_param('si', $_POST['ten_mon_hoc'], $trang_thai);
-        
         $trang_thai = 1;
-        
-        $stm->execute();
+        addMonHoc($connect, $_POST['ten_mon_hoc'], $trang_thai );
         $_SESSION['toastr'] = 'Thêm môn học mới thành công';
         header('Location: monhoc.php');
-        
-        $stm->close();
-        die();
-    }
-    else {
-    echo 'Could not prepare statement!';
-    }
 }
 }
 ?>

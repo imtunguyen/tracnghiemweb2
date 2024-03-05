@@ -2,8 +2,7 @@
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
-include('../includes/functions.php');
-
+include('../includes/functionMonHoc.php');
 
 if (isset($_POST['ten_mon_hoc'])) {
     $ten_mon_hoc = trim($_POST['ten_mon_hoc']);
@@ -16,16 +15,9 @@ if (isset($_POST['ten_mon_hoc'])) {
 </script>"
         <?php
     } else {
-    if ($stm = $connect->prepare('UPDATE mon_hoc SET ten_mon_hoc = ? WHERE ma_mon_hoc = ?')) {
-        $stm->bind_param('si', $_POST['ten_mon_hoc'], $_GET['id']);
-        $stm->execute();
+        updateMonHoc($connect, $_POST['ten_mon_hoc'], $_GET['id']);
         $_SESSION['toastr'] = 'Cập nhật môn học thành công';
         header('Location: monhoc.php');
-        $stm->close();
-        die();
-    } else {
-        echo "Could not prepare statement: " . $connect->error;
-    }
 }
 }
 
