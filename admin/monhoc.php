@@ -32,7 +32,7 @@ if ($stm = $connect->prepare('SELECT * FROM mon_hoc WHERE trang_thai = 1')) {
 $stm->execute();
 $result = $stm->get_result();
 
-if ($result->num_rows >0 ) {
+if ($result->num_rows >=0 ) {
 
 
 ?>
