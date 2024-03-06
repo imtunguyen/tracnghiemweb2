@@ -2,22 +2,24 @@
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
-include('../includes/functions.php');
+include('../includes/functionMonHoc.php');
 
 if (isset($_POST['ten_mon_hoc'])) {
-    if ($stm = $connect->prepare('INSERT INTO mon_hoc (ten_mon_hoc) VALUES (?)')) {
-        $stm->bind_param('s',$_POST['ten_mon_hoc']);
-        $stm->execute();
-
+    $ten_mon_hoc = trim($_POST['ten_mon_hoc']);
+    if (empty($ten_mon_hoc)) {
+        ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript">
+        toastr.error("<?php echo "Tên môn học không được để trống. Vui lòng nhập lại"; ?>");
+        </script>"
+        <?php
+    } else {
+        $trang_thai = 1;
+        addMonHoc($connect, $_POST['ten_mon_hoc'], $trang_thai );
         $_SESSION['toastr'] = 'Thêm môn học mới thành công';
         header('Location: monhoc.php');
-        
-        $stm->close();
-        die();
-    }
-    else {
-    echo 'Could not prepare statement!';
-    }
+}
 }
 ?>
 <div class="w-100 card border-0 p-4">

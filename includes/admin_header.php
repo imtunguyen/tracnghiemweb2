@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"/> -->
+
 </head>
 
 <body>
@@ -47,6 +47,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="">
+                                <span class="me-2"><i class="bi bi-building"></i></span>
+                                <span>Lớp học</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">
+                                <span class="me-2"><i class="bi bi-building"></i></span>
+                                <span>Đề thi</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="../admin/nguoidung.php">
                                 <span class="me-2"><i class="bi bi-building"></i></span>
                                 <span>Người dùng</span>
@@ -55,7 +67,7 @@
                         <li class="nav-item">
                             <a class="nav-link">
                                 <span class="me-2"><i class="bi bi-journal-plus"></i></span>
-                                <span>Booking</span>
+                                <span>Kết quả</span>
                             </a>
                         </li>
                     </ul>
