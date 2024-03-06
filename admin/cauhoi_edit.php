@@ -14,24 +14,25 @@ if(isset($_POST['cau_hoi'])){
     $do_kho = $_POST['do_kho'];
     $noi_dung = $_POST['cau_hoi'];
     $ma_cau_hoi = $_GET['id'];
+    $result = getCauTraLoi($connect, $ma_cau_hoi);
     updateCauHoi($connect, $ma_cau_hoi, $noi_dung, $trang_thai, $ma_nguoi_tao, $ma_mon_hoc, $do_kho);
 
     if(isset($_POST['cau_tra_loi'])){
-        echo 'dap an dung'. $dap_an_dung = intval($_POST['flexRadioDefault']) . '<br>';
-        foreach($_POST['cau_tra_loi'] as $index => $cau_tra_loi){
-            echo 'cac cau tra loi '.$cau_tra_loi;
-            
-            $id = $index+1;
-            echo 'id: '. $id;
-            echo 'flexRadioDefault: ' . $_POST['flexRadioDefault'] . '<br>'; 
-            echo " dap an " . $dap_an = ($_POST['flexRadioDefault'] ==   $id) ? 1 : 0 . '<br>';
-            updateCauTraLoi($connect, $ma_cau_hoi, $cau_tra_loi, $dap_an);
-           
+        // Xóa tất cả các câu trả lời cũ
+        $result = getCauTraLoi($connect, $ma_cau_hoi);
+        while ($cautraloi_record = $result->fetch_assoc()) {
+            delCauTraLoi($connect, $cautraloi_record['ma_cau_tra_loi']);
         }
+    
+        // Thêm câu trả lời mới
+        foreach($_POST['cau_tra_loi'] as $index => $cau_tra_loi){
+            $dap_an = ($_POST['flexRadioDefault'] == ($index + 1)) ? 1 : 0;
+            addCauTraLoi($connect, $ma_cau_hoi, $cau_tra_loi, $dap_an);
+        }
+    
         $_SESSION['toastr'] = 'Sửa câu hỏi thành công';
         header('Location: cauhoi.php');
     }
-    
 }
 if(isset($_GET['id'])){
     $cauhoi = getCauHoibyID($connect, $_GET['id']);
@@ -62,7 +63,7 @@ if(isset($_GET['id'])){
             <div class="row pb-3">
                 <div class="col-5">
                 <select class="form-select" name="ma_mon_hoc">
-                    <option>--Chọn môn học--</option>
+                    <option disabled>--Chọn môn học--</option>
                     <?php
                     while($monhoc_record = $monhoc->fetch_assoc()){
                         if($monhoc_record['ma_mon_hoc'] == $cauhoi_record['ma_mon_hoc']) {
@@ -76,7 +77,7 @@ if(isset($_GET['id'])){
                 </div>
                 <div class="col-4">
                 <select class="form-select" name="do_kho">
-                    <option>--Chọn độ khó--</option>
+                    <option disabled >--Chọn độ khó--</option>
                     <?php
                     $do_kho_values = array('Dễ', 'Trung bình', 'Khó');
                     foreach ($do_kho_values as $value) {

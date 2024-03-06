@@ -5,6 +5,7 @@ include('../includes/admin_header.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
+require_once '../vendor/autoload.php';
 
 if(isset($_POST['cau_hoi'])){
     $trang_thai = 1;
@@ -31,6 +32,8 @@ if(isset($_POST['cau_hoi'])){
     }
 }
 
+
+
 $result = getMonHoc($connect);
 
 
@@ -52,7 +55,7 @@ $result = getMonHoc($connect);
             <div class="row pb-3">
                 <div class="col-5">
                     <select class="form-select" name="ma_mon_hoc">
-                        <option>--Chọn môn học--</option>
+                        <option disabled selected>--Chọn môn học--</option>
                         <?php while($record = $result->fetch_assoc()){?>
                             <option value="<?php echo $record['ma_mon_hoc'];?>"><?php echo $record['ten_mon_hoc'];?></option>
                         <?php } ?>
@@ -60,7 +63,7 @@ $result = getMonHoc($connect);
                 </div>
                 <div class="col-4">
                     <select class="form-select" name="do_kho">
-                        <option>--Chọn độ khó--</option>
+                        <option disabled selected>--Chọn độ khó--</option>
                         <option value="Dễ">Dễ</option>
                         <option value="Trung bình">Trung bình</option>
                         <option value="Khó">Khó</option>

@@ -88,7 +88,7 @@ function modalChitietCH($connect, $ma_cau_hoi, $modalID){
                 while($record1 = $result1->fetch_assoc()){
                     if($record1['la_dap_an'] ==1){
                         ?>
-                        <div class="btn btn-success" style="width: 50%;">
+                        <div class="btn bg-success" style="width: 100%;">
                         <?php
                         echo $record1['noi_dung'];
                         ?>
@@ -98,7 +98,7 @@ function modalChitietCH($connect, $ma_cau_hoi, $modalID){
                     }
                     else{
                         ?>
-                        <div class="btn btn-secondary" style="width: 50%;">
+                        <div class="btn bg-body-secondary" style="width: 100%;">
                         <?php
                         echo $record1['noi_dung'];
                         ?>
@@ -116,3 +116,4 @@ function modalChitietCH($connect, $ma_cau_hoi, $modalID){
     </div>
 </div><?php
 }
+
