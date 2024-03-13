@@ -4,7 +4,7 @@ $connect = new PDO("mysql:host=localhost; dbname=quan_ly_trac_nghiem", "root", "
 
 $limit = '5';
 $page = 1;
-if($_POST['page'] > 0)
+if($_POST['page'] > 1)
 {
   $start = (($_POST['page'] - 1) * $limit);
   $page = $_POST['page'];
@@ -43,10 +43,9 @@ $output = '
         <th>userID</th>
         <th>Ảnh</th>
         <th>Username</th>
-        <th>Chức Năng</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Role</th>
+        <th>Action</th>
+        <th>Action</th>
     </tr>';
 if($total_data > 0)
 {
@@ -57,10 +56,10 @@ if($total_data > 0)
       <td>'.$row["id"].'</td>
       <td>'.$row["avatar"].'</td>
       <td>'.$row["username"].'</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>role</td>
+      <td><a style="color: green;" href="nguoidung.php?source=view_details&user_id='.$row["id"].'">View Details</a></td>
+      <td><a class = "delete" style="color: red;" href="nguoidung.php?delete='.$row["id"].'" id="'.$row['username'].'">Delete</a></td>
+      
     </tr>
     ';
   }
@@ -78,8 +77,6 @@ $total_links = ceil($total_data/$limit);
 $previous_link = '';
 $next_link = '';
 $page_link = '';
-
-//echo $total_links;
 
 if($total_links > 4)
 {
@@ -132,7 +129,7 @@ if($total_links > 0)
     if($page == $page_array[$count])
     {
       $page_link .= '
-      <li class="page-item active">
+      <li class="page-item active" style = "pointer-events: none;">
         <a class="page-link" href="#">'.$page_array[$count].' <span class="sr-only"></span></a>
       </li>
       ';

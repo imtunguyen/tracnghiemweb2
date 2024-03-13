@@ -4,7 +4,7 @@ include('../includes/admin_header.php');
 
 
 <?php 
-    include('view_all_nguoidung.php')
+    include('view_all_nguoidung.php');
 ?>
 
 <?php

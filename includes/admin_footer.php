@@ -15,7 +15,7 @@
 </html>
 
 <script>
-  //pagination
+//pagination user
 $(document).ready(function(){
 
 load_data(1);
@@ -23,7 +23,7 @@ load_data(1);
 function load_data(page, query = '')
 {
 $.ajax({
-    url:"fetch.php",
+    url:"fetchUsers.php",
     method:"POST",
     data:{page:page, query:query},
     success:function(data)
@@ -44,5 +44,11 @@ var query = $('#search_box').val();
 load_data(1, query);
 });
 
+}); 
+
+$(document).on("click", "a.delete", function() {
+  var id = $(this).attr('id');
+  return confirm("Xóa người dùng " + id + "?");
 });
+
 </script>

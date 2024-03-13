@@ -55,9 +55,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">
-                                <span class="me-2"><i class="bi bi-journal-plus"></i></span>
-                                <span>Booking</span>
+                            <a class="nav-link" href="../admin/phanquyen.php">
+                                <span class="me-2"><i class="bi bi-building"></i></span>
+                                <span>Phân Quyền</span>
                             </a>
                         </li>
                     </ul>

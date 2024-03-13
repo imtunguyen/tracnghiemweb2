@@ -7,13 +7,12 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-body">
-          <div class="form-group">
-            <a class="btn btn-primary" href="nguoidung.php?source=add_user">NEW USER</a>
-            <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Type your search here" style="width: 50%; float: right;"/>
-          </div>
+      <div class="card-body">
+        <div class="form-group">
+          <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Type your search here" style="width: 50%; float: right;"/>
         </div>
-        <div class="table-responsive" id="dynamic_content">
-          </div>
       </div>
+      <div class="table-responsive" id="dynamic_content">
+      </div>
+    </div>
 </div>
