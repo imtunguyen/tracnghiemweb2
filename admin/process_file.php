@@ -21,9 +21,11 @@ if (isset($_FILES['fileToUpload'])) {
     foreach ($phpWord->getSections() as $section) {
         foreach ($section->getElements() as $element) {
             if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                $fullText = '';
                 foreach ($element->getElements() as $text) {
                     if ($text instanceof \PhpOffice\PhpWord\Element\Text) {
-                        if (strpos($text->getText(), "Câu ") === 0) {
+                        $fullText .= $text->getText();
+                        if (strpos($fullText, "Câu ") === 0) {
                             // Save the previous question, answers, and difficulty level
                             if (!empty($currentQuestion) && !empty($currentAnswers)) {
                                 $questions[] = $currentQuestion;
@@ -31,23 +33,20 @@ if (isset($_FILES['fileToUpload'])) {
                                 $currentCorrectAnswers[] = $currentCorrectAnswer; // Add the correct answer to the array
                             }
                             $isQuestion = true;
-                            // Reset the new question, answers, and difficulty level
-                            $currentQuestion = $text->getText();
+                            $currentQuestion = $fullText;
                          
                             $currentAnswers = [];
-                            $currentCorrectAnswer = ''; // Reset the correct answer
+                            $currentCorrectAnswer = ''; 
                             $isAnswer = false;
-                        } elseif (preg_match('/^[A-D]\./', $text->getText())) {
+                        } elseif (preg_match('/^[A-D]\./', $fullText)) {
                             $isAnswer = true;
-                            $currentAnswers[] = $text->getText();
+                            $currentAnswers[] = $fullText;
                         } elseif ($isAnswer) {
-                            // If we are currently processing an answer, append the text to the last answer
-                            $currentAnswers[count($currentAnswers) - 1] .= ' ' . $text->getText();
+                            $currentAnswers[count($currentAnswers) - 1] .= ' ' . $fullText;
                         }
 
                         $underlineStyle = $text->getFontStyle()->getUnderline();
                         if ($underlineStyle != Font::UNDERLINE_NONE) {
-                            // If the text is underlined, add it to the correct answer
                             $currentCorrectAnswer = end($currentAnswers);
                         }
                     }
