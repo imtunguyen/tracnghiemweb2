@@ -1,0 +1,23 @@
+.left {
+    width: 70%;
+    background-color: aqua;
+    float: left;
+    border: 1px solid black;
+}
+
+.right {
+    width: 30%;
+    background-color: pink;
+    float: left;
+    border: 1px solid black;
+}
+
+.right .container .row {
+    overflow-y: scroll;
+    height: 700px;
+}
+
+.right .container .row .col {
+    margin-top: 10px;
+    margin-left: 30px;
+}
