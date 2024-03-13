@@ -11,13 +11,16 @@
   src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"/> -->
 </head>
 
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
             <div class="container-fluid d-flex justify-content-between">
-                <a class="navbar-brand" href="../admin/trangchu.php">Logo</a>
+                <a class="navbar-brand" href="../admin/index.php">Logo</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>   
@@ -71,6 +74,9 @@
                             <a class="nav-link">
                                 <span class="me-2"><i class="bi bi-journal-plus"></i></span>
                                 <span>Kết quả</span>
+                            <a class="nav-link" href="../admin/phanquyen.php">
+                                <span class="me-2"><i class="bi bi-building"></i></span>
+                                <span>Phân Quyền</span>
                             </a>
                         </li>
                     </ul>
