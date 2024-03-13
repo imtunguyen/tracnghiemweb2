@@ -2,21 +2,23 @@
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
-include('../includes/functions.php');
-
+include('../includes/functionMonHoc.php');
 
 if (isset($_POST['ten_mon_hoc'])) {
-
-    if ($stm = $connect->prepare('UPDATE mon_hoc SET ten_mon_hoc = ? WHERE ma_mon_hoc = ?')) {
-        $stm->bind_param('si', $_POST['ten_mon_hoc'], $_GET['id']);
-        $stm->execute();
+    $ten_mon_hoc = trim($_POST['ten_mon_hoc']);
+    if (empty($ten_mon_hoc)) {
+        ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript">
+        toastr.error("<?php echo "Tên môn học không được để trống. Vui lòng nhập lại"; ?>");
+</script>"
+        <?php
+    } else {
+        updateMonHoc($connect, $_POST['ten_mon_hoc'], $_GET['id']);
         $_SESSION['toastr'] = 'Cập nhật môn học thành công';
         header('Location: monhoc.php');
-        $stm->close();
-        die();
-    } else {
-        echo "Could not prepare statement: " . $connect->error;
-    }
+}
 }
 
 
@@ -48,6 +50,7 @@ if (isset($_GET['id'])) {
                         value="<?php echo $mon_hoc['ten_mon_hoc'] ?>" />
                     <label class=" ms-2">Tên môn học</label>
                     <span></span>
+                    
                 </div>
             </div>
 

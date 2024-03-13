@@ -2,43 +2,18 @@
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
+include('../includes/functionMonHoc.php');
+include('../includes/functions.php');
 
-if (isset($_SESSION['toastr'])) { ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-<script type="text/javascript">
-toastr.success("<?php echo $_SESSION['toastr']; ?>");
-</script>"
-<?php
-unset($_SESSION['toastr']);
-
-}
-
-
+thongBao();
 
 if(isset($_GET['delete'])){
-    if($stm = $connect->prepare('UPDATE mon_hoc SET trang_thai = 0 WHERE ma_mon_hoc = ?')){
-        $stm->bind_param('i', $_GET['delete']);
-        $stm->execute();
-
-        $_SESSION['toastr'] = 'Xóa môn học thành công';
-        header('Location: monhoc.php');
-        $stm->close();
-        die();
-    }
+    deleteMonHoc($connect, $_GET['delete']);
+    $_SESSION['toastr'] = 'Xóa môn học thành công';
+    header('Location: monhoc.php');
 }
-
-if ($stm = $connect->prepare('SELECT * FROM mon_hoc WHERE trang_thai = 1')) {
-$stm->execute();
-$result = $stm->get_result();
-
-if ($result->num_rows >0 ) {
-
-
 ?>
-
-
-<div class="w-100 card border-0 p-4">
+    <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center text-white">
@@ -49,65 +24,51 @@ if ($result->num_rows >0 ) {
     <div class="card-body border p-4">
         <div class="row pb-3">
             <div class="col-7">
-            <div class="input-group mb-3 ">
-
-    <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Tên môn học">
-  <span class="input-group-text"><i class="bi bi-search"></i></span>
-</div>
-
-  
+                <div class="form-group">
+                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm môn học" />
+                </div>
+               
+                
             </div>
-
-            <div class="col-5  text-end">
+            <div class="col-5 text-end">
                 <a class="btn btn-success" href="../admin/monhoc_add.php">
                     <i class="bi bi-plus-circle"></i> Thêm môn học mới
                 </a>
             </div>
         </div>
-        <table class="table table-bordered table-striped align-middle text-center">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên môn học</th>
-                    <th>Sửa | Xóa</th>
-                </tr>
-            </thead>
-            <?php while($record = mysqli_fetch_assoc($result)){ ?>
-            <tbody>
-                <td><?php echo $record['ma_mon_hoc'];?> </td>
-                <td><?php echo $record['ten_mon_hoc'];?></td>
-                <td>
-                    <div class="w-75 btn-group" role="group">
-                        <a class=" btn btn-primary mx-2"
-                            href="../admin/monhoc_edit.php?id=<?php echo $record['ma_mon_hoc']; ?>">
-                            <i class=" bi bi-pencil-square"></i> Edit
-                        </a>
-                        <a class=" btn btn-danger mx-2" 
-                            href="../admin/monhoc.php?delete=<?php echo $record['ma_mon_hoc']; ?>">
-                            <i class="bi bi-trash"></i> Delete
-                        </a>
-                    </div>
-                </td>
-
-            </tbody>
-            <?php } ?>
-        </table>
-    </div>
-</div>
-</div>
-<?php
-   } else 
-   {
-    echo 'No users found';
-   }
-
-    
-   $stm->close();
-
-} else {
-   echo 'Could not prepare statement!';
-}
+        <div class="table-responsive" id="dynamic_content"></div>
+     </div>   
 
 
-include('../includes/admin_footer.php');
+<script>
+$(document).ready(function(){
+    load_data(1);
+
+    function load_data(page, query = '')
+    {
+        $.ajax({
+            url:"fetchmh.php",
+            method:"POST",
+            data:{page:page, query:query},
+            success:function(data)
+            {
+                $('#dynamic_content').html(data);
+            }
+        });
+    }
+
+    $(document).on('click', '.page-link', function(){
+        var page = $(this).data('page_number');
+        var query = $('#search_box').val();
+        load_data(page, query);
+    });
+
+    $('#search_box').keyup(function(){
+        var query = $('#search_box').val();
+        load_data(1, query);
+    });
+});
+</script>
+<?php 
+    include('../includes/admin_footer.php');
 ?>
