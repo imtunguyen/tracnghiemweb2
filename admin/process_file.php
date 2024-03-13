@@ -1,53 +1,77 @@
 <?php
 require_once '../vendor/autoload.php';
 
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Style\Font;
 
-if(isset($_FILES['fileToUpload'])) {
+if (isset($_FILES['fileToUpload'])) {
+    $tmpFilePath = $_FILES['fileToUpload']['tmp_name'];
+
+    // Load the Word file
+    $phpWord = IOFactory::load($tmpFilePath);
+
     $questions = [];
-      $answers = [];
-  
-      $currentQuestion = '';
-      $currentAnswers = [];
-      // Get the temporary file path
-      $tmpFilePath = $_FILES['fileToUpload']['tmp_name'];
-  
-      // Load the Word file
-      $phpWord = \PhpOffice\PhpWord\IOFactory::load($tmpFilePath); 
-  
-             // Get the document sections
-      $sections = $phpWord->getSections();
-      foreach($sections as $section) {
-          $elements = $section->getElements();
-          foreach($elements as $element) {
-              if($element instanceof \PhpOffice\PhpWord\Element\TextRun){
-                $text = $element->getText();
+    $answers = [];
+    $currentQuestion = '';
+    $currentAnswers = [];
+    $currentCorrectAnswers = []; 
+    $isQuestion = false;
+    $isAnswer = false;
 
-                
-                if (strpos($text, "Câu") === 0 && strpos($text, "Câu ") !== false && strpos($text, ":") !== false) {
-                    // Nếu đã có câu hỏi trước đó, lưu vào mảng câu hỏi và câu trả lời
-                    if (!empty($currentQuestion) && !empty($currentAnswers)) {
-                        $questions[] = $currentQuestion;
-                        $answers[] = $currentAnswers;
+    foreach ($phpWord->getSections() as $section) {
+        foreach ($section->getElements() as $element) {
+            if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                foreach ($element->getElements() as $text) {
+                    if ($text instanceof \PhpOffice\PhpWord\Element\Text) {
+                        if (strpos($text->getText(), "Câu ") === 0) {
+                            // Save the previous question, answers, and difficulty level
+                            if (!empty($currentQuestion) && !empty($currentAnswers)) {
+                                $questions[] = $currentQuestion;
+                                $answers[] = $currentAnswers;
+                                $currentCorrectAnswers[] = $currentCorrectAnswer; // Add the correct answer to the array
+                            }
+                            $isQuestion = true;
+                            // Reset the new question, answers, and difficulty level
+                            $currentQuestion = $text->getText();
+                         
+                            $currentAnswers = [];
+                            $currentCorrectAnswer = ''; // Reset the correct answer
+                            $isAnswer = false;
+                        } elseif (preg_match('/^[A-D]\./', $text->getText())) {
+                            $isAnswer = true;
+                            $currentAnswers[] = $text->getText();
+                        } elseif ($isAnswer) {
+                            // If we are currently processing an answer, append the text to the last answer
+                            $currentAnswers[count($currentAnswers) - 1] .= ' ' . $text->getText();
+                        }
+
+                        $underlineStyle = $text->getFontStyle()->getUnderline();
+                        if ($underlineStyle != Font::UNDERLINE_NONE) {
+                            // If the text is underlined, add it to the correct answer
+                            $currentCorrectAnswer = end($currentAnswers);
+                        }
                     }
-                    // Đặt lại câu hỏi và câu trả lời hiện tại
-                    $currentQuestion = $text;
-                    $currentAnswers = [];
-                } elseif (strpos($text, "A.") === 0 || strpos($text, "B.") === 0 || strpos($text, "C.") === 0 || strpos($text, "D.") === 0) {
-                    // Thêm câu trả lời vào mảng câu trả lời của câu hỏi hiện tại
-                    $currentAnswers[] = $text;
-                  
                 }
-               
             }
-          }
-      } 
-      foreach ($questions as $index => $question) {
-        ?> <div class="btn btn-primary custom-div"><?php echo $question; ?></div><br>
-         <?php
-         foreach ($answers[$index] as $answer) {
-             echo "$answer  <br>";
-         }
-         echo "<br>";
-     }
+        }
+    }
+
+    // Add the last answer and difficulty level to the array if needed
+    if (!empty($currentQuestion) && !empty($currentAnswers)) {
+        $questions[] = $currentQuestion;
+        $answers[] = $currentAnswers;
+        $currentCorrectAnswers[] = $currentCorrectAnswer; // Add the correct answer to the array
+    }
+    foreach ($questions as $index => $question) {
+        echo "<div class='btn btn-primary custom-div'>$question</div><br>";
+        foreach ($answers[$index] as $answer) {
+            if ($answer === $currentCorrectAnswers[$index]) {
+                echo "<div class='btn btn-success'>$answer</div><br>"; // Display the correct answer in a div tag
+            } else {
+                echo "$answer<br>";
+            }
+        }
+        echo "<br>";
+    }
 }
-  
+?>

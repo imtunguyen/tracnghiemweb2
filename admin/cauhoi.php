@@ -1,3 +1,4 @@
+
 <?php
 include('../includes/config.php');
 include('../includes/database.php');
@@ -13,10 +14,8 @@ if(isset($_GET['delete'])){
     $_SESSION['toastr'] = 'Xóa câu hỏi thành công';
     header('Location: cauhoi.php');
 }
-$result = getCauHoi($connect);
-if ($result->num_rows >=0 ) {
 ?>
-<div class="w-100 card border-0 p-4">
+ <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center text-white">
@@ -27,64 +26,49 @@ if ($result->num_rows >=0 ) {
     <div class="card-body border p-4">
         <div class="row pb-3">
             <div class="col-7">
-                <form action="../admin/cauhoi_search.php" method=post>
-                <div class="input-group mb-3 ">
-                    <input type="text" class="form-control" name="search" id="floatingInputGroup1" placeholder="Tìm kiếm câu hỏi">
-                    <button type="submit" name="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
+                <div class="form-group">
+                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
                 </div>
-                </form>
             </div>
-
-            <div class="col-5  text-end">
+            <div class="col-5 text-end">
                 <a class="btn btn-success" href="../admin/cauhoi_add.php">
                     <i class="bi bi-plus-circle"></i> Thêm câu hỏi mới
                 </a>
             </div>
         </div>
-      
+        <div class="table-responsive" id="dynamic_content"></div>
+     </div>   
 
-        <table class="table table-bordered table-striped table-hover nowrap align-middle text-center" style="width:100%">
 
-            <thead>
-                <tr>
-                    <th class="col-1">STT</th>
-                    <th class="col-5">Câu hỏi</th>
-                    <th class="col-4">Sửa | Xóa</th>
-                </tr>
-            </thead>
-            
-            <?php $i=1; while($record = mysqli_fetch_assoc($result)){ 
-                $modalID = "chiTietModal" . $i; // Tạo ID duy nhất cho mỗi modal
-                $modalXoaID = "xoaModal" . $i;
-                ?>
-            <tbody data-bs-toggle="modal" data-bs-target="#<?php echo $modalID; ?>">
-                <td>
-                    <?php echo $i++;?>
-                </td>
-                <td><?php echo $record['noi_dung'];?></td>
-                <td>
-                    <div class=" btn-group" role="group">
-                        <a class=" btn btn-warning mx-2 "
-                            href="../admin/cauhoi_edit.php?id=<?php echo $record['ma_cau_hoi']; ?>">
-                            <i class=" bi bi-pencil-square"></i> Sửa
-                        </a>
-                        <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#<?php echo $modalXoaID; ?>">
-                            <i class="bi bi-trash"></i> Xóa
-                        </a>
-                    </div>
-                </td>
-                <?php modalXoaCH($record['ma_cau_hoi'], $modalXoaID) ?> <!-- Truyền ID duy nhất vào hàm modal -->
-            </tbody>
+<script>
+$(document).ready(function(){
+    load_data(1);
 
-            <?php
-                modalChitietCH($connect, $record['ma_cau_hoi'], $modalID); // Truyền ID duy nhất vào hàm modal
-            } ?>
-        </table>
-    </div>
-</div>
-</div>
+    function load_data(page, query = '')
+    {
+        $.ajax({
+            url:"fetchch.php",
+            method:"POST",
+            data:{page:page, query:query},
+            success:function(data)
+            {
+                $('#dynamic_content').html(data);
+            }
+        });
+    }
 
-<?php
-}
-include('../includes/admin_footer.php');
+    $(document).on('click', '.page-link', function(){
+        var page = $(this).data('page_number');
+        var query = $('#search_box').val();
+        load_data(page, query);
+    });
+
+    $('#search_box').keyup(function(){
+        var query = $('#search_box').val();
+        load_data(1, query);
+    });
+});
+</script>
+<?php 
+    include('../includes/admin_footer.php');
 ?>
