@@ -1,6 +1,6 @@
 <?php
 
-$connect = new PDO("mysql:host=localhost; dbname=quan_ly_trac_nghiem", "root", "301232");
+$connect = new PDO("mysql:host=localhost; dbname=quan_ly_trac_nghiem", "root", "");
 
 $limit = '5';
 $page = 1;
