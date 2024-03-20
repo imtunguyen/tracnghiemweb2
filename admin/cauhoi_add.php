@@ -7,7 +7,8 @@ include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
 require_once '../vendor/autoload.php';
 
-if(isset($_POST['cau_hoi'])){
+
+if(isset($_POST['cau_hoi']) ){
     $trang_thai = 1;
     $ma_nguoi_tao = 1;
     $ma_mon_hoc = $_POST['ma_mon_hoc'];
@@ -51,7 +52,7 @@ $result = getMonHoc($connect);
         <div class="pb-3">
             <p>Câu hỏi</p>
         </div>
-        <form method="post" class="row">
+        <form method="post" class="row"  >
             <div class="row pb-3">
                 <div class="col-5">
                     <select class="form-select" name="ma_mon_hoc">
@@ -138,6 +139,18 @@ document.getElementById('fileToUpload').addEventListener('change', function() {
     xhr.open('POST', 'process_file.php', true);
     xhr.send(formData);
 });
+
+function validateForm() {
+    var cau_hoi = document.forms["myForm"]["cau_hoi"].value;
+    var ma_mon_hoc = document.forms["myForm"]["ma_mon_hoc"].value;
+    var do_kho = document.forms["myForm"]["do_kho"].value;
+    
+    if (cau_hoi.trim() === '' || ma_mon_hoc.trim() === '' || do_kho.trim() === '') {
+        toastr.error("Vui lòng nhập đầy đủ thông tin.");
+        return false; // Ngăn chặn form submit và reload trang
+    }
+    return true; // Cho phép form submit nếu đã nhập đủ thông tin
+}
 </script>
 <?php
 include('../includes/admin_footer.php');

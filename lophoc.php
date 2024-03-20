@@ -11,9 +11,9 @@ $result = getMonHoc($connect);
 
 <div class="container">
     <div>Search</div>
-    <div class="row p-3">
-        <?php while($monhoc_record = $result->fetch_assoc()){ ?>
-        <div class="card mb-3 col-6" style="max-width: 540px;">
+  <div class="row p-3">
+          <?php while($monhoc_record = $result->fetch_assoc()){ ?>
+        <div class="card ms-3 col-6" style="max-width: 500px;">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="images/hinh1.jpg" class="img-fluid rounded-start" alt="...">
@@ -29,10 +29,8 @@ $result = getMonHoc($connect);
                 </div>
             </div>
         </div>  
-       <?php } ?>
-
-    </div>
-    <!-- Modal -->
+        <?php } ?>
+  </div>
 </div>
 
 
