@@ -6,6 +6,13 @@ function getMonHoc($connect) {
     $result = $stm->get_result();
     return $result;
 }
+function get5MonHoc($connect, $start, $rows_per_page) {
+    $stm = $connect->prepare('SELECT * FROM mon_hoc WHERE trang_thai = 1 LIMIT ?, ?');
+    $stm->bind_param("ii", $start, $rows_per_page); 
+    $stm->execute();
+    $result = $stm->get_result();
+    return $result;
+}
 function addMonHoc($connect, $ten_mon_hoc, $trang_thai) {
     $stm = $connect->prepare('INSERT INTO mon_hoc (ten_mon_hoc, trang_thai) VALUES (?, ?)');
         $stm->bind_param('si', $ten_mon_hoc, $trang_thai);
