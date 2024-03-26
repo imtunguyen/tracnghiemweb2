@@ -21,9 +21,9 @@ $result = getMonHoc($connect);
                 <div class="col-md-8">
                     <div class="card-body">
                         <h3 class="card-title"><?php echo $monhoc_record['ten_mon_hoc']?></h3>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text">Tên môn học: <?php echo $monhoc_record['ten_mon_hoc']?>  <br> Tên giáo viên: </p>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            Tham gia lớp
+                            Tham gia lớp học
                         </button>
                     </div>
                 </div>
