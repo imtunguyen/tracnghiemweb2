@@ -36,7 +36,7 @@ if(isset($_GET['delete'])){
                 </a>
             </div>
         </div>
-        <div class="table-responsive" id="dynamic_content"></div>
+        <div class="table-responsive" id="dynamic_cauhoi"></div>
      </div>   
 
 
@@ -52,7 +52,7 @@ $(document).ready(function(){
             data:{page:page, query:query},
             success:function(data)
             {
-                $('#dynamic_content').html(data);
+                $('#dynamic_cauhoi').html(data);
             }
         });
     }

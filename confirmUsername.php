@@ -2,45 +2,17 @@
 include('includes/config.php');
 include('includes/database.php');
 include('includes/functionUsers.php');
+use PHPMailer\PHPMailer\PHPMailer;
 
-if(isset($_POST["submit"])){
-    if(isset($_POST['usernameOrEmail'])){
-        $usernameOrEmail = $_POST['usernameOrEmail'];
-        $userInfo = getUsername($connect, $usernameOrEmail);
-        if($userInfo !== null && $userInfo->num_rows > 0) {
-            $row = $userInfo->fetch_assoc(); 
-            echo $row['email'] . '<br>';
-            echo $row['username'] . '<br>';
-            $random = random_number(6);
-            echo $random;
-            
-            echo '<script>';
-            echo 'window.location.href = "changePassword.php?usernameOrEmail='.$usernameOrEmail.'";';
-            echo '</script>';
-        } 
-        else{
-            ?>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <?php
-        }
-    }
-}
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+
+if(isset($_POST['usernameOrEmail'])){
+  $usernameOrEmail = $_POST['usernameOrEmail'];
+  $userInfo = getUsername($connect, $usernameOrEmail);
+    if($userInfo !== null && $userInfo->num_rows > 0) {
+      $row = $userInfo->fetch_assoc(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,18 +28,33 @@ if(isset($_POST["submit"])){
 </head>
 <body>
 <div class="d-flex justify-content-center align-items-center min-vh-100" style="background-color: #e9ebee;">
-    <div class="row border rounded-4 p-4 bg-white shadow box-area" style="width: 500px; height: 300px">
-        <form action="" method="post"> 
-            <label for=""><h4>Nhập Username hoặc Email</h4></label><hr>
-            <label for="">Nhập Username hoặc Email để thay đổi mật khẩu:</label><br><br>
-            <input type="text" class="form-control" name="usernameOrEmail"aria-label="Recipient's username" aria-describedby="button-addon2"><hr>
+    <div class="row border rounded-4 p-4 bg-white shadow box-area" style="max-width: 500px; max-height: 250px;">
+        <form action="sendEmail.php" method="post"> 
+            <label for=""><h4>Gửi đến Email</h4></label>
+            <div class="row">
+                <div class="left-box col-md-8">
+                    <label for="">Gửi đến mail:</label>
+                    <label for=""><?php echo $row['email'] ?></label>
+                    <input type="hidden" name="email" value="<?php echo $row['email'] ?>">
+                </div>
+                <div class="right-box col-md-4">
+                    <img src="<?php echo $row['avatar']?>" style="width: 50px;"><br>
+                    <label for=""><?php echo $row['username'] ?></label>
+                </div>
+            </div>
+            <hr>
             <div class="text-end">
-            <button class="btn btn-secondary">Hủy</button>
-            <button class="btn btn-primary"type="submit" name="submit"  data-bs-toggle="modal" data-bs-target="#exampleModal">Xác nhận</button>
+                <button class="btn btn-secondary">Hủy</button>
+                <button class="btn btn-primary" type="submit" name="submit">Xác nhận</button>
             </div>
         </form>
     </div>
 </div>
 <?php
+          } 
+          else{
+             
+          }
+      }
 include('includes/admin_footer.php');
 ?>

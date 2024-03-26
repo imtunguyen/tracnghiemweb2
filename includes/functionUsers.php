@@ -17,7 +17,7 @@ function updatePassword($connect, $usernameOrEmail, $password){
 }
 
 
-function random_number($length = 6) {
+function random_number($length) {
     $min = pow(10, $length -1);
     $max = pow(10,$length)-1;
     return rand($min, $max);
