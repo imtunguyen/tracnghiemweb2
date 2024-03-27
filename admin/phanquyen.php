@@ -4,7 +4,12 @@ include('../includes/database.php');
 ?>
 
 <?php
-include('./view_all_quyen.php');
+  if(isset($_GET['add'])) {
+    include('them_quyen.php');
+  }
+  else {
+    include('view_all_quyen.php');
+  }
 ?>
 
 <?php

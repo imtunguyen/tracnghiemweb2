@@ -5,6 +5,7 @@
                 <h2>Danh sách quyền</h2>
             </div>
         </div>    
+        <button><a href="phanquyen.php?add">ADD</a></button>
     </div>
     <table class="table table-bordered table-striped align-middle text-center">
         <thead>
