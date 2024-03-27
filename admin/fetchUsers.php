@@ -43,9 +43,9 @@ $output = '
         <th>userID</th>
         <th>Ảnh</th>
         <th>Username</th>
-        <th>Role</th>
-        <th>Action</th>
-        <th>Action</th>
+        <th>Sửa Quyền</th>
+        <th>Xem Chi Tiết</th>
+        <th>Xem Chi Tiết</th>
     </tr>';
 if($total_data > 0)
 {

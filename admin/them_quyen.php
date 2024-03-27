@@ -1,6 +1,17 @@
+<?php 
+
+    if(isset($_POST['add_quyen'])) {
+        
+    }
+
+?>
+
 <div class="container-fluid">
 <form action="" method="post">
     <table class="table table-bordered table-striped align-middle text-center">
+        <tr>
+            <label for="ten_quyen">Nhập Tên Quyền</label>
+            <input type="text" name="ten_quyen" id="ten_quyen"></tr>
         <tr>
             <th>Object</th>
             <th>Thêm</th>
