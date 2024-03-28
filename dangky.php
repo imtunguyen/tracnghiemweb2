@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <title>Đăng Ký</title>
 </head>
-</head>
 
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
