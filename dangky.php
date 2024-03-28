@@ -178,7 +178,7 @@
                             if (response == "Đăng ký thành công đang chuyển hướng đến trang đăng nhập...") {
                                 toastr.success(response);
                                 setTimeout(function() {
-                                    window.location.href = 'login.php';
+                                    window.location.href = 'dangnhap.php';
                                 }, 3000);
 
                             }
