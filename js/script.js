@@ -32,7 +32,17 @@ $(document).ready(function(){
 //thong bao xoa nguoi dung
 $(document).on("click", "a.delete", function() {
     var id = $(this).attr('id');
-    return confirm("Xóa người dùng " + id + "?");
+    $(this).one("click", function() {
+        return confirm("Xóa Người Dùng " + id + "?");
+    });
+});
+
+//thong bao xoa quyen
+$(document).on("click", "a.delete_role", function() {
+    var id = $(this).attr('id');
+    $(this).one("click", function() {
+        return confirm("Xóa Quyền " + id + "?");
+    });
 });
 
 

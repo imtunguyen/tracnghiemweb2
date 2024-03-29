@@ -42,9 +42,8 @@ $output = '
         <th>userID</th>
         <th>Ảnh</th>
         <th>Username</th>
-        <th>Sửa Quyền</th>
-        <th>Xem Chi Tiết</th>
-        <th>Xem Chi Tiết</th>
+        <th>Quyền</th>
+        <th></th>
     </tr>';
 if($total_data > 0)
 {
@@ -55,10 +54,8 @@ if($total_data > 0)
       <td>'.$row["id"].'</td>
       <td>'.$row["avatar"].'</td>
       <td>'.$row["username"].'</td>
-      <td>role</td>
-      <td><a style="color: green;" href="nguoidung.php?source=view_details&user_id='.$row["id"].'">View Details</a></td>
+      <td><a style="color: green;" href="nguoidung.php?source=view_roles&user_id='.$row["id"].'">Xem Quyền</a></td>
       <td><a class = "delete" style="color: red;" href="nguoidung.php?delete='.$row["id"].'" id="'.$row['username'].'">Delete</a></td>
-      
     </tr>
     ';
   }
