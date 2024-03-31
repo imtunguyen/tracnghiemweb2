@@ -1,9 +1,8 @@
 <?php 
-include('includes/config.php');
-include('includes/header.php');
-include('includes/database.php');
-include('includes/functions.php');
-include('includes/functionMonHoc.php');
+include('../includes/config.php');
+include('../includes/admin_header.php');
+include('../includes/database.php');
+include('../includes/functions.php');
 
 $result = getMonHoc($connect);
 

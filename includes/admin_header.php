@@ -53,7 +53,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="../admin/lophoc.php">
                                 <span class="me-2"><i class="bi bi-building"></i></span>
                                 <span>Lớp học</span>
                             </a>
