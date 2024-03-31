@@ -1,7 +1,5 @@
 <?php
-
-$connect = new PDO("mysql:host=localhost; dbname=quan_ly_trac_nghiem", "root", "");
-
+include('../includes/database.php');
 $limit = '5';
 $page = 1;
 if($_POST['page'] > 1)
@@ -29,12 +27,13 @@ $filter_query = $query . 'LIMIT '.$start.', '.$limit.'';
 
 $statement = $connect->prepare($query);
 $statement->execute();
-$total_data = $statement->rowCount();
+$statement->store_result();
+$total_data = $statement->num_rows;
 
 $statement = $connect->prepare($filter_query);
 $statement->execute();
-$result = $statement->fetchAll();
-$total_filter_data = $statement->rowCount();
+$result = $statement->get_result();
+$total_filter_data = $result->num_rows; 
 
 $output = '
 <table class="table table-bordered table-striped align-middle text-center">
@@ -43,9 +42,9 @@ $output = '
         <th>userID</th>
         <th>Ảnh</th>
         <th>Username</th>
-        <th>Role</th>
-        <th>Action</th>
-        <th>Action</th>
+        <th>Sửa Quyền</th>
+        <th>Xem Chi Tiết</th>
+        <th>Xem Chi Tiết</th>
     </tr>';
 if($total_data > 0)
 {
