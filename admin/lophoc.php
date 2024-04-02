@@ -30,17 +30,17 @@ $lophoc=getLopHoc($connect);
         </div>
         <div class="row p-3">
           <?php while($lophoc_record = $lophoc->fetch_assoc()){ ?>
-        <div class="card ms-3 col-6" style="max-width: 200px;">
-            <div class="row g-0">
-                
-                <div class="col-md-8">
+        <div class="card ms-3 col-6" style="max-width: 250px;">
+            <button  class="card"><?php echo $lophoc_record['ten_lop'] ?></button>
+            
                     <div class="card-body">
-                        <button  class="card"><?php echo $lophoc_record['ten_lop'] ?></button>
-                        <hr class="my-2"> 
-                        <div style="height: 100px;"></div> 
-                        <button class="btn btn-outline-primary">Chỉnh sửa</button>
-                    </div>
-                </div>
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text </p>
+                            <div class="d-flex">
+                                <a type="button" class="btn btn-outline-primary me-1" style="width: auto; padding: 0 20px;white-space: nowrap;">Vào lớp</a>
+                                <a type="button" class="btn btn-outline-danger">Xóa</a>
+                            </div>
+                        </div> 
             </div>
         </div>  
         <?php } ?>
