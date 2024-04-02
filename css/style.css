@@ -74,3 +74,23 @@
     color: black;
     border: 1px solid black;
 }
+.btn-random {
+    color: black;
+    background-image: linear-gradient(to right, 
+                      rgb(calc(random() * 255), calc(random() * 255), calc(random() * 255)), 
+                      rgb(calc(random() * 255), calc(random() * 255), calc(random() * 255))
+                    );
+    border: red;
+}
+
+/* Định dạng cho phần chia */
+.divider {
+    border-top: 1px solid black;
+    margin-top: 10px;
+}
+
+/* Định dạng cho khoảng trắng dưới */
+.spacer {
+    height: 200px;
+    background-color: white; /* Màu trắng cố định */
+}
