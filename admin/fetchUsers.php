@@ -187,3 +187,15 @@ $output .= '
 echo $output;
 
 ?>
+
+<script>
+$(document).ready(function() {
+  $("a.delete_user").on("click", function(event) {
+    var id = $(this).attr('id');
+    if (confirm("Bạn Muốn Xóa Người Dùng " + id + "?")) {
+    } else {
+      event.preventDefault(); 
+    }
+  });
+});
+</script>

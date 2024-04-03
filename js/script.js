@@ -29,15 +29,6 @@ $(document).ready(function(){
 
 }); 
 
-$(document).on("click", "a.delete_user", function() {
-    var id = $(this).attr('id');
-    $(this).one("click", function() {
-        return confirm("Xóa Người Dùng " + id + "?");
-    });
-});
-
-
-
 
 
 document.getElementById('answerCount').addEventListener('change', function(){

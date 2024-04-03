@@ -5,7 +5,7 @@ require_once('../includes/database.php');
 
 if(isset($_GET['delete'])) {
   $id = $_GET['delete'];
-  // deleteNguoiDung($connect, $id);
+    deleteNguoiDung($connect, $id);
   ?>
   <script>window.location.href = "nguoidung.php";</script>
   <?php

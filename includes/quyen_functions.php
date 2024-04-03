@@ -1,6 +1,6 @@
 <?php
 function checkExistedName($connect, $name) {
-    $query = "select * from quyen where ten_quyen = '$name'";
+    $query = "select * from quyen where ten_quyen = '$name' and trang_thai = 1";
     $rowcount = 0;
     if ($result = mysqli_query($connect, $query))
     {
@@ -15,7 +15,7 @@ function checkExistedName($connect, $name) {
 }
 
 function checkExistedNameAndId($connect, $name, $id) {
-    $query = "select * from quyen where ten_quyen = '$name' and ma_quyen != $id";
+    $query = "select * from quyen where ten_quyen = '$name' and ma_quyen != $id and trang_thai = 1";
     $rowcount = 0;
     if ($result = mysqli_query($connect, $query))
     {
