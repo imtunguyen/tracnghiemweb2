@@ -25,7 +25,7 @@ function check($connect, $id, $ten_chuc_nang) {
     join quyen q on q.ma_quyen = ctq.ma_quyen 
     join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = q.ma_quyen
     join chuc_nang cn on ctcn.ma_chuc_nang = cn.ma_chuc_nang
-    where u.id = $id and cn.ten_chuc_nang = '{$ten_chuc_nang}';";
+    where ctcn.cho_phep = 1 and ctq.cho_phep = 1 and u.id = $id and cn.ten_chuc_nang = '{$ten_chuc_nang}';";
 
     $rowcount = 0;
     if ($result = mysqli_query($connect, $query))

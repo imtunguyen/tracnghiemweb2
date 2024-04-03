@@ -11,24 +11,32 @@ if(isset($_GET['ma_quyen'])){
 $error = "";
 
 if(isset($_POST['update_quyen'])) {
-
-    foreach (['nguoidung', 'cauhoi', 'quyen', 'dethi', 'lophoc', 'monhoc'] as $permissionCategory) {
-
-        (isset($_POST["them_$permissionCategory"]) && $_POST["them_$permissionCategory"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "them_$permissionCategory"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "them_$permissionCategory"), 0);
-        (isset($_POST["sua_$permissionCategory"]) && $_POST["sua_$permissionCategory"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "sua_$permissionCategory"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "sua_$permissionCategory"), 0);
-        (isset($_POST["xoa_$permissionCategory"]) && $_POST["xoa_$permissionCategory"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xoa_$permissionCategory"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xoa_$permissionCategory"), 0);
-    
+    $ten_quyen = $_POST['ten_quyen'];
+    if(validateUpdate($connect, $ten_quyen, $ma_quyen) == "rong") {
+        $error = "không được để trống tên";
     }
+    elseif(validateUpdate($connect, $ten_quyen, $ma_quyen) == "da_ton_tai") {
+        $error = "đã tồn tại tên quyền này";
+    }
+    else {
+        foreach (['nguoidung', 'cauhoi', 'quyen', 'dethi', 'lophoc', 'monhoc'] as $permissionCategory) {
+
+            (isset($_POST["them_$permissionCategory"]) && $_POST["them_$permissionCategory"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "them_$permissionCategory"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "them_$permissionCategory"), 0);
+            (isset($_POST["sua_$permissionCategory"]) && $_POST["sua_$permissionCategory"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "sua_$permissionCategory"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "sua_$permissionCategory"), 0);
+            (isset($_POST["xoa_$permissionCategory"]) && $_POST["xoa_$permissionCategory"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xoa_$permissionCategory"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xoa_$permissionCategory"), 0);
+        
+        }
 
         (isset($_POST["xem_thongke"]) && $_POST["xem_thongke"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_thongke"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_thongke"), 0);
         (isset($_POST["vao_lophoc"]) && $_POST["vao_lophoc"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "vao_lophoc"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "vao_lophoc"), 0);
         (isset($_POST["lam_baithi"]) && $_POST["lam_baithi"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "lam_baithi"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "lam_baithi"), 0);
-      
+    
         ?>
 
         <script>window.location.href = "phanquyen.php";</script>
 
         <?php
+    }
 }
 
 ?>
@@ -46,7 +54,7 @@ if(isset($_POST['update_quyen'])) {
             <table class="table table-bordered table-striped align-middle text-center">
                 <tr>
                 <div class="mb-3 mt-3">
-                    <input type="text" class="form-control" id="ten_quyen"  name = "ten_quyen" placeholder="Nhập Tên Quyền" aria-describedby="error_input" value = '<?php echo getNameById($connect, $ma_quyen); ?>' disabled="disabled">
+                    <input type="text" class="form-control" id="ten_quyen"  name = "ten_quyen" placeholder="Nhập Tên Quyền" aria-describedby="error_input" value = '<?php echo getNameById($connect, $ma_quyen); ?>'>
                     <div id="error_input" class="form-text" style="color: red;"><?php echo $error ?></div>
                 </div>
                 </tr>

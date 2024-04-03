@@ -5,7 +5,7 @@ require_once('../includes/database.php');
 
 if(isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    deleteQuyen($connect, $id);
+        // deleteQuyen($connect, $id);
     ?>
     <script>window.location.href = "phanquyen.php";</script>
     <?php
@@ -54,7 +54,7 @@ if(isset($_GET['delete'])) {
                 <td>'.$role_name.'</td>
                 <td>'.$chuc_nang.'</td>
                 <td><a style="color: green;" href="phanquyen.php?source=update&ma_quyen='.$role_id.'">Update</a></td>
-                <td><a class = "delete_role" style="color: red;" href="phanquyen.php?delete='.$role_id.'" id="'.$role_name.'">Delete</a></td>
+                <td><a class ="delete_role" style="color: red;" href="phanquyen.php?delete='.$role_id.'" id="'.$role_name.'">Delete</a></td>
             </tr>
 
             ';
@@ -63,3 +63,12 @@ if(isset($_GET['delete'])) {
         ?>
     </table>
 </div>
+
+<script>
+    $(document).on("click", "a.delete_role", function() {
+    var id = $(this).attr('id');
+    $(this).one("click", function() {
+        return confirm("Xóa Quyền " + id + "?");
+    });
+});
+</script>

@@ -14,6 +14,31 @@ function checkExistedName($connect, $name) {
     }
 }
 
+function checkExistedNameAndId($connect, $name, $id) {
+    $query = "select * from quyen where ten_quyen = '$name' and ma_quyen != $id";
+    $rowcount = 0;
+    if ($result = mysqli_query($connect, $query))
+    {
+        $rowcount=mysqli_num_rows($result);
+    }
+    if($rowcount > 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function validateUpdate($connect, $name, $ma_quyen) {
+    if(checkExistedNameAndId($connect, $name, $ma_quyen)) {
+        return "da_ton_tai";
+    }
+    if($name == "") {
+        return "rong";
+    }
+    return "hop_le";
+}
+
 function validate($connect, $name) {
     if(checkExistedName($connect, $name)) {
         return "da_ton_tai";
@@ -86,13 +111,50 @@ function deleteQuyen($connect, $ma_quyen) {
 }
 
 function getNameById($connect, $id) {
-    $name = "";
+    $name = "none";
     $query = "select ten_quyen from quyen where ma_quyen = '$id'";
     $result = mysqli_query($connect, $query);
     while($row = mysqli_fetch_assoc($result)) {
         $name = $row['ten_quyen'];
     }
     return $name;
+}
+
+function getUserNameById($connect, $id) {
+    $name = "";
+    $query = "select username from users where id = $id";
+    $result = mysqli_query($connect, $query);
+    while($row = mysqli_fetch_assoc($result)) {
+        $name = $row['username'];
+    }
+    return $name;
+}
+
+function updateUserRole($connect, $id, $ma_quyen) {
+    $query = "UPDATE chi_tiet_quyen ";
+    $query .= "SET ma_quyen = $ma_quyen WHERE user_id = $id ";
+
+    $create_query = mysqli_query($connect, $query); 
+}
+
+function getMaQuyenTheoTen($connect, $ten_quyen) {
+    $id = "";
+    $query = "select ma_quyen from quyen where ten_quyen = '$ten_quyen' and trang_thai = 1";
+    $result = mysqli_query($connect, $query);
+    while($row = mysqli_fetch_assoc($result)) {
+        $id = $row['ma_quyen'];
+    }
+    return $id;
+}
+
+function getTenQuyen($connect, $user_id) {
+    $name = "";
+    $query = "select * from chi_tiet_quyen where user_id = $user_id and cho_phep = 1; ";
+    $result = mysqli_query($connect, $query);
+    while($row = mysqli_fetch_assoc($result)) {
+        $name = $row['ma_quyen'];
+    }
+    return getNameById($connect, $name);
 }
 
 ?>

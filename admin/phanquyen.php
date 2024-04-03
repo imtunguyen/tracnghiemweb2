@@ -9,7 +9,7 @@ if(isset($_GET['source'])){
   $source = $_GET['source'];
 } 
 else {
-$source = '';
+  $source = '';
 }
   
   switch($source) {
@@ -20,7 +20,7 @@ $source = '';
 
     default: include('view_all_quyen.php'); break;
   }
-  ?>
+?>
 
 <?php
 include('../includes/admin_footer.php');
