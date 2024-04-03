@@ -6,11 +6,12 @@ function thongBao(){
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script type="text/javascript">
         toastr.success("<?php echo $_SESSION['toastr']; ?>");
-        </script>"
+        </script>
         <?php
         unset($_SESSION['toastr']);
     }
 }
+
 function secure() {
     if(!isset($_SESSION['id'])){
         $_SESSION['message'] = "Please login first to view this page.";
@@ -38,4 +39,20 @@ function check($connect, $id, $ten_chuc_nang) {
     else {
         return false;
     }
+}
+
+function getChucNangCuaNguoiDung($connect, $id) {
+    $chuc_nang = "";
+    $query = "select cn.* from users u 
+    join chi_tiet_quyen ctq on u.id = ctq.user_id
+    join quyen q on q.ma_quyen = ctq.ma_quyen 
+    join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = q.ma_quyen
+    join chuc_nang cn on ctcn.ma_chuc_nang = cn.ma_chuc_nang
+    where ctcn.cho_phep = 1 and ctq.cho_phep = 1 and  u.id = $id;";
+    $select_roles = mysqli_query($connect, $query);  
+    while($row = mysqli_fetch_assoc($select_roles)) {
+        $chuc_nang .= $row['ten_chuc_nang'];
+        $chuc_nang .= ", ";
+    }
+    return $chuc_nang;
 }
