@@ -29,12 +29,6 @@ $(document).ready(function(){
 
 }); 
 
-//thong bao xoa nguoi dung
-$(document).on("click", "a.delete", function() {
-    var id = $(this).attr('id');
-    return confirm("Xóa người dùng " + id + "?");
-});
-
 
 
 document.getElementById('answerCount').addEventListener('change', function(){

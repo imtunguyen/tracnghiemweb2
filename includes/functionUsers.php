@@ -24,3 +24,11 @@ function random_number($length) {
     $max = pow(10,$length)-1;
     return rand($min, $max);
 }
+
+function deleteNguoiDung($connect, $id) {
+    $query = "UPDATE users ";
+    $query .= "SET trang_thai = 0 WHERE id = $id ";
+
+    $create_query = mysqli_query($connect, $query); 
+}
+
