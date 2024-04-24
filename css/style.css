@@ -1,4 +1,4 @@
-.left {
+/* .left {
     width: 70%;
     background-color: aqua;
     float: left;
@@ -10,9 +10,9 @@
     background-color: pink;
     float: left;
     border: 1px solid black;
-}
+} */
 
-.right .container .row {
+/* .right .container .row {
     overflow-y: scroll;
     height: 700px;
 }
@@ -20,14 +20,11 @@
 .right .container .row .col {
     margin-top: 10px;
     margin-left: 30px;
+} */
+.t_sortable tr{
+    cursor: move;
 }
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999; 
-    display: none; 
+.selected {
+    background-color: brown;
+    color: #FFF;
 }

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
@@ -11,6 +12,9 @@ if (isset($_POST['ten_mon_hoc'])) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script type="text/javascript">
+            toastr.options = {
+            "progressBar" : true
+        }
         toastr.error("<?php echo "Tên môn học không được để trống. Vui lòng nhập lại"; ?>");
 </script>"
         <?php
@@ -18,6 +22,7 @@ if (isset($_POST['ten_mon_hoc'])) {
         updateMonHoc($connect, $_POST['ten_mon_hoc'], $_GET['id']);
         $_SESSION['toastr'] = 'Cập nhật môn học thành công';
         header('Location: monhoc.php');
+        
 }
 }
 

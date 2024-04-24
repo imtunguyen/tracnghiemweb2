@@ -1,5 +1,4 @@
 <?php
-
 function getUsername($connect, $usernameOrEmail) {
     $stm = $connect->prepare('SELECT * FROM users WHERE username = ? OR email = ?');
     $stm->bind_param('ss', $usernameOrEmail, $usernameOrEmail); 

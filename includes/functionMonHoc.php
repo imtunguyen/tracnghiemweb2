@@ -1,5 +1,4 @@
 <?php
-
 function getMonHoc($connect) {
     $stm = $connect->prepare('SELECT * FROM mon_hoc WHERE trang_thai = 1');
     $stm->execute();

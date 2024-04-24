@@ -1,31 +1,39 @@
 <?php
+ob_start();
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
 include('../includes/functionMonHoc.php');
 include('../includes/functions.php');
 include('../includes/functionDeThi.php');
-
+include('../includes/functionChiTietDeThi.php');
 thongBao();
 $monhoc = getMonHoc($connect);
+$dethi = getDeThi($connect);
 if(isset($_GET['delete'])){
-    deleteMonHoc($connect, $_GET['delete']);
+    deleteDeThi($connect, $_GET['delete']);
     $_SESSION['toastr'] = 'Xóa đề thi thành công';
-    header('Location: monhoc.php');
+    header('Location: dethi.php');
 }
-
-if(isset($_POST['submitted']) && isset($_POST['submit'])){
+if(isset($_POST['submit'])){
     $ma_mon_hoc = $_POST['ma_mon_hoc'];
     $trang_thai = 1;
     $thoi_gian_lam_bai = $_POST['thoiGian'];
     $ten_de_thi = $_POST['tenDeThi'];
     $ma_nguoi_tao = 1;
     addDeThi($connect, $ma_mon_hoc, $trang_thai, $thoi_gian_lam_bai, $ten_de_thi, $ma_nguoi_tao);
+    $_SESSION['toastr'] = 'Thêm đề thi thành công';
+    header('Location: dethi.php');
+    exit;
 }
-
-$dethi = getDeThi($connect);
+ob_end_flush();
 ?>
-    <div class="w-100 card border-0 p-4">
+<style>
+    .error-message {
+        color: red; 
+}
+</style>
+<div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center text-white">
@@ -37,75 +45,60 @@ $dethi = getDeThi($connect);
         <div class="row pb-3">
             <div class="col-7">
                 <div class="form-group">
-                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm môn học" />
+                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm đề thi" />
                 </div>
-               
-                    
             </div>
             <div class="col-5 text-end">
-                <button class="btn btn-success" id="showFileBtn"><i class="bi bi-plus-circle"></i> Thêm đề thi mới</button>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDeThi"><i class="bi bi-plus-circle"></i> Thêm đề thi mới</button>
             </div>
-            
         </div>
-        <div class="row p-3">
-          <?php while($dethi_record = $dethi->fetch_assoc()){ ?>
-        <div class="card ms-3 col-6" style="max-width: 500px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="../images/hinh1.jpg" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h3 class="card-title"><?php echo $dethi_record['ten_de_thi']?></h3>
-                    </div>
-                </div>
-            </div>
-        </div>  
-        <?php } ?>
-  </div>
         <div class="table-responsive" id="dynamic_dethi"></div>
-     </div> 
-     <div class="overlay" id="overlay">
-        <div class="d-flex justify-content-center align-items-center min-vh-100">
-            <div class="row border rounded-4 p-4 bg-white shadow box-area" style="width: 600px; height: 400px">
-                <form method="post"> 
-                    <!-- Thêm tham số submitted vào URL -->
-                    <input type="hidden" name="submitted" value="1">
-                    <label for=""><h4>THÊM ĐỀ THI</h4></label><hr>
-                    <label for="">Nhập tên đề thi</label>
-                    <input type="text" class="form-control" name="tenDeThi"><br>
-                    <label for="">Nhập thời gian làm bài:</label>
-                    <input type="number" class="form-control" name="thoiGian"><br>
-                    <label for="">Chọn môn học:</label>
-                    <select class="form-select" name="ma_mon_hoc">
-                        <option disabled selected>--Chọn môn học--</option>
-                        <?php while($record = $monhoc->fetch_assoc()){?>
-                            <option value="<?php echo $record['ma_mon_hoc'];?>"><?php echo $record['ten_mon_hoc'];?></option>
-                        <?php } ?>
-                    </select><br>
-                    <div class="text-end">
-                        <button class="btn btn-secondary" type="button" onclick="cancelForm()">Hủy</button>
-                        <button class="btn btn-primary" type="submit" name="submit">Xác nhận</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    </div> 
+</div>
+
 
 <script>
-    function cancelForm() {
-        var overlay = document.getElementById('overlay');
-        overlay.style.display = 'none';
-    }
-    document.getElementById('showFileBtn').addEventListener('click', function(){
-        var overlay = document.getElementById('overlay');
-        overlay.style.display = 'block';
-    });
-</script>
-<!-- <script>
-$(document).ready(function(){
-    load_data(1);
+$(document).ready(function() {
+    $('#thoiGian').hide();
+    $('#monhoc').hide();
+    $('#tenDeThi').hide();
 
+    $('#addDeThiForm').submit(function(event) {
+    var thoiGian = $('input[name="thoiGian"]').val();
+    var maMonHoc = $('select[name="ma_mon_hoc"]').val();
+    var tenDeThi = $('input[name="tenDeThi"]').val();
+    var isValid = true;
+
+    if(tenDeThi.trim().length === 0){ 
+        $('#tenDeThi').show();
+        isValid = false;
+    } else {
+        $('#tenDeThi').hide();
+    }
+
+    if (thoiGian < 0 || thoiGian > 200 || thoiGian.trim().length === 0) {
+    $('#thoiGian').show();
+    isValid = false;
+} else {
+    $('#thoiGian').hide();
+}
+
+    if(maMonHoc == null){
+        $('#monhoc').show();
+        isValid = false;
+    } else {
+        $('#monhoc').hide();
+    }
+
+    if(!isValid){
+        event.preventDefault();
+    }
+});
+
+});
+</script>
+<script>
+    load_data(1);
     function load_data(page, query = '')
     {
         $.ajax({
@@ -129,8 +122,7 @@ $(document).ready(function(){
         var query = $('#search_box').val();
         load_data(1, query);
     });
-});
-</script> -->
+</script>
+
 <?php 
-    include('../includes/admin_footer.php');
-?>
+include('../includes/admin_footer.php'); ?>
