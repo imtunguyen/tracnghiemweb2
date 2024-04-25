@@ -52,20 +52,20 @@ function modalXoaDeThi($ma_de_thi, $modalXoaID){
 </div>
 <?php
 }
-ob_start();
-if(isset($_POST['submit'])){
-    $ma_mon_hoc = $_POST['ma_mon_hoc'];
-    $trang_thai = 1;
-    $thoi_gian_lam_bai = $_POST['thoiGian'];
-    $ten_de_thi = $_POST['tenDeThi'];
-    $ma_nguoi_tao = 1;
-    $ma_de_thi = $_POST['ma_de_thi'];
-    updateDeThi($connect, $ma_mon_hoc, $ma_de_thi, $trang_thai, $thoi_gian_lam_bai, $ten_de_thi, $ma_nguoi_tao);
-    $_SESSION['toastr'] = 'Sửa đề thi thành công';
-    header('Location: dethi.php');
-    ob_end_flush();
-    exit;
-}
+// ob_start();
+// if(isset($_POST['submit'])){
+//     $ma_mon_hoc = $_POST['ma_mon_hoc'];
+//     $trang_thai = 1;
+//     $thoi_gian_lam_bai = $_POST['thoiGian'];
+//     $ten_de_thi = $_POST['tenDeThi'];
+//     $ma_nguoi_tao = 1;
+//     $ma_de_thi = $_POST['ma_de_thi'];
+//     updateDeThi($connect, $ma_mon_hoc, $ma_de_thi, $trang_thai, $thoi_gian_lam_bai, $ten_de_thi, $ma_nguoi_tao);
+//     $_SESSION['toastr'] = 'Sửa đề thi thành công';
+//     header('Location: dethi.php');
+//     ob_end_flush();
+//     exit;
+// }
 function modalChitietDeThi($connect, $ma_de_thi, $modalID){
     ?>
     <div class="modal fade" id="<?php echo $modalID; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
