@@ -31,6 +31,7 @@ $lophoc=getLopHoc($connect);
         <div class="row p-3">
           <?php while($lophoc_record = $lophoc->fetch_assoc()){ ?>
         <div class="card ms-3 col-6" style="max-width: 250px;">
+        <div class="card" >
             <button  class="card"><?php echo $lophoc_record['ten_lop'] ?></button>
             
                     <div class="card-body">
@@ -42,6 +43,7 @@ $lophoc=getLopHoc($connect);
                             </div>
                         </div> 
             </div>
+        </div>
         </div>  
         <?php } ?>
   </div>
