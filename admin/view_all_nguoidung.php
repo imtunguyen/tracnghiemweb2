@@ -1,3 +1,18 @@
+<?php 
+
+require_once('../includes/functionUsers.php');
+require_once('../includes/database.php');
+
+if(isset($_GET['delete'])) {
+  $id = $_GET['delete'];
+    deleteNguoiDung($connect, $id);
+  ?>
+  <script>window.location.href = "nguoidung.php";</script>
+  <?php
+}
+
+?>
+
 <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">

@@ -1,5 +1,6 @@
 <?php
 include('../includes/database.php');
+require_once('../includes/quyen_functions.php');
 $limit = '5';
 $page = 1;
 if($_POST['page'] > 1)
@@ -42,23 +43,21 @@ $output = '
         <th>userID</th>
         <th>Ảnh</th>
         <th>Username</th>
-        <th>Sửa Quyền</th>
-        <th>Xem Chi Tiết</th>
-        <th>Xem Chi Tiết</th>
+        <th>Quyền</th>
+        <th></th>
     </tr>';
 if($total_data > 0)
 {
   foreach($result as $row)
   {
+    $ten_quyen = getTenQuyen($connect, $row["id"]);
     $output .= '
     <tr>
       <td>'.$row["id"].'</td>
       <td>'.$row["avatar"].'</td>
       <td>'.$row["username"].'</td>
-      <td>role</td>
-      <td><a style="color: green;" href="nguoidung.php?source=view_details&user_id='.$row["id"].'">View Details</a></td>
-      <td><a class = "delete" style="color: red;" href="nguoidung.php?delete='.$row["id"].'" id="'.$row['username'].'">Delete</a></td>
-      
+      <td><a style="color: green;" href="nguoidung.php?view_roles&user_id='.$row["id"].'">'.$ten_quyen.'</a></td>
+      <td><a class="delete_user" style="color: red;" href="nguoidung.php?delete='.$row["id"].'" id="'.$row['username'].'">Delete</a></td>
     </tr>
     ';
   }
@@ -188,3 +187,15 @@ $output .= '
 echo $output;
 
 ?>
+
+<script>
+$(document).ready(function() {
+  $("a.delete_user").on("click", function(event) {
+    var id = $(this).attr('id');
+    if (confirm("Bạn Muốn Xóa Người Dùng " + id + "?")) {
+    } else {
+      event.preventDefault(); 
+    }
+  });
+});
+</script>

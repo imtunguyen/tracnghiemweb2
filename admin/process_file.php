@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/functionCauHoi.php');
@@ -8,10 +9,7 @@ require_once '../vendor/autoload.php';
 
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Style\Font;
-use setasign\Fpdi\FpdfTpl;
-use setasign\Fpdi\Tcpdf\Fpdi;
 
-$pdf = new Fpdi();
 
 if (isset($_FILES['fileToUpload'])) {
     $tmpFilePath = $_FILES['fileToUpload']['tmp_name'];
@@ -35,7 +33,7 @@ if (isset($_FILES['fileToUpload'])) {
                         $underlineStyle = $text->getFontStyle()->getUnderline();
                     }
                 }
-                if (strpos($fullText, "Câu ") === 0) {
+                if (preg_match('/^Câu \d+:/',$fullText)) {
                     if (!empty($currentQuestion) && !empty($currentAnswers)) {
                         $questions[] = $currentQuestion;
                         $answers[] = $currentAnswers;
@@ -43,7 +41,7 @@ if (isset($_FILES['fileToUpload'])) {
                         $difficultyLevels[] = $doKho;
                     }
 
-                    $currentQuestion = $fullText;
+                    $currentQuestion = preg_replace('/^Câu \d+:/u', '', $fullText);
                     $currentAnswers = [];
                     $currentCorrectAnswer = '';
                     $doKho = 'Dễ';
@@ -66,8 +64,9 @@ if (isset($_FILES['fileToUpload'])) {
     }
     $trang_thai = 1;
     $ma_nguoi_tao = 1;
-    $ma_mon_hoc = 9;
+    $ma_mon_hoc =  $_POST['ma_mon_hoc'];
     $dap_an = 0;
+    echo $ma_mon_hoc;
     foreach ($questions as $index => $question) {
         $difficulty = $difficultyLevels[$index];
     
@@ -89,12 +88,11 @@ if (isset($_FILES['fileToUpload'])) {
         }
         echo "<br>";
     }
-   
+    $_SESSION['toastr'] = 'Thêm câu hỏi từ File thành công';
+    header('Location: cauhoi.php');
+    exit();
 }
-$_SESSION['toastr'] = 'Thêm câu hỏi từ File thành công';
-header('Location: cauhoi.php');
 
 
-include('../includes/admin_footer.php');
-?>
+
 

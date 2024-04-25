@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+$(document).ready(function() {
+    var $tabs = $('#t_draggable2')
+    $("tbody.t_sortable").sortable({
+      connectWith: ".t_sortable",
+      items: "> tr:not(:first)",
+      appendTo: $tabs,
+      helper:"clone",
+      zIndex: 999990
+    }).disableSelection();
+    
+    var $tab_items = $(".nav-tabs > li", $tabs).droppable({
+      accept: ".t_sortable tr",
+      hoverClass: "ui-state-hover",
+      drop: function( event, ui ) { return false; }
+    });
+  });
+=======
 //pagination user
 $(document).ready(function(){
 
@@ -29,12 +47,6 @@ $(document).ready(function(){
 
 }); 
 
-//thong bao xoa nguoi dung
-$(document).on("click", "a.delete", function() {
-    var id = $(this).attr('id');
-    return confirm("Xóa người dùng " + id + "?");
-});
-
 
 
 document.getElementById('answerCount').addEventListener('change', function(){
@@ -57,3 +69,4 @@ document.getElementById('answerCount').addEventListener('change', function(){
         `;
      }
 });
+>>>>>>> 72e7504b62f34051bf67611c24663dd0d9aef14b
