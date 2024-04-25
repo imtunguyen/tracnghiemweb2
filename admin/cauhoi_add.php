@@ -36,7 +36,7 @@ ob_end_flush();
 ?>
 <style>
     .error-message {
-        color: red; /* Đổi màu chữ thành màu đỏ */
+        color: red;
 }
 </style>
 <div class="w-100 card border-0 p-4">
