@@ -1,4 +1,4 @@
-.left {
+/* .left {
     width: 70%;
     background-color: aqua;
     float: left;
@@ -25,7 +25,7 @@
     margin-bottom: 5px;
 }
 
-.right .container .row {
+/* .right .container .row {
     overflow-y: scroll;
     height: 700px;
 }

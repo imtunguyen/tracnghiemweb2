@@ -1,5 +1,5 @@
-
 <?php
+ob_start();
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
@@ -13,7 +13,10 @@ if(isset($_GET['delete'])){
     deleteCauHoi($connect, $_GET['delete']);
     $_SESSION['toastr'] = 'Xóa câu hỏi thành công';
     header('Location: cauhoi.php');
+    exit();
 }
+
+ob_end_flush();
 ?>
  <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">

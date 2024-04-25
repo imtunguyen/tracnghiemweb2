@@ -1,6 +1,4 @@
 <?php
-
-
 function getCauHoibyID($connect, $id) {
     $stm = $connect->prepare('SELECT * FROM cau_hoi WHERE ma_cau_hoi =?');
     $stm->bind_param('i', $id);
@@ -88,7 +86,7 @@ function modalChitietCH($connect, $ma_cau_hoi, $modalID){
                 while($record1 = $result1->fetch_assoc()){
                     if($record1['la_dap_an'] ==1){
                         ?>
-                        <div class="btn bg-success" style="width: 100%;">
+                        <div class="btn bg-success" style="width: 100%; color:aliceblue">
                         <?php
                         echo $record1['noi_dung'];
                         ?>

@@ -57,7 +57,7 @@ if($total_data > 0) {
                     </a>
                 </div>
             </td>';
-        $output .= xacNhanXoaMH($row['ma_mon_hoc']);
+        xacNhanXoaMH($row['ma_mon_hoc']);
         $output .= '</tr>';
     }
 } else {
@@ -82,24 +82,45 @@ $next_link = '';
 $page_link = '';
 
 if($total_links > 1) {
+    // Hiển thị nút Previous
     if($page > 1) {
-        $previous_link = '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="'.($page - 1).'">Previous</a></li>';
+        $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page - 1) . '">Previous</a></li>';
     } else {
-        $previous_link = '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
+        $output .= '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
     }
     
-    if($page < $total_links) {
-        $next_link = '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="'.($page + 1).'">Next</a></li>';
-    } else {
-        $next_link = '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
+    // Hiển thị danh sách các trang
+    $range = 2; // Số lượng trang hiển thị trước và sau trang hiện tại (tổng cộng 5 trang)
+    $initial_num = max(2, $page - $range+2);
+    $last_num = min($page + $range, $total_links - 1);
+
+    $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="1">1</a></li>'; // Trang đầu tiên
+
+    if($initial_num > 2) {
+        $output .= '<li class="page-item disabled"><span class="page-link">...</span></li>'; // Dấu "..." nếu có nhiều trang
     }
-    
-    for($count = 1; $count <= $total_links; $count++) {
+
+    for($count = $initial_num; $count <= $last_num; $count++) {
         if($count == $page) {
-            $page_link .= '<li class="page-item active"><a class="page-link" href="#">'.$count.' <span class="sr-only"></span></a></li>';
+            $output .= '<li class="page-item active"><a class="page-link" href="#">' . $count . ' <span class="sr-only"></span></a></li>';
         } else {
-            $page_link .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="'.$count.'">'.$count.'</a></li>';
+            $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . $count . '">' . $count . '</a></li>';
         }
+    }
+
+    if($last_num < $total_links - 1) {
+        $output .= '<li class="page-item disabled"><span class="page-link">...</span></li>'; // Dấu "..." nếu có nhiều trang
+    }
+
+    if($total_links > 1) {
+        $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . $total_links . '">' . $total_links . '</a></li>'; // Trang cuối cùng
+    }
+
+    // Hiển thị nút Next
+    if($page < $total_links) {
+        $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page + 1) . '">Next</a></li>';
+    } else {
+        $output .= '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
     }
 }
 

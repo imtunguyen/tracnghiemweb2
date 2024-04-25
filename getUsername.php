@@ -15,7 +15,7 @@ include('includes/functionUsers.php');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
    
-    <title>Login</title>
+    <title>Quên mật khẩu</title>
 </head>
 <body>
 <div class="d-flex justify-content-center align-items-center min-vh-100" style="background-color: #e9ebee;">

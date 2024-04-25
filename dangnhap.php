@@ -40,7 +40,7 @@
                                 <label for="formCheck" class="form-check-label text-secondary" style="cursor: pointer;"><small>Hiện mật khẩu</small></label>
                             </div>
                             <div class="forgot">
-                                <small><a href="quenmatkhau.php">Quên mật khẩu?</a></small>
+                                <small><a href="getUsername.php">Quên mật khẩu?</a></small>
                             </div>
                         </div>
                         <div class="input-group mb-3">

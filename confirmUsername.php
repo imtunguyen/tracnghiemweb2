@@ -2,16 +2,15 @@
 include('includes/config.php');
 include('includes/database.php');
 include('includes/functionUsers.php');
-use PHPMailer\PHPMailer\PHPMailer;
 
 require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
 if(isset($_POST['usernameOrEmail'])){
-  $usernameOrEmail = $_POST['usernameOrEmail'];
+  echo $usernameOrEmail = $_POST['usernameOrEmail'];
   $userInfo = getUsername($connect, $usernameOrEmail);
-    if($userInfo !== null && $userInfo->num_rows > 0) {
+    if($userInfo !== null && $userInfo->num_rows >= 0) {
       $row = $userInfo->fetch_assoc(); 
 ?>
 <!DOCTYPE html>

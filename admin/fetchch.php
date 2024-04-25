@@ -32,22 +32,24 @@ $total_data = $statement->num_rows;
 
 $statement = $connect->prepare($filter_query);
 $statement->execute();
-$result = $statement->get_result(); // Get the result set
-$total_filter_data = $result->num_rows; // Get the total number of rows fetched
+$result = $statement->get_result();
+$total_filter_data = $result->num_rows; 
 
 $output = '
 <table class="table table-striped table-bordered">
+    <thead>
     <tr>
         <th>STT</th>
         <th>Nội dung câu hỏi</th>
         <th>Sửa | Xóa</th>
     </tr>
+    </thead>
 ';
 
 if($total_data > 0) {
     $start_index = ($page - 1) * $limit + 1;
     foreach($result as $row) {
-        $modalID = "chiTietModal" . $start_index; // Tạo ID duy nhất cho mỗi modal
+        $modalID = "chiTietModal" . $start_index;
         $modalXoaID = "xoaModal" . $start_index;
         
         $output .= '
@@ -66,8 +68,8 @@ if($total_data > 0) {
             </td>
         </tbody>';
 
-        modalXoaCH($row['ma_cau_hoi'], $modalXoaID); // Truyền ID duy nhất vào hàm modal
-        modalChitietCH($connect, $row['ma_cau_hoi'], $modalID); // Truyền ID duy nhất vào hàm modal
+        modalXoaCH($row['ma_cau_hoi'], $modalXoaID);
+        modalChitietCH($connect, $row['ma_cau_hoi'], $modalID); 
     }
 } else {
     $output .= '
@@ -91,24 +93,45 @@ $next_link = '';
 $page_link = '';
 
 if($total_links > 1) {
+    // Hiển thị nút Previous
     if($page > 1) {
-        $previous_link = '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page - 1) . '">Previous</a></li>';
+        $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page - 1) . '">Previous</a></li>';
     } else {
-        $previous_link = '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
+        $output .= '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
     }
     
-    if($page < $total_links) {
-        $next_link = '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page + 1) . '">Next</a></li>';
-    } else {
-        $next_link = '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
+    // Hiển thị danh sách các trang
+    $range = 2; 
+    $initial_num = max(2, $page - $range+2);
+    $last_num = min($page + $range, $total_links - 1);
+
+    $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="1">1</a></li>'; // Trang đầu tiên
+
+    if($initial_num > 2) {
+        $output .= '<li class="page-item disabled"><span class="page-link">...</span></li>'; // Dấu "..." nếu có nhiều trang
     }
-    
-    for($count = 1; $count <= $total_links; $count++) {
+
+    for($count = $initial_num; $count <= $last_num; $count++) {
         if($count == $page) {
-            $page_link .= '<li class="page-item active"><a class="page-link" href="#">' . $count . ' <span class="sr-only"></span></a></li>';
+            $output .= '<li class="page-item active"><a class="page-link" href="#">' . $count . ' <span class="sr-only"></span></a></li>';
         } else {
-            $page_link .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . $count . '">' . $count . '</a></li>';
+            $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . $count . '">' . $count . '</a></li>';
         }
+    }
+
+    if($last_num < $total_links - 1) {
+        $output .= '<li class="page-item disabled"><span class="page-link">...</span></li>'; // Dấu "..." nếu có nhiều trang
+    }
+
+    if($total_links > 1) {
+        $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . $total_links . '">' . $total_links . '</a></li>'; // Trang cuối cùng
+    }
+
+    // Hiển thị nút Next
+    if($page < $total_links) {
+        $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page + 1) . '">Next</a></li>';
+    } else {
+        $output .= '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
     }
 }
 
@@ -118,4 +141,3 @@ $output .= '
 </div>';
 
 echo $output;
-?>

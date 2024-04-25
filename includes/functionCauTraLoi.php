@@ -1,5 +1,4 @@
 <?php
-
 function addCauTraLoi($connect, $ma_cau_hoi,$cau_tra_loi, $dap_an){
     $stm = $connect->prepare('INSERT INTO cau_tra_loi (ma_cau_hoi, noi_dung, la_dap_an) VALUES (?,?,?)');
     $stm->bind_param('sss', $ma_cau_hoi, $cau_tra_loi, $dap_an);

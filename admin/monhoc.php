@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/admin_header.php');
@@ -11,6 +12,7 @@ if(isset($_GET['delete'])){
     deleteMonHoc($connect, $_GET['delete']);
     $_SESSION['toastr'] = 'Xóa môn học thành công';
     header('Location: monhoc.php');
+    ob_end_flush();
 }
 ?>
     <div class="w-100 card border-0 p-4">
@@ -36,7 +38,7 @@ if(isset($_GET['delete'])){
                 </a>
             </div>
         </div>
-        <div class="table-responsive" id="dynamic_content"></div>
+        <div class="table-responsive" id="dynamic_contentmh"></div>
      </div>   
 
 
@@ -52,7 +54,7 @@ $(document).ready(function(){
             data:{page:page, query:query},
             success:function(data)
             {
-                $('#dynamic_content').html(data);
+                $('#dynamic_contentmh').html(data);
             }
         });
     }
