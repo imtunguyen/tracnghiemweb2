@@ -4,7 +4,12 @@ include('../includes/admin_header.php');
 
 
 <?php 
-    include('view_all_nguoidung.php');
+    if(isset($_GET['view_roles'])) {
+        include('user_role.php');
+    }
+    else {
+        include('view_all_nguoidung.php');
+    }
 ?>
 
 <?php
