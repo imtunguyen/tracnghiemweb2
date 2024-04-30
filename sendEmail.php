@@ -31,7 +31,7 @@ if(isset($_POST['submit']) && isset($_POST['email'])){
 
     $mail->send();
 
-    header("Location: inputCode.php"); // Chuyển hướng sau khi gửi email
+    header("Location: inputCode.php");
     exit();
 }
 ?>
