@@ -161,34 +161,90 @@ $slKq9 = $row_slKq9['slkq'];
                     <p class="m-0" style="width:70px;">
                         Đề thi:
                     </p>
-                    <select class="form-select">
+                    <select class="form-select" id="bai_thi_select">
                         <option selected>--Chọn đề thi--</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <?php
+                        $sql_get_baithi = "SELECT bt.ma_bai_thi, dt.ten_de_thi
+                        FROM bai_thi bt 
+                        JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi
+                        JOIN lop l ON l.ma_lop = bt.ma_lop
+                        WHERE l.ma_lop = 1";
+                        $result_get_baithi = mysqli_query($connect, $sql_get_baithi);
+                        if(mysqli_num_rows($result_get_baithi) > 0) {
+                            while($row_get_baithi = mysqli_fetch_assoc($result_get_baithi)) {
+                                echo "<option value='" .$row_get_baithi['ma_bai_thi']. "'>" .$row_get_baithi['ten_de_thi']. "</option>";
+                            }
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
         </div>
-        <div class="d-flex gap-3 align-items-center">
+        <div class="d-flex gap-5 align-items-center">
             <section>
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script type="text/javascript">
-                    google.charts.load("current", {
+                    var chartTop5;
+                    $(document).ready(function() {
+                        $('#bai_thi_select').change(function() {
+                            var selectedBaiThiId = $(this).val();
+                            
+                            // xử lý Thống kê Top 5 học sinh có điểm cao nhất theo đề thi
+                            $.ajax({
+                                type: 'POST',
+                                url: 'xulytk_top5hsdiemcaonhat.php',
+                                data: { ma_bai_thi: selectedBaiThiId, ma_lop: <?php echo $ma_lop; ?> },
+                                success: function(response) {
+                                    let array = JSON.parse(response);
+                                    var convertedArray = array.map(function(item) {
+                                        return [item[0], parseInt(item[1]), item[2]];
+                                    });
+                                        console.log(convertedArray);
+                                    drawChartTop5(convertedArray);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Đã xảy ra lỗi khi gửi giá trị: ' + error);
+                                }
+                            });
+
+                            // Xử lý Thống kê tỉ lệ trên trung bình của học sinh theo đề thi
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'xulytk_tiletrentb.php',
+                                data: { ma_bai_thi: selectedBaiThiId, ma_lop: <?php echo $ma_lop; ?> },
+                                success: function(response) {
+                                    console.log("Xy ly ti le tren tb");
+                                    let array = JSON.parse(response);
+                                        console.log(response);
+                                        drawPieChart(array);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Đã xảy ra lỗi khi gửi giá trị: ' + error);
+                                }
+                            });
+
+                        });
+                    });
+                        google.charts.load("current", {
                         packages: ['corechart']
                     });
-                    google.charts.setOnLoadCallback(drawChart);
+                    google.charts.setOnLoadCallback(drawChartTop5);
 
-                    function drawChart() {
+                    function drawChartTop5(array) {
+                        // Kiểm tra nếu biểu đồ đã được khởi tạo trước đó, thì xóa nó
+                        if (chartTop5) {
+                            chartTop5.clearChart();
+                        }
+
+                        console.log(...array);
+                        // Tạo DataTable từ dữ liệu mới
                         var data = google.visualization.arrayToDataTable([
-                            ["Element", "Density", {
-                                role: "style"
-                            }],
-                            ["Copper", 8.94, "#b87333"],
-                            ["Silver", 10.49, "silver"],
-                            ["Gold", 19.30, "gold"],
-                            ["Platinum", 21.45, "color: #e5e4e2"]
+                            ["Element", "Điểm", { role: "style" }],
+                            ...array 
                         ]);
+
+                       
 
                         var view = new google.visualization.DataView(data);
                         view.setColumns([0, 1,
@@ -202,7 +258,7 @@ $slKq9 = $row_slKq9['slkq'];
                         ]);
 
                         var options = {
-                            title: "Thống kê Top 5 học sinh có điểm cao nhất theo bài thi",
+                            title: "Thống kê Top 5 học sinh có điểm cao nhất theo đề thi",
                             width: 600,
                             height: 400,
                             bar: {
@@ -212,42 +268,40 @@ $slKq9 = $row_slKq9['slkq'];
                                 position: "none"
                             },
                         };
-                        var chart = new google.visualization.ColumnChart(document.getElementById("tk_top5"));
-                        chart.draw(view, options);
+                        chartTop5 = new google.visualization.ColumnChart(document.getElementById("tk_top5"));
+                        chartTop5.draw(view, options);
                     }
                 </script>
                 <div id="tk_top5" style="width: 50%; height: 300px;"></div>
             </section>
+            
             <section>
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script type="text/javascript">
+                    var pieChart;
                     google.charts.load('current', {
                         'packages': ['corechart']
                     });
-                    google.charts.setOnLoadCallback(drawChart);
+                    google.charts.setOnLoadCallback(drawPieChart);
 
-                    function drawChart() {
-
-                        var data = google.visualization.arrayToDataTable([
-                            ['Task', 'Hours per Day'],
-                            ['Work', 11],
-                            ['Eat', 2],
-                            ['Commute', 2],
-                            ['Watch TV', 2],
-                            ['Sleep', 7]
-                        ]);
+                    function drawPieChart(array) {
+                        if(pieChart) {
+                            pieChart.clearChart();
+                        }
+                        var data = google.visualization.arrayToDataTable([['Loại', 'Điểm'],...array]);
 
                         var options = {
-                            title: 'Thống kê tỉ lệ trên trung bình của học sinh theo bài thi'
+                            title: 'Thống kê tỉ lệ trên trung bình của học sinh theo đề thi',
+                            chartArea: {width: '100%', height: '80%', left: '10%', top: '30%'}
                         };
 
-                        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                        pieChart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-                        chart.draw(data, options);
+                        pieChart.draw(data, options);
                     }
                 </script>
 
-                <div id="piechart" style="width: 50%; height: 500px;"></div>
+                <div id="piechart" style="width: 50%; height: 400px;"></div>
             </section>
         </div>
         <h3 class="text-center mt-5 mb-3">Danh sách điểm của sinh viên theo đề thi</h3>
@@ -263,7 +317,4 @@ $slKq9 = $row_slKq9['slkq'];
             <tbody>
             </tbody>
         </table>
-
-
-
     </article>
