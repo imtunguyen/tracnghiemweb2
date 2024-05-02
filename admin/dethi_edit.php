@@ -27,19 +27,6 @@
     }
     
     ?>
-    <style>
-        .selected {
-            background-color: brown;
-            color: #FFF;
-        }
-    </style>
-    <script>
-        $(document).ready(function() {
-            $('.tables_ui tbody tr').click(function() {
-                $(this).toggleClass('selected');
-            });
-        });
-    </script>
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -84,7 +71,7 @@
             </div>
             <div class="col-5 border overflow-y-scroll" style="height: 600px;">
                 <div class="p-3">Câu hỏi</div>
-                <table class="tables_ui table table-border" id="t_draggable1">
+                <table class=" table-striped " id="t_draggable1">
                 <tbody class="t_sortable">
                     <tr>
                         <th>STT</th>
@@ -93,28 +80,29 @@
                     <?php
                     $stt = 1; 
                     
-                    while ($cauhoi_record = $cauhoi->fetch_assoc()) {
+                    while ($cauhoi_record = $cauhoi->fetch_assoc()) { ?>
                     
-                        echo '<tr>';
-                        echo '<td>' . $stt . '</td>';
-                        echo '<td>' . $cauhoi_record["noi_dung"] . '</td>';
-                        echo '<input type="hidden" name="ma_cau_hoi[]" value="' . $cauhoi_record['ma_cau_hoi'] . '">';
-                        echo '</tr>';
+                        <tr>
+                        <td> <?php echo $stt ?> </td>
+                        <td> <?php echo $cauhoi_record["noi_dung"] ?></td>
+                        <input type="hidden" name="ma_cau_hoi[]" value="' <?php echo $cauhoi_record['ma_cau_hoi'] ?> '">
+                        </tr>
+                    <?php
                         $stt++;
                     }
                     ?>
-                </tbody>
+                    </tbody>
                 </table>
             </div>
             <div class="col-2 d-flex align-items-center justify-content-center">
                 <div class="btn-group-vertical">
-                    <button class="btn btn-primary mb-3">>></button>
-                    <button class="btn btn-primary mb-3"><<</button>
-                    <input class="btn btn-primary >" type="button" name=">" value=">"></input>
-                    <button class="btn btn-primary"><</button>
+                    <button class="btn btn-primary mb-3" id="tab1_2All"> >> </button>
+                    <button class="btn btn-primary mb-3" id="tab2_1All"> << </button>
+                    <button class="btn btn-primary mb-3" id="tab1_2">></button>
+                    <button class="btn btn-primary mb-3" id="tab2_1"> < </button>
                 </div>
             </div>
-            <div class="col-5 border">
+            <div class="col-5 border overflow-y-scroll" style="height: 600px;">
                 <div class="p-3">Câu hỏi trong đề thi</div>
                 <form action="" method="post">
                     <table class="tables_ui table table-border overflow-y-scroll" id="t_draggable2"style="height: 500px">
@@ -128,14 +116,15 @@
                             $stt = 1;
                             while ($chiTiet = $dethi->fetch_assoc()) {
                                 $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"]);
-                                $noidungch = $noidung->fetch_assoc();
-                                echo '<tr>';
-                                echo '<td>' . $stt . '</td>';
-                                echo '<td>' . $noidungch["noi_dung"] . '</td>';
-                                echo '<input type="hidden" name="ma_cau_hoi[]" value="' . $noidungch['ma_cau_hoi'] . '">';
-                                echo '</tr>';
-                                $stt++;
+                                $noidungch = $noidung->fetch_assoc();?>
+                                <tr>
+                                <td> <?php echo $stt ?> </td>
+                                <td> <?php echo $noidungch["noi_dung"] ?> </td>
+                                <input type="hidden" name="ma_cau_hoi[]" value="' <?php echo $noidungch['ma_cau_hoi'] ?> '">
+                                </tr>
+                                <?php $stt++;
                             }
+                            
                         }
                         ?>
                         </tbody>
@@ -148,8 +137,9 @@
         </div>
     </div>
     <script>
+    
     $(document).ready(function() {
-    var $t_draggable1 = $("#t_draggable1");
+        var $t_draggable1 = $("#t_draggable1");
         $("tbody.t_sortable").sortable({
             connectWith: ".t_sortable",
             items: "> tr:not(:first)",
@@ -189,20 +179,31 @@
             }
             return false;
         }
-
-    });
-    </script>
-    <script>
-       
-       $("#t_draggable1").on('click', 'tr', function(){
-           
-            var value = $(this).find('td:first').html();
-            alert(value);
-            $(this).addClass('selected').siblings().removeClass('selected');    
-        });
         $('.>').on('click', function(e){
             alert($("#t_draggable1 tr.selected td:first").html());
         });
+
+        $("#tab1_2").on('click', function() {
+            $("#t_draggable1 tbody tr.selected").each(function() {
+                var selectedRow = $(this);
+                if (!selectedRow.is(':first-child')) {
+                    moveRow(selectedRow);
+                }
+            });
+        });
+        $(" #t_draggable1 tbody ").on('click', 'tr', function() {
+            if (!$(this).is(':first-child')) {
+                var selectRow = $(this).toggleClass('selected');
+            }    
+        });
+        function moveRow(selectedRow) {
+            var newRow = selectedRow.clone();
+            $('#t_draggable2 tbody').append(newRow);
+            selectedRow.remove();
+        }
+        
+    });
+      
     </script>
     </body>
     </html>
