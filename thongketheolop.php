@@ -48,8 +48,6 @@ $result_get_slkq9 = mysqli_query($connect, $sql_get_slkq9);
 $row_slKq9 = mysqli_fetch_assoc($result_get_slkq9);
 $slKq9 = $row_slKq9['slkq'];
 
-
-
 ?>
 <div class="container">
     <article>
@@ -97,20 +95,30 @@ $slKq9 = $row_slKq9['slkq'];
 
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
-                    ["Element", "Density", {
+                    ["Element", "Điểm", {
                         role: "style"
                     }],
-                    ["Copper", 8.94, "#b87333"],
-                    ["Silver", 10.49, "silver"],
-                    ["Gold", 19.30, "gold"],
-                    ["Platinum", 21.45, "color: #e5e4e2"],
-                    ["Platinum", 21.45, "color: #e5e4e2"],
-                    ["Platinum", 21.45, "color: #e5e4e2"],
-                    ["Platinum", 21.45, "color: #e5e4e2"],
-                    ["Platinum", 21.45, "color: #e5e4e2"],
-                    ["Platinum", 21.45, "color: #e5e4e2"],
-                    ["Platinum", 21.45, "color: #e5e4e2"],
-
+                    <?php 
+                        $sql_select_top10 = "SELECT kq.*, dt.ten_de_thi, users.ho_va_ten
+                        FROM ket_qua kq 
+                        JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
+                        JOIN lop ON lop.ma_lop = ctl.ma_lop
+                        JOIN chi_tiet_quyen ctq ON ctq.user_id = kq.user_id 
+                        JOIN bai_thi ON kq.ma_bai_thi = bai_thi.ma_bai_thi
+                        JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi 
+                        JOIN users ON users.id = kq.user_id
+                        WHERE ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop  
+                        ORDER BY kq.diem DESC 
+                        LIMIT 10;
+                        ";
+                        $result_top10 = mysqli_query($connect, $sql_select_top10);
+                        if(mysqli_num_rows($result_top10) > 0) {
+                            while($row_top10 = mysqli_fetch_assoc($result_top10)) {
+                                echo "['" .$row_top10["ho_va_ten"]. " - ". $row_top10["ten_de_thi"] ."', " .$row_top10["diem"]. ", " ."'silver'],";
+                            }
+                        }
+                    ?>
+                    
                 ]);
 
                 var view = new google.visualization.DataView(data);
