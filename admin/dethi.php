@@ -49,7 +49,7 @@ ob_end_flush();
                 </div>
             </div>
             <div class="col-5 text-end">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDeThi"><i class="bi bi-plus-circle"></i> Thêm đề thi mới</button>
+                <a href="dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
             </div>
         </div>
         <div class="table-responsive" id="dynamic_dethi"></div>
@@ -57,46 +57,7 @@ ob_end_flush();
 </div>
 
 
-<script>
-$(document).ready(function() {
-    $('#thoiGian').hide();
-    $('#monhoc').hide();
-    $('#tenDeThi').hide();
 
-    $('#addDeThiForm').submit(function(event) {
-    var thoiGian = $('input[name="thoiGian"]').val();
-    var maMonHoc = $('select[name="ma_mon_hoc"]').val();
-    var tenDeThi = $('input[name="tenDeThi"]').val();
-    var isValid = true;
-
-    if(tenDeThi.trim().length === 0){ 
-        $('#tenDeThi').show();
-        isValid = false;
-    } else {
-        $('#tenDeThi').hide();
-    }
-
-    if (thoiGian < 0 || thoiGian > 200 || thoiGian.trim().length === 0) {
-    $('#thoiGian').show();
-    isValid = false;
-} else {
-    $('#thoiGian').hide();
-}
-
-    if(maMonHoc == null){
-        $('#monhoc').show();
-        isValid = false;
-    } else {
-        $('#monhoc').hide();
-    }
-
-    if(!isValid){
-        event.preventDefault();
-    }
-});
-
-});
-</script>
 <script>
     load_data(1);
     function load_data(page, query = '')

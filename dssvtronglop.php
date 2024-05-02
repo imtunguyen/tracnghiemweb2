@@ -1,13 +1,20 @@
+<?php
+include('./includes/header.php');
+include('./includes/database.php');
+if (!(isset($_SESSION['username']) && isset($_SESSION['userId']) && isset($_SESSION['permissionId']))) {
+    header("Location: dangnhap.php");
+}
+if(!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']))) {
+    header("Location: lophoc.php");
+} else {
+  $ma_lop = $_GET['ma_lop'];
+  $ten_lop = $_GET['ten_lop'];
+}
+?>
 <div class="container">
-    <h2 class="text-center mb-3">
-        Đây là trang sinh viên
+    <h2 class="text-center mb-5">
+         <?php echo $ma_lop . "_" . $ten_lop ?>
     </h2>
-    <div class="row">
-        <p>Giáo viên: </p>
-    </div>
-    <div class="row mb-3">
-        <p>Mã lớp học: </p>
-    </div>
     <h3 class="text-center mb-3">
         Danh sách sinh viên trong lớp
     </h3>
@@ -19,7 +26,10 @@
             <button class="btn btn-primary">Tìm kiếm</button>
         </div>
         <div class="col-6 text-end">
-            <button class="btn btn-primary" onclick="location.href='chitietlophoc.php?source=thongketheolop'">Xem thống kê</button>
+        <form class="btn p-0 m-0" action="thongketheolop.php" method="GET">
+                <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
+                <button type="submit" class="btn btn-primary">Xem thống kê</button>
+            </form>
         </div>
     </div>
     <table class="table">

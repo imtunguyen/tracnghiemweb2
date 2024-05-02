@@ -36,7 +36,7 @@ ob_end_flush();
 ?>
 <style>
     .error-message {
-        color: red; /* Đổi màu chữ thành màu đỏ */
+        color: red;
 }
 </style>
 <div class="w-100 card border-0 p-4">
@@ -76,7 +76,6 @@ ob_end_flush();
                     <div class="mb-3">
                         <label for="fileToUpload" class="btn btn-primary">Thêm từ File</label>
                         <input type="file" name="fileToUpload" id="fileToUpload" accept=".pdf, .doc, .docx" style="display: none;">
-                        
                     </div>
                 </div>
             </div>
@@ -141,7 +140,7 @@ document.getElementById('fileToUpload').addEventListener('change', function() {
                 }
             }
         };
-        xhr.open('POST', 'process_file.php', true);
+        xhr.open('POST', 'import_file.php', true);
         xhr.send(formData);
     }
 });
@@ -195,10 +194,10 @@ $(document).ready(function() {
         }
         var selectedDapAn = $("input[name='flexRadioDefault']:checked").val();
         if (selectedDapAn === undefined) {
-            $('#dapAnMessage').text('Vui lòng chọn đáp án').show(); // Hiển thị thông báo chưa chọn đáp án
+            $('#dapAnMessage').text('Vui lòng chọn đáp án').show(); 
             isValid = false;
         } else {
-            $('#dapAnMessage').hide(); // Ẩn thông báo nếu đã chọn đáp án
+            $('#dapAnMessage').hide(); 
         }
 
         if (!isValid) {
@@ -230,7 +229,7 @@ $(document).ready(function() {
                 </div>
                 
             `);
-            $('#answer' + i).hide(); // Ẩn thông báo lỗi khi tạo ô mới
+            $('#answer' + i).hide(); 
         }
         
 
