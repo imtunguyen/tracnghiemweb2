@@ -223,7 +223,6 @@ $slKq9 = $row_slKq9['slkq'];
                                     console.error('Đã xảy ra lỗi khi gửi giá trị: ' + error);
                                 }
                             });
-
                         });
                     });
                         google.charts.load("current", {
@@ -304,7 +303,7 @@ $slKq9 = $row_slKq9['slkq'];
                 <div id="piechart" style="width: 50%; height: 400px;"></div>
             </section>
         </div>
-        <h3 class="text-center mt-5 mb-3">Danh sách điểm của sinh viên theo đề thi</h3>
+        <h4 class="text-center mt-5 mb-3">Danh sách điểm của sinh viên theo đề thi</h4>
         <table class="table table-bordered table-striped align-middle text-center">
             <thead>
                 <tr>
@@ -314,7 +313,26 @@ $slKq9 = $row_slKq9['slkq'];
                     <th>Điểm</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="dsKq">
+                <script>
+                    $(document).ready(function() {
+                        $('#bai_thi_select').change(function() {
+                            var selectedBaiThiId = $(this).val();
+                            $.ajax({
+                                type: 'POST',
+                                url: 'xulytk_dskq.php',
+                                data: { ma_bai_thi: selectedBaiThiId, ma_lop: <?php echo $ma_lop; ?> },
+                                success: function(response) {
+                                    $('#dsKq').html(response);
+                                    console.log(response);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Đã xảy ra lỗi khi gửi giá trị: ' + error);
+                                }
+                            });
+                        });
+                    });
+                </script>
             </tbody>
         </table>
     </article>
