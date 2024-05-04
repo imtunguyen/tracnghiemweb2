@@ -90,7 +90,7 @@
                         processData: false,
                         contentType: false,
                         success: function() {
-                            window.location.href = 'index.php';
+                            window.location.href = 'trangchu.php';
                         },
                         error: function(xhr, status, error) {
                             console.error();
