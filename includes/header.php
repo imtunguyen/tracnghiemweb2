@@ -51,7 +51,7 @@ session_start();
         </div>
       </div>
         <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <button type="button" class="btn btn-primary">Sign-up</button>
+        <a href="dangky.php" type="button" class="btn btn-primary">Sign-up</a>
       </div>
     </header>
   </div>

@@ -1,15 +1,15 @@
 <?php
 ob_start();
-include('../includes/config.php');
-include('../includes/database.php');
-include('../includes/functionCauHoi.php');
-include('../includes/functionCauTraLoi.php');
-include('../includes/functionMonHoc.php');
+include '../includes/config.php';
+include '../includes/database.php';
+include '../includes/functionCauHoi.php';
+include '../includes/functionCauTraLoi.php';
+include '../includes/functionMonHoc.php';
+include '../includes/functions.php';
 require_once '../vendor/autoload.php';
 
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Style\Font;
-
 
 if (isset($_FILES['fileToUpload'])) {
     $tmpFilePath = $_FILES['fileToUpload']['tmp_name'];
@@ -20,7 +20,7 @@ if (isset($_FILES['fileToUpload'])) {
     $answers = [];
     $currentQuestion = '';
     $currentAnswers = [];
-    $currentCorrectAnswer = ''; 
+    $currentCorrectAnswer = '';
     $difficultyLevels = [];
     $doKho = '';
     foreach ($phpWord->getSections() as $section) {
@@ -33,7 +33,7 @@ if (isset($_FILES['fileToUpload'])) {
                         $underlineStyle = $text->getFontStyle()->getUnderline();
                     }
                 }
-                if (preg_match('/^Câu \d+:/',$fullText)) {
+                if (preg_match('/^Câu \d+:/u', $fullText)) {
                     if (!empty($currentQuestion) && !empty($currentAnswers)) {
                         $questions[] = $currentQuestion;
                         $answers[] = $currentAnswers;
@@ -42,15 +42,17 @@ if (isset($_FILES['fileToUpload'])) {
                     }
 
                     $currentQuestion = preg_replace('/^Câu \d+:/u', '', $fullText);
+                  
                     $currentAnswers = [];
                     $currentCorrectAnswer = '';
                     $doKho = 'Dễ';
-                     preg_match('/(\*\*|\*)\s*/', $currentQuestion, $matches);
+                    preg_match('/(\*\*|\*)\s*/', $currentQuestion, $matches);
                     $doKho = !empty($matches) ? ($matches[1] == '**' ? 'Khó' : 'Trung bình') : 'Dễ';
                 } elseif (preg_match('/^[A-D]\./', $fullText)) {
-                    $currentAnswers[] = $fullText;
+                    $answer = str_replace(['A.', 'B.', 'C.', 'D.'], '', $fullText); // Thay thế ký tự "A.", "B.", "C.", "D." bằng chuỗi rỗng
+                    $currentAnswers[] = $answer;
                     if ($underlineStyle != Font::UNDERLINE_NONE) {
-                        $currentCorrectAnswer = $fullText;
+                        $currentCorrectAnswer = $answer;
                     }
                 }
             }
@@ -64,12 +66,12 @@ if (isset($_FILES['fileToUpload'])) {
     }
     $trang_thai = 1;
     $ma_nguoi_tao = 1;
-    $ma_mon_hoc =  $_POST['ma_mon_hoc'];
+    $ma_mon_hoc = $_POST['ma_mon_hoc'];
     $dap_an = 0;
     echo $ma_mon_hoc;
     foreach ($questions as $index => $question) {
         $difficulty = $difficultyLevels[$index];
-    
+
         echo "<div class='question-div'><strong>Câu hỏi:</strong> $question</div>";
         echo "<div class='difficulty-div'><strong>Độ khó:</strong> $difficulty</div>";
         addCauHoi($connect, $question, $trang_thai, $ma_nguoi_tao, $ma_mon_hoc, $difficulty);
@@ -84,15 +86,13 @@ if (isset($_FILES['fileToUpload'])) {
             $result = getLastCauHoi($connect);
             $record = $result->fetch_assoc();
             addCauTraLoi($connect, $record['ma_cau_hoi'], $answer, $dap_an);
-            
+
         }
         echo "<br>";
     }
     $_SESSION['toastr'] = 'Thêm câu hỏi từ File thành công';
-    header('Location: cauhoi.php');
+    echo "<script>window.location.href = 'cauhoi.php';</script>";
     exit();
 }
-
-
-
-
+ob_end_flush();
+?>
