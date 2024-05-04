@@ -168,7 +168,7 @@ $slKq9 = $row_slKq9['slkq'];
                         FROM bai_thi bt 
                         JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi
                         JOIN lop l ON l.ma_lop = bt.ma_lop
-                        WHERE l.ma_lop = 1";
+                        WHERE l.ma_lop = $ma_lop";
                         $result_get_baithi = mysqli_query($connect, $sql_get_baithi);
                         if(mysqli_num_rows($result_get_baithi) > 0) {
                             while($row_get_baithi = mysqli_fetch_assoc($result_get_baithi)) {
