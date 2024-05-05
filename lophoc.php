@@ -2,6 +2,8 @@
 include('includes/header.php');
 include('includes/database.php');
 $userId = $_SESSION['userId'];
+
+
 $sql_get_all_lop_of_user = "SELECT l.`ma_lop`, l.`trang_thai`, l.`ma_moi`, l.`ten_lop`
 FROM `lop` l
 JOIN `chi_tiet_lop` ctl ON ctl.`ma_lop` = l.`ma_lop`
@@ -36,7 +38,6 @@ $res = mysqli_query($connect, $sql_get_all_lop_of_user);
             <h3 class="text-center"><?php echo $row['ma_lop'] . "_" . $row['ten_lop']; ?></h3>
           </div>
           <div class="row pt-3  rounded-bottom" style="box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075); ">
-            <p>Giáo viên: </p>
             <p>Trạng thái: <?php if ($row['trang_thai'] == 1) echo "Đang mở";
                             else echo "Đã đóng"; ?></p>
           <div>

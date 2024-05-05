@@ -13,18 +13,32 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
 }
 ?>
 
-<?php
-$ma_lop = $_GET['ma_lop'];
-?>
 <div class="container">
   <h2 class="text-center mb-3">
     <?php echo $ma_lop . "_" . $ten_lop ?>
   </h2>
   <div class="row">
-    <p>Giáo viên: </p>
+    <?php
+      $sql_ten_gv = "SELECT users.ho_va_ten
+      FROM users
+      JOIN chi_tiet_lop ctl ON ctl.user_id = users.id
+      JOIN chi_tiet_quyen ctq ON ctq.user_id = users.id
+      Where ctq.ma_quyen = 2 AND ctl.ma_lop = $ma_lop";
+      $result_ten_gv = mysqli_query($connect, $sql_ten_gv);
+      $ten_gv = "";
+      $count = 0;
+      while($row_gv = mysqli_fetch_assoc($result_ten_gv)) {
+          if ($count > 0) {
+            $ten_gv .= " - ";
+          }
+          $ten_gv .= $row_gv['ho_va_ten'];
+          $count++;
+      }
+    ?>
+    <p >Giáo viên: <?php echo $ten_gv; ?></p>
   </div>
   <div class="row mb-3">
-    <p>Mã mời: <?php echo $ma_moi ?></p>
+    <p style="font-weight: bold;">Mã mời: <?php echo $ma_moi ?></p>
   </div>
   <h3 class="text-center mb-3">
     Danh sách đề thi trong lớp
@@ -55,7 +69,7 @@ $ma_lop = $_GET['ma_lop'];
         <th>Thời gian bắt đầu</th>
         <th>Thời gian kết thúc</th>
         <th>Thời gian làm bài</th>
-        <th>Chi tiết</th>
+        <th>Hành động</th>
       </tr>
     </thead>
     <tbody>
@@ -67,6 +81,7 @@ $ma_lop = $_GET['ma_lop'];
             ";
       $result = mysqli_query($connect, $sql);
       $stt = 0;
+      $user_id = $_SESSION['userId'];
       while ($row = mysqli_fetch_assoc($result)) {
         $stt += 1;
         echo "<tr>
@@ -76,7 +91,13 @@ $ma_lop = $_GET['ma_lop'];
                 <td>" . $row['tg_bat_dau'] . "</td>
                 <td>" . $row['tg_ket_thuc'] . "</td>
                 <td>" . $row['thoi_gian_lam_bai'] . "</td>
-                <td>Xem</td>
+                <td>
+                <form action='lambai.php' method='post'>
+                  <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
+                  <input type='hidden' name='ma_de_thi' value='" . $row['ma_de_thi'] . "'>
+                  <button type='submit'>Làm bài</button>
+                </form>
+              </td>
               </tr>";
       }
       ?>
