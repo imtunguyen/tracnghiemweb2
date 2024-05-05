@@ -16,20 +16,19 @@
 
 
     if(isset($_POST['submit'])){
+        $ma_cau_hoi_array = $_POST['ma_cau_hoi'];
+        echo 'array';
+        print_r($ma_cau_hoi_array);
         $ma_de_thi = $_SESSION['ma_de_thi'];
         deleteChiTietDeThi($connect, $ma_de_thi);
-        $ma_cau_hoi_array = $_POST['ma_cau_hoi'];
-    
-    // Thêm từng câu hỏi vào đề thi
-    foreach($ma_cau_hoi_array as $ma_cau_hoi){
-        addChiTietDeThi($connect, $ma_de_thi, $ma_cau_hoi);
-    }
-    
-    // Redirect về trang đề thi sau khi lưu thành công
-    header("Location: dethi.php");
-    $_SESSION['toastr'] = 'Thêm câu hỏi vào đề thi thành công';
-    exit;
-    }
+        foreach($ma_cau_hoi_array as $ma_cau_hoi){
+            echo "ma cau hoi" .$ma_cau_hoi;
+            addChiTietDeThi($connect, $ma_de_thi,$ma_cau_hoi);
+        }
+         header("Location: dethi.php");
+         $_SESSION['toastr'] = 'Thêm câu hỏi vào đề thi thành công';
+         exit;
+    }   
     
     ?>
     <script>
@@ -92,19 +91,16 @@
                     <?php
                     $stt = 1; 
                     
-                    while ($cauhoi_record = $addchdethi->fetch_assoc()) { 
-                        $noidung = getCauHoibyID($connect, $cauhoi_record["ma_cau_hoi"]);
-                        $chdethi = $noidung->fetch_assoc(); ?>
+                    while ($cauhoi_record = $cauhoi->fetch_assoc()) { ?>
                     
                         <tr>
                         <td> <?php echo $stt ?> </td>
-                        <td> <?php echo $chdethi["noi_dung"] ?></td>
-                        <input type="hidden" name="ma_cau_hoi[]" value="' <?php echo $chdethi['ma_cau_hoi'] ?> '">
+                        <td> <?php echo $cauhoi_record["noi_dung"] ?></td>
+                        <input type="hidden" name="ma_cau_hoi[]" value=" <?php echo $cauhoi_record['ma_cau_hoi'] ?> ">
                         </tr>
                     <?php
                         $stt++;
-                    }
-                    ?>
+                    }?>
                     </tbody>
                 </table>
             </div>
@@ -118,6 +114,7 @@
             </div>
             <div class="col-5 border overflow-y-scroll " style="height: 600px;">
                 <div class="p-3">Câu hỏi trong đề thi</div>
+                <form action="" method="post">
                     <table class="table-striped" id="t_draggable2">
                     <tbody class="t_sortable ">
                         <tr>
@@ -130,13 +127,12 @@
                             $stt = 1;
                             while ($chiTiet = $dethi->fetch_assoc()) {
                                 $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"]);
-                                $chdethi = $noidung->fetch_assoc(); ?>
-                                <tr>
-                                <td> <?php echo $stt ?></td>
-                                <td> <?php echo $chdethi["noi_dung"] ?></td>
-                                <input type="hidden" name="ma_cau_hoi[]" value="' <?php echo $chdethi['ma_cau_hoi'] ?> '">
-                                </tr>
-                                <?php
+                                $noidungch = $noidung->fetch_assoc();
+                                echo '<tr>';
+                                echo '<td>' . $stt . '</td>';
+                                echo '<td>' . $noidungch["noi_dung"] . '</td>';
+                                echo '<input type="hidden" name="ma_cau_hoi[]" value="' .$noidungch['ma_cau_hoi'] .'">';
+                                echo '</tr>';
                                 $stt++;
                             }
                         }
@@ -147,9 +143,6 @@
             
         </div>
         <div class="text-end mt-3">
-            <form action="" method="post">
-            <input type="hidden" id="ma_de_thi" name="ma_de_thi" value="<?php echo $_GET['id']; ?>">
-            <input type="hidden" name="ma_cau_hoi[]" value=""> 
                 <button class="btn btn-primary" type="submit" name="submit">Save</button>
             </form>
         </div>
@@ -193,31 +186,41 @@
             var table=$('#t_draggable2 tbody');
             moveRow(selectedRow,table);
         });
-        function moveRow(row,table){
+
+        function moveRow(row, table) {
             row.each(function() {
-                var hiddenInput = $(this).find("input[type='hidden']");
+                var hiddenInput = $(this).find("input[name='ma_cau_hoi[]']");
                 hiddenInput.appendTo(table);
+
+                var ma_cau_hoi = hiddenInput.val();
+                console.log('Mã câu hỏi vừa di chuyển: ' + ma_cau_hoi);
             });
+
             row.appendTo(table);
             row.removeClass('selected');
-         }
-         $('#saveForm').submit(function() {
-        var ma_cau_hoi_array = [];
-        $('#t_draggable2 tbody tr').each(function() {
-            var ma_cau_hoi = $(this).find('input[name="ma_cau_hoi"]').val().trim();
-            if (ma_cau_hoi !== '') {
-                ma_cau_hoi_array.push(ma_cau_hoi);
+        }
+      
+        
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+    $('#search_box, #filter_monhoc, #filter_dokho').change(function() {
+        var searchText = $('#search_box').val();
+        var monHoc = $('#filter_monhoc').val();
+        var doKho = $('#filter_dokho').val();
+        $.ajax({
+            url: 'dethi_search.php',
+            type: 'GET',
+            data: {search_text: searchText, mon_hoc: monHoc, do_kho: doKho},
+            success: function(response) {
+                $('#t_draggable1 tbody').html(response);
             }
         });
-        $('input[name="ma_cau_hoi[]"]').val(ma_cau_hoi_array.join(','));
-
-        if (ma_cau_hoi_array.length === 0) {
-            alert('Bạn cần chọn ít nhất một câu hỏi cho đề thi.');
-            return false;
-        }
     });
-    });
-        
+});
 </script>
 
     </body>
