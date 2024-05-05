@@ -28,14 +28,19 @@ ob_end_flush();
     </div>
     <div class="card-body border p-4">
         <div class="row pb-3">
-            <div class="col-7">
+            <div class="col-6">
                 <div class="form-group">
                     <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
                 </div>
             </div>
-            <div class="col-5 text-end">
+            <div class="col-4 text-end">
                 <a class="btn btn-success" href="../admin/cauhoi_add.php">
                     <i class="bi bi-plus-circle"></i> Thêm câu hỏi mới
+                </a>
+            </div>
+            <div class="col-2 ">
+                <a class="btn btn-primary" href="../admin/export_file.php">
+                <i class="bi bi-file-earmark-text-fill"></i> Xuất File
                 </a>
             </div>
         </div>
@@ -72,6 +77,7 @@ $(document).ready(function(){
     });
 });
 </script>
+
 <?php 
     include('../includes/admin_footer.php');
 ?>

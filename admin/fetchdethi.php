@@ -42,7 +42,7 @@ $output = '
     <tr>
         <th>STT</th>
         <th>Tên đề thi</th>
-        <th>Sửa | Xóa</th>
+        <th>Sửa | Chi Tiết | Xóa</th>
     </tr>
     </thead>
 ';
@@ -58,8 +58,11 @@ if($total_data > 0) {
             <td>'.$row["ten_de_thi"].'</td>
             <td>
                 <div class=" btn-group" role="group">
-                    <a class=" btn btn-warning mx-2 " href="../admin/dethi_edit.php?id=' . $row['ma_de_thi'] . '">
+                    <a class=" btn btn-success mx-2 " href="../admin/dethi_edit.php?id=' . $row['ma_de_thi'] . '">
                         <i class=" bi bi-pencil-square"></i> Sửa
+                    </a>
+                    <a class=" btn btn-warning mx-2 " href="../admin/dethi_chitiet.php?id=' . $row['ma_de_thi'] . '">
+                        <i class=" bi bi-pencil-square"></i> Chi Tiết
                     </a>
                     <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
                         <i class="bi bi-trash"></i> Xóa
