@@ -29,8 +29,8 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi'])) {
         while($row2 = mysqli_fetch_assoc($select_cautl)) { 
             $la_dap_an = $row2['la_dap_an'];
             $ma_cau_tra_loi = $row2['ma_cau_tra_loi'];
-            echo '<div class="row mb-1">'. 'Câu ' . $i . ': ' . $noi_dung .'</div>'; 
-            echo '<div class="" role="group" aria-label="Basic radio toggle button group">';
+            echo '<div class="row mb-2">'. 'Câu ' . $i . ': ' . $noi_dung .'</div>'; 
+            echo '<div role="group" aria-label="Basic radio toggle button group">';
             $query2 = "select * from cau_tra_loi where ma_cau_hoi = $ma_cau_hoi";
             $select_cautl = mysqli_query($connect,$query2); 
             $index = 0;
@@ -43,9 +43,10 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi'])) {
                 switch($index) {
                     case 1: 
                         echo
-                        '   <div class="d-flex flex-row gap-2 mb-1 align-items-center">
-                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> A </label>
+                        '   
+                            <div class="d-flex flex-row gap-2 mb-1 align-items-center">
                                 <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
+                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> A </label>
                                 <div>' . $noi_dung_ctl. '</div>
                             </div>
                         ';
@@ -54,8 +55,8 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi'])) {
                         echo
                         '
                             <div class="d-flex flex-row gap-2 mb-1 align-items-center">
-                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> B </label>
                                 <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
+                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> B </label>
                                 <div>' . $noi_dung_ctl. '</div>
                             </div>
                         ';
@@ -64,8 +65,8 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi'])) {
                         echo
                         '
                             <div class="d-flex flex-row gap-2 mb-1 align-items-center">
-                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> C </label>
                                 <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
+                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> C </label>
                                 <div>' . $noi_dung_ctl. '</div>
                             </div>
                         ';
@@ -74,8 +75,8 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi'])) {
                         echo
                         '
                             <div class="d-flex flex-row gap-2 mb-1 align-items-center">
-                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> D </label>
                                 <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
+                                <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> D </label>
                                 <div>' . $noi_dung_ctl. '</div>
                             </div>
                         ';
@@ -84,7 +85,6 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi'])) {
             }
         }
         echo '
-        </div>
         </div>
         ';
     }
@@ -97,105 +97,7 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi'])) {
 </form>
 </div>
 
-<div class="right">
-
-    <div class="container">
-        <form action="ket_qua.php" method = "POST">
-            <div class="row">
-                <?php 
-                    $i = 0;
-                    $query = "select ch.* from chi_tiet_de_thi ctdt join de_thi dt on ctdt.ma_de_thi = dt.ma_de_thi join cau_hoi ch on ch.ma_cau_hoi = ctdt.ma_cau_hoi where dt.ma_de_thi = 1";
-                    $select_socauhoi = mysqli_query($connect,$query);  
-                    while($row = mysqli_fetch_assoc($select_socauhoi)) {
-                        ++$i;
-                        $ma_cau_hoi = $row['ma_cau_hoi'];
-
-                        echo '
-                            <div class="col" onclick = "currentSlide('.$i.')">
-                            Câu '.$i.'
-                            <br>
-                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                            ';
-                            
-                        
-                        $query2 = "select * from cau_tra_loi where ma_cau_hoi = $ma_cau_hoi";
-                        $select_cautl = mysqli_query($connect,$query2); 
-                        $index = 0;
-                        while($row2 = mysqli_fetch_assoc($select_cautl)) {
-                            ++$index;
-                            $la_dap_an = $row2['la_dap_an'];
-                            $ma_cau_tra_loi = $row2['ma_cau_tra_loi'];
-                            switch($index) {
-                                case 1: 
-                                    echo
-                                    '
-                                        <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
-                                        <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> A </label>
-                                    ';
-                                break;
-                                case 2: 
-                                    echo
-                                    '
-                                        <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
-                                        <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> B </label>
-                                    ';
-                                break;
-                                case 3: 
-                                    echo
-                                    '
-                                        <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
-                                        <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> C </label>
-                                    ';
-                                break;
-                                case 4: 
-                                    echo
-                                    '
-                                        <input type="radio" class="btn-check" name="'.$ma_cau_hoi.'" id="'.$ma_cau_tra_loi.'" value = "'.$la_dap_an.'">
-                                        <label class="btn btn-outline-primary" for="'.$ma_cau_tra_loi.'"> D </label>
-                                    ';
-                                break;
-                            }
-                        }
-
-                        echo
-                        '
-                            </div>
-                            </div>
-                        ';
-                    }
-                ?>
-            </div>
-            
-        </form>
-    </div>
-
-</div>
-
 
 <?php
     include('includes/footer.php');
 ?>
-
-<script>
-    let slideIndex = 1;
-    showSlides(slideIndex);
-
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
-        let i;
-        let slides = document.getElementsByClassName("slide");
-        if (n > slides.length) {slideIndex = 1}    
-        if (n < 1) {slideIndex = slides.length}
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";  
-        }
-        slides[slideIndex-1].style.display = "block";  
-    }
-</script>
