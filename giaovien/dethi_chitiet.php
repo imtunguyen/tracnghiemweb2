@@ -58,24 +58,27 @@
         <div class="row gx-5">
             <div class="col-12 mb-3 sticky-top">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <select class="form-select" name="filter_monhoc" id="filter_monhoc">
                             <option disabled selected>Môn học</option>
                             <?php while($monhoc_record = $monhoc->fetch_assoc()) { ?>
                                 <option value="<?php echo $monhoc_record['ma_mon_hoc']; ?>"><?php echo $monhoc_record['ten_mon_hoc']; ?></option>
-                            <?php } ?>
+<?php } ?>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <select class="form-select" name="filter_dokho" id="filter_dokho">
                             <option disabled selected>Độ khó</option>
                             <option value="Dễ">Dễ</option>
                             <option value="Trung bình">Trung bình</option>
                             <option value="Khó">Khó</option>
                         </select>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-info" id="refresh">REFRESH</button>
                     </div>
                 </div>
                 <hr>
@@ -91,11 +94,12 @@
                     <?php
                     $stt = 1; 
                     
-                    while ($cauhoi_record = $cauhoi->fetch_assoc()) { ?>
-                    
+                    while ($cauhoi_record = $addchdethi->fetch_assoc()) { 
+                        $noidung = getCauHoibyID($connect, $cauhoi_record["ma_cau_hoi"]);
+                        $chdethi = $noidung->fetch_assoc(); ?>
                         <tr>
                         <td> <?php echo $stt ?> </td>
-                        <td> <?php echo $cauhoi_record["noi_dung"] ?></td>
+                        <td> <?php echo $chdethi["noi_dung"] ?></td>
                         <input type="hidden" name="ma_cau_hoi[]" value=" <?php echo $cauhoi_record['ma_cau_hoi'] ?> ">
                         </tr>
                     <?php
@@ -124,7 +128,7 @@
                         
                         <?php
                         if ($dethi->num_rows > 0) {
-                            $stt = 1;
+$stt = 1;
                             while ($chiTiet = $dethi->fetch_assoc()) {
                                 $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"]);
                                 $noidungch = $noidung->fetch_assoc();
@@ -207,7 +211,7 @@
 
 <script>
     $(document).ready(function() {
-    $('#search_box, #filter_monhoc, #filter_dokho').change(function() {
+$('#search_box, #filter_monhoc, #filter_dokho').change(function() {
         var searchText = $('#search_box').val();
         var monHoc = $('#filter_monhoc').val();
         var doKho = $('#filter_dokho').val();
