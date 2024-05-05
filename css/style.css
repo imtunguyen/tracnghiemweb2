@@ -101,3 +101,6 @@
 #t_draggable1 tbody tr td {
     cursor: pointer;
 }
+#t_draggable2 tbody tr td {
+    cursor: pointer;
+}

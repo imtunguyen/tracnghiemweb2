@@ -38,22 +38,18 @@ $total_filter_data = $result->num_rows; // Get the total number of rows fetched
 
 $output = '
 <table class="table table-striped table-bordered">
-    <thead>
-    <tr>
+    <tr style="text-align: center;">
         <th>STT</th>
         <th>Tên đề thi</th>
         <th>Sửa | Chi Tiết | Xóa</th>
     </tr>
-    </thead>
 ';
 
 if($total_data > 0) {   
     $start_index = ($page - 1) * $limit + 1;
     foreach($result as $row) {
-        $modalID = "chiTietModal" . $start_index; // Tạo ID duy nhất cho mỗi modal
-        $modalXoaID = "xoaModal" . $start_index;
         $output .= '
-        <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
+        <tr style="text-align: center;">
             <td>'.$start_index++.'</td>
             <td>'.$row["ten_de_thi"].'</td>
             <td>
@@ -63,15 +59,14 @@ if($total_data > 0) {
                     </a>
                     <a class=" btn btn-warning mx-2 " href="../admin/dethi_chitiet.php?id=' . $row['ma_de_thi'] . '">
                         <i class=" bi bi-pencil-square"></i> Chi Tiết
-                    </a>
-                    <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
+                    </a> 
+                    <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <i class="bi bi-trash"></i> Xóa
                     </a>
                 </div>
-            </td>
-        </tbody>';
-        modalXoaDeThi($row['ma_de_thi'], $modalXoaID); 
-        modalChitietDeThi($connect, $row['ma_de_thi'], $modalID); 
+            </td>' ;
+        modalXoaDeThi($row['ma_de_thi']); 
+        $output .= '</tr>';
     }
 } else {
     $output .= '

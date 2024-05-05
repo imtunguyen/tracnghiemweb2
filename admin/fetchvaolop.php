@@ -1,25 +1,29 @@
-<?php
+<?php 
 include('../includes/database.php');
-include('../includes/functionMonHoc.php');
-$limit = '5';
-$page = 1;
+include('../includes/functionBaiThi.php');
+$ma_lop=$_GET['id'];
+$dsbaithi = loadBaiThi($connect, $ma_lop);
 
-if(isset($_POST['page']) && $_POST['page'] > 1) {
-    $start = (($_POST['page'] - 1) * $limit);
+$limit='5';
+$page=1;
+
+if(isset($_POST['page']) && $_POST['page'] > 1){
+    $start=(($_POST['page'] - 1) * $limit);
     $page = $_POST['page'];
 } else {
     $start = 0;
 }
 
-$query = "SELECT * FROM mon_hoc WHERE trang_thai = 1";
+
+$query = "SELECT bt.*, dt.* FROM bai_thi bt JOIN de_thi dt ON bt.ma_de_thi=dt.ma_de_thi where bt.ma_lop= '$ma_lop' ";
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
-    $query .= ' AND ten_mon_hoc LIKE "%'.str_replace(' ', '%', $_POST['query']).'%" ';
+    $query .= " AND dt.ten_de_thi LIKE '%" . str_replace(' ', '%', $_POST['query']) . "%' ";
 }
 
-$query .= ' ORDER BY ma_mon_hoc ASC ';
+$query .= " ORDER BY bt.ma_bai_thi ASC ";
 
-$filter_query = $query . ' LIMIT '.$start.', '.$limit.'';
+$filter_query = $query . ' LIMIT '.$start.', '.$limit.''; 
 
 $statement = $connect->prepare($query);
 $statement->execute();
@@ -28,38 +32,44 @@ $total_data = $statement->num_rows;
 
 $statement = $connect->prepare($filter_query);
 $statement->execute();
-$result = $statement->get_result(); // Get the result set
-$total_filter_data = $result->num_rows; // Get the total number of rows fetched
+$result = $statement->get_result(); 
+$total_filter_data = $result->num_rows;
 
-$output = '
-<table class="table table-striped table-bordered">
-    <tr>
+$output ='
+<table class=" table table-striped table-bordered">
+    <tr style="text-align: center;">
         <th>STT</th>
-        <th>Tên môn học</th>
-        <th>Sửa | Xóa</th>
+        <th>Tên đề thi</th>
+        <th>Môn học</th>
+        <th>Thời gian làm bài </th>
+        <th> Trạng thái </th>
     </tr>
 ';
 
-if($total_data > 0) {   
+if($total_data > 0) {
     $start_index = ($page - 1) * $limit + 1;
     foreach($result as $row) {
-        $modalXoaID="xoaModal" . $start_index;
+        $modalID = "chiTietModal" . $start_index;
+        $modalXoaID = "xoaModal" . $start_index;
+        
         $output .= '
-        <tr>
-            <td>'.$start_index++.'</td>
-            <td>'.$row["ten_mon_hoc"].'</td>
+        <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
+            <td>' . $start_index++ . '</td>
+            <td>' . $row['noi_dung'] . '</td>
             <td>
-                <div class="w-75 btn-group" role="group">
-                    <a class="btn btn-warning mx-2" href="../admin/monhoc_edit.php?id='.$row['ma_mon_hoc'].'">
-                        <i class="bi bi-pencil-square"></i> Sửa
+                <div class=" btn-group" role="group">
+                    <a class=" btn btn-warning mx-2 " href="../admin/cauhoi_edit.php?id=' . $row['ma_cau_hoi'] . '">
+                        <i class=" bi bi-pencil-square"></i> Sửa
                     </a>
-                    <a class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#' . $modalXoaID .'">
+                    <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
                         <i class="bi bi-trash"></i> Xóa
                     </a>
                 </div>
-            </td>';
-        xacNhanXoaMH($row['ma_mon_hoc'], $modalXoaID);
-        $output .= '</tr>';
+            </td>
+        </tbody>';
+
+        modalXoaCH($row['ma_cau_hoi'], $modalXoaID);
+        modalChitietCH($connect, $row['ma_cau_hoi'], $modalID); 
     }
 } else {
     $output .= '

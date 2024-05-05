@@ -8,25 +8,12 @@ include('../includes/functions.php');
 include('../includes/functionDeThi.php');
 include('../includes/functionChiTietDeThi.php');
 thongBao();
-$monhoc = getMonHoc($connect);
-$dethi = getDeThi($connect);
 if(isset($_GET['delete'])){
     deleteDeThi($connect, $_GET['delete']);
     $_SESSION['toastr'] = 'Xóa đề thi thành công';
     header('Location: dethi.php');
-}
-if(isset($_POST['submit'])){
-    $ma_mon_hoc = $_POST['ma_mon_hoc'];
-    $trang_thai = 1;
-    $thoi_gian_lam_bai = $_POST['thoiGian'];
-    $ten_de_thi = $_POST['tenDeThi'];
-    $ma_nguoi_tao = 1;
-    addDeThi($connect, $ma_mon_hoc, $trang_thai, $thoi_gian_lam_bai, $ten_de_thi, $ma_nguoi_tao);
-    $_SESSION['toastr'] = 'Thêm đề thi thành công';
-    header('Location: dethi.php');
-    exit;
-}
 ob_end_flush();
+}
 ?>
 <style>
     .error-message {
