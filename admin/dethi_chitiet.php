@@ -10,20 +10,25 @@
 
     $cauhoi = getCauHoi($connect);
     $monhoc = getMonHoc($connect);
+    $addchdethi=AddCHDethi($connect,$_GET['id']);
     $dethi = getChiTietDeThibyId($connect, $_GET['id']);
     $_SESSION['ma_de_thi'] = $_GET['id'];
 
 
     if(isset($_POST['submit'])){
-        $ma_cau_hoi_array = $_POST['ma_cau_hoi'];
         $ma_de_thi = $_SESSION['ma_de_thi'];
         deleteChiTietDeThi($connect, $ma_de_thi);
-        foreach($ma_cau_hoi_array as $ma_cau_hoi){
-            addChiTietDeThi($connect, $ma_de_thi, $ma_cau_hoi);
-        }
-        header("Location: dethi.php");
-        $_SESSION['toastr'] = 'Thêm câu hỏi vào đề thi thành công';
-        exit;
+        $ma_cau_hoi_array = $_POST['ma_cau_hoi'];
+    
+    // Thêm từng câu hỏi vào đề thi
+    foreach($ma_cau_hoi_array as $ma_cau_hoi){
+        addChiTietDeThi($connect, $ma_de_thi, $ma_cau_hoi);
+    }
+    
+    // Redirect về trang đề thi sau khi lưu thành công
+    header("Location: dethi.php");
+    $_SESSION['toastr'] = 'Thêm câu hỏi vào đề thi thành công';
+    exit;
     }
     
     ?>
@@ -87,12 +92,14 @@
                     <?php
                     $stt = 1; 
                     
-                    while ($cauhoi_record = $cauhoi->fetch_assoc()) { ?>
+                    while ($cauhoi_record = $addchdethi->fetch_assoc()) { 
+                        $noidung = getCauHoibyID($connect, $cauhoi_record["ma_cau_hoi"]);
+                        $chdethi = $noidung->fetch_assoc(); ?>
                     
                         <tr>
                         <td> <?php echo $stt ?> </td>
-                        <td> <?php echo $cauhoi_record["noi_dung"] ?></td>
-                        <input type="hidden" name="ma_cau_hoi[]" value="' <?php echo $cauhoi_record['ma_cau_hoi'] ?> '">
+                        <td> <?php echo $chdethi["noi_dung"] ?></td>
+                        <input type="hidden" name="ma_cau_hoi[]" value="' <?php echo $chdethi['ma_cau_hoi'] ?> '">
                         </tr>
                     <?php
                         $stt++;
@@ -103,110 +110,115 @@
             </div>
             <div class="col-2 d-flex align-items-center justify-content-center">
                 <div class="btn-group-vertical">
-                    <button class="btn btn-primary mb-3">>></button>
-                    <button class="btn btn-primary mb-3"><<</button>
+                    <button class="btn btn-primary mb-3" id=tabAll_2>>></button>
+                    <button class="btn btn-primary mb-3" id=tabAll_1><<</button>
                     <button class="btn btn-primary mb-3" id="tab1_2">></button>
-                    <button class="btn btn-primary"><</button>
+                    <button class="btn btn-primary mb-3" id="tab2_1"><</button>
                 </div>
             </div>
-            <div class="col-5 border">
+            <div class="col-5 border overflow-y-scroll " style="height: 600px;">
                 <div class="p-3">Câu hỏi trong đề thi</div>
-                <form action="" method="post">
-                    <table class="tables_ui table table-border overflow-y-scroll" id="t_draggable2"style="height: 500px">
-                        
+                    <table class="table-striped" id="t_draggable2">
+                    <tbody class="t_sortable ">
                         <tr>
                             <th>STT</th>
                             <th>Nội dung câu hỏi</th>
                         </tr>
-                        <tbody class="t_sortable ">
+                        
                         <?php
                         if ($dethi->num_rows > 0) {
                             $stt = 1;
                             while ($chiTiet = $dethi->fetch_assoc()) {
                                 $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"]);
-                                $noidungch = $noidung->fetch_assoc();
-                                echo '<tr>';
-                                echo '<td>' . $stt . '</td>';
-                                echo '<td>' . $noidungch["noi_dung"] . '</td>';
-                                echo '<input type="hidden" name="ma_cau_hoi[]" value="' . $noidungch['ma_cau_hoi'] . '">';
-                                echo '</tr>';
+                                $chdethi = $noidung->fetch_assoc(); ?>
+                                <tr>
+                                <td> <?php echo $stt ?></td>
+                                <td> <?php echo $chdethi["noi_dung"] ?></td>
+                                <input type="hidden" name="ma_cau_hoi[]" value="' <?php echo $chdethi['ma_cau_hoi'] ?> '">
+                                </tr>
+                                <?php
                                 $stt++;
                             }
                         }
                         ?>
                         </tbody>
                     </table>
-                    <div class="text-end">
-                        <button class="btn btn-primary" type="submit" name="submit" >Save</button>
-                    </div>
-                </form>
             </div>
+            
+        </div>
+        <div class="text-end mt-3">
+            <form action="" method="post">
+            <input type="hidden" id="ma_de_thi" name="ma_de_thi" value="<?php echo $_GET['id']; ?>">
+            <input type="hidden" name="ma_cau_hoi[]" value=""> 
+                <button class="btn btn-primary" type="submit" name="submit">Save</button>
+            </form>
         </div>
     </div>
+
     <script>
     $(document).ready(function() {
-    var $t_draggable1 = $("#t_draggable1");
-        $("tbody.t_sortable").sortable({
-            connectWith: ".t_sortable",
-            items: "> tr:not(:first)",
-            appendTo: $t_draggable1,
-            helper: "clone",
-            zIndex: 999990
-        }).disableSelection();
-
-        $t_draggable1.droppable({
-            accept: ".t_sortable tr",
-            hoverClass: "ui-state-hover",
-            drop: handleDrop
+        $("#t_draggable1 tbody").on('click', 'tr', function() {
+            if (!$(this).is(':first-child')) {
+                var selectRow = $(this).toggleClass('selected');
+            }  
+        });
+        
+        $("#t_draggable2 tbody").on('click', 'tr', function() {
+            if (!$(this).is(':first-child')) {
+                var selectRow = $(this).toggleClass('selected');
+            }  
         });
 
-        var $t_draggable2 = $("#t_draggable2");
-        $t_draggable2.sortable({
-            connectWith: ".t_sortable",
-            items: "> tr:not(:first)",
-            appendTo: $t_draggable2,
-            helper: "clone",
-            zIndex: 999990,
-            stop: function(event, ui) {
-                // Xử lý khi thả phần tử
-                var ma_cau_hoi = ui.item.find("input[name='ma_cau_hoi[]']").val();
-                console.log("Câu hỏi được kéo ra ma_cau_hoi:", ma_cau_hoi);
-            }
+        $('#tabAll_2').click(function() {
+            var selectedRow=$('#t_draggable1 tbody tr:not(:first-child)');
+            var table=$('#t_draggable2 tbody');
+            moveRow(selectedRow,table);
         });
 
-        function handleDrop(event, ui) {
-            var droppedRow = ui.draggable;
-            var ma_cau_hoi_input = droppedRow.find("input[name='ma_cau_hoi[]']");
-            if (ma_cau_hoi_input.length > 0) {
-                var ma_cau_hoi = ma_cau_hoi_input.val();
-                console.log("Câu hỏi được kéo ma_cau_hoi:", ma_cau_hoi);
-            } else {
-                console.log("Không tìm thấy mã câu hỏi.");
+        // Di chuyển tất cả hàng từ bảng 2 sang bảng 1
+        $('#tabAll_1').click(function() {
+            var selectedRow=$('#t_draggable2 tbody tr:not(:first-child)');
+            var table=$('#t_draggable1 tbody');
+            moveRow(selectedRow,table);
+        });
+
+        // Di chuyển hàng đã chọn từ bảng 2 sang bảng 1
+        $('#tab2_1').click(function() {
+            var selectedRow=$('#t_draggable2 .selected');
+            var table=$('#t_draggable1 tbody');
+            moveRow(selectedRow,table);
+        });
+        $('#tab1_2').click(function() {
+            var selectedRow=$('#t_draggable1 .selected');
+            var table=$('#t_draggable2 tbody');
+            moveRow(selectedRow,table);
+        });
+        function moveRow(row,table){
+            row.each(function() {
+                var hiddenInput = $(this).find("input[type='hidden']");
+                hiddenInput.appendTo(table);
+            });
+            row.appendTo(table);
+            row.removeClass('selected');
+         }
+         $('#saveForm').submit(function() {
+        var ma_cau_hoi_array = [];
+        $('#t_draggable2 tbody tr').each(function() {
+            var ma_cau_hoi = $(this).find('input[name="ma_cau_hoi"]').val().trim();
+            if (ma_cau_hoi !== '') {
+                ma_cau_hoi_array.push(ma_cau_hoi);
             }
+        });
+        $('input[name="ma_cau_hoi[]"]').val(ma_cau_hoi_array.join(','));
+
+        if (ma_cau_hoi_array.length === 0) {
+            alert('Bạn cần chọn ít nhất một câu hỏi cho đề thi.');
             return false;
         }
-
     });
-    </script>
-
-    <script>
-    $(document).ready(function() {
-        $("#tab1_2").on('click', function() {
-            $("#t_draggable1 tbody tr.selected").each(function() {
-                var selectedRow = $(this);
-                moveRow(selectedRow);
-            });
-        });
-        $("#t_draggable1 tbody").on('click', 'tr', function() {
-            var selectRow = $(this).toggleClass('selected');
-        });
-        function moveRow(selectedRow) {
-            var newRow = selectedRow.clone();
-            $('#t_draggable2 tbody').append(newRow);
-            selectedRow.remove();
-        }
     });
-      
-    </script>
+        
+</script>
+
     </body>
     </html>

@@ -13,18 +13,30 @@ if (isset($_POST['ten_de_thi']) && isset($_POST['thoi_gian_lam_bai']) && isset($
     $ma_mon_hoc = trim($_POST['ma_mon_hoc']);
     $trang_thai = 1;
     $ma_nguoi_tao = 1;
-    addDeThi($connect, $ma_mon_hoc, $trang_thai, $thoi_gian_lam_bai, $ten_de_thi, $ma_nguoi_tao);
-    $_SESSION['toastr'] = 'Sửa đề thi thành công';
-    header('Location: dethi.php');
+    if (empty($ten_de_thi)) {
+        ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript">
+            toastr.options = {
+            "progressBar" : true
+        }
+        toastr.error("<?php echo "Tên đề thithi không được để trống. Vui lòng nhập lại"; ?>");
+</script>"
+        <?php
+    }else{
+        updateDeThi($connect, $ma_mon_hoc,$_GET['id'],$trang_thai,$thoi_gian_lam_bai,$ten_de_thi,$ma_nguoi_tao );
+        $_SESSION['toastr']='Cập nhật đề thi thành công';
+        header('Location: dethi.php');
+    }
     
 }
 
-ob_end_flush();
 if(isset($_GET['id'])){
-    $ma_de_thi = $_GET['id'];
-    $dethi = getDeThibyID($connect, $ma_de_thi);
-    $dethi_record = $dethi->fetch_assoc();
-    if($dethi->num_rows > 0){
+    $ma_de_thi=$_GET['id'];
+    $dethi=getDeThibyID($connect,$ma_de_thi);
+    $de_thi_record=$dethi->fetch_assoc();
+    if ($dethi->num_rows >0 ){
 ?>
 <style>
     .error-message {
@@ -44,14 +56,14 @@ if(isset($_GET['id'])){
             <div class="p-3">
                 <p>Sửa tên đề thi</p>
                 <div class="form-floating py-1 col-12">
-                    <input class="form-control border shadow" name="ten_de_thi" value="<?php echo $dethi_record['ten_de_thi'];?>" />
+                    <input class="form-control border shadow" name="ten_de_thi" value="<?php echo $de_thi_record['ten_de_thi']?>" />
                     <label class="ms-2">Tên đề thi </label>
                     <span></span>
                 </div><br>
                 <div class="error-message" id="dethi">Vui lòng nhập tên đề thi</div>
                 <p>Sửa thời gian làm bài</p>
                 <div class="form-floating py-1 col-12">
-                    <input type="number" class="form-control border shadow" name="thoi_gian_lam_bai" value="<?php echo $dethi_record['thoi_gian_lam_bai'];?>"/>
+                    <input type="number" class="form-control border shadow" name="thoi_gian_lam_bai" value="<?php echo $de_thi_record['thoi_gian_lam_bai']?>"/>
                     <label class="ms-2">Thời gian làm bài </label>
                     <span></span>
                 </div><br>
@@ -61,7 +73,7 @@ if(isset($_GET['id'])){
                     <select class="form-select" name="ma_mon_hoc" id="ma_mon_hoc">
                         <?php
                         while ($row = $result->fetch_assoc()) {
-                            $selected = ($dethi_record['ma_mon_hoc'] == $row['ma_mon_hoc']) ? 'selected' : '';
+                            $selected = ($de_thi_record['ma_mon_hoc'] == $row['ma_mon_hoc']) ? 'selected' : '';
                             echo '<option value="' . $row['ma_mon_hoc'] . '" ' . $selected . '>' . $row['ten_mon_hoc'] . '</option>';
                         }
                         ?>
@@ -103,29 +115,30 @@ $(document).ready(function() {
             $('#dethi').hide();
         }
 
-    if (thoiGian < 0 || thoiGian > 200 || thoiGian.trim().length === 0) {
+    if (isNaN(thoiGian) || thoiGian < 0 || thoiGian > 200 || thoiGian.trim().length === 0) {
     $('#thoiGian').show();
     isValid = false;
-} else {
-    $('#thoiGian').hide();
-}
-
-    if(maMonHoc == null){
-        $('#monhoc').show();
-        isValid = false;
     } else {
-        $('#monhoc').hide();
+        $('#thoiGian').hide();
     }
 
-    if(!isValid){
-        event.preventDefault();
-    }
-});
+        if(maMonHoc == null){
+            $('#monhoc').show();
+            isValid = false;
+        } else {
+            $('#monhoc').hide();
+        }
+
+        if(!isValid){
+            event.preventDefault();
+        }
+    });
 
 });
 </script>
 <?php
     }
-}
+}else{echo 'Could not prepare statement!';}
+
 include('../includes/admin_footer.php');
 ?>

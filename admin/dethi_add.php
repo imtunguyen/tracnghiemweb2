@@ -97,21 +97,21 @@ $(document).ready(function() {
     if (thoiGian < 0 || thoiGian > 200 || thoiGian.trim().length === 0) {
     $('#thoiGian').show();
     isValid = false;
-} else {
-    $('#thoiGian').hide();
-}
-
-    if(maMonHoc == null){
-        $('#monhoc').show();
-        isValid = false;
     } else {
-        $('#monhoc').hide();
+        $('#thoiGian').hide();
     }
 
-    if(!isValid){
-        event.preventDefault();
-    }
-});
+        if(maMonHoc == null){
+            $('#monhoc').show();
+            isValid = false;
+        } else {
+            $('#monhoc').hide();
+        }
+
+        if(!isValid){
+            event.preventDefault();
+        }
+    });
 
 });
 </script>
