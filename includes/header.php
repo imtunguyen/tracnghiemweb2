@@ -30,10 +30,10 @@ session_start();
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2">Features</a></li>
-        <li><a href="#" class="nav-link px-2">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2">About</a></li>
+        <li><a href="#" class="nav-link px-2">Câu hỏi</a></li>
+        <li><a href="lophoc.php" class="nav-link px-2">Lớp học</a></li>
+        <li><a href="#" class="nav-link px-2">Đề thi</a></li>
+        <li><a href="ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
@@ -49,9 +49,5 @@ session_start();
         <div id="extwaiokist" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe=" vn="9zlar">
           <div id="extwaigglbit" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe="></div>
         </div>
-      </div>
-        <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <button type="button" class="btn btn-primary">Sign-up</button>
-      </div>
     </header>
   </div>
