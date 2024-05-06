@@ -32,65 +32,40 @@ $id = $_SESSION['userId'];
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-
-      <li><a href="#" class="nav-link px-2 link-secondary">Trang Chủ</a></li>
-
-      <?php 
-
-      if (isset($_SESSION['username']) && isset($_SESSION['userId'])) { ?>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-          <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-          <script type="text/javascript">
-              toastr.options = {
-              "closeButton": true,
-              "debug": false,
-              "newestOnTop": false,
-              "progressBar": false,
-              "positionClass": "toast-top-center",
-              "preventDuplicates": false,
-              "onclick": null,
-              "showDuration": "300",
-              "hideDuration": "1000",
-              "timeOut": "0",
-              "extendedTimeOut": "1000",
-              "showEasing": "swing",
-              "hideEasing": "linear",
-              "showMethod": "fadeIn",
-              "hideMethod": "fadeOut"
-              }
-          toastr.info("<?php echo "Xin Chào ". $_SESSION['username'] ." Bạn Có Các Chức Năng: " .getChucNangCuaNguoiDung($connect, $_SESSION['userId']); ?>");
-        </script>
-
-      <?php
-
-      }  
-      
-      if(check($connect, $id, "vao_lophoc")) {
-        echo '<li><a href="/lophoc.php" class="nav-link px-2">Lớp Học</a></li>';
-      }
-
-      if(check($connect, $id, "xem_thongke")) {
-        echo '<li><a href="#" class="nav-link px-2">Thống Kê</a></li>';
-      }
-
-
-      if(check($connect, $id, "them_dethi") || check($connect, $id, "sua_dethi") || check($connect, $id, "xoa_dethi")) {
-        echo '<li><a href="../giaovien/dethi.php" class="nav-link px-2">Đề Thi</a></li>';
-      }
-
-      if(check($connect, $id, "them_monhoc") || check($connect, $id, "sua_monhoc") || check($connect, $id, "xoa_monhoc")) {
-        echo '<li><a href="monhoc.php" class="nav-link px-2">Môn Học</a></li>';
-      }
-
-      if(check($connect, $id, "them_cauhoi") || check($connect, $id, "sua_cauhoi") || check($connect, $id, "xoa_cauhoi")) {
-        echo '<li><a href="../giaovien/cauhoi.php" class="nav-link px-2">Câu Hỏi</a></li>';
-      }
-
-      ?>
-      
+          <li><a href="#" class="nav-link px-2 link-secondary">Trang chủ</a></li>
+          <li><a href="http://localhost/tracnghiemweb2/lophoc.php" class="nav-link px-2">Lớp học</a></li>
+          <li><a href="http://localhost/tracnghiemweb2/giaovien/cauhoi.php" class="nav-link px-2">Câu hỏi</a></li>
+          <li><a href="http://localhost/tracnghiemweb2/giaovien/dethi.php" class="nav-link px-2">Đề thi</a></li>
+          <li><a href="http://localhost/tracnghiemweb2/ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
+        <?php
+          if (isset($_SESSION['username']) && isset($_SESSION['userId'])) { ?>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+            <script type="text/javascript">
+                toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "0",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+                }
+          </script>
+          <?php
+          }  
+        ?>
         <a href="dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
         <?php 
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {
@@ -101,4 +76,8 @@ $id = $_SESSION['userId'];
         <div id="extwaiokist" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe=" vn="9zlar">
           <div id="extwaigglbit" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe="></div>
         </div>
+      </div>
+        <button type="button" class="btn btn-outline-primary me-2">Login</button>
+        <a href="dangky.php" type="button" class="btn btn-primary">Sign-up</a>
+      </div>
     </header>
