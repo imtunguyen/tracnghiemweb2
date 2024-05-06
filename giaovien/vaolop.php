@@ -1,28 +1,22 @@
 <?php
 ob_start();
 include('../includes/config.php');
-include('../includes/database.php');
 include('../includes/admin_header.php');
-include('../includes/functionCauHoi.php');
-include('../includes/functionCauTraLoi.php');
-include('../includes/functionMonHoc.php');
+include('../includes/database.php');
 include('../includes/functions.php');
-
-thongBao();
-if(isset($_GET['delete'])){
-    deleteCauHoi($connect, $_GET['delete']);
-    $_SESSION['toastr'] = 'Xóa câu hỏi thành công';
-    header('Location: cauhoi.php');
-    exit();
-}
-
+include('../includes/functionBaiThi.php');
+include('../includes/functionLopHoc.php');
+thongbao();
+$ten_lop=getlophocByID($connect,$_GET['id']);
+$_SESSION['ma_lop'] = $_GET['id'];
+$ten_lop = $ten_lop->fetch_assoc()['ten_lop'];
 ob_end_flush();
 ?>
- <div class="w-100 card border-0 p-4">
+<div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center text-white">
-                <h2>Danh sách câu hỏi</h2>
+                <h2>Bài thi có trong lớp <?php echo $ten_lop; ?> </h2>
             </div>
         </div>
     </div>
@@ -30,37 +24,32 @@ ob_end_flush();
         <div class="row pb-3">
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
+                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm bài thi" />
                 </div>
+    
+            
             </div>
             <div class="col-4 text-end">
-                <a class="btn btn-success" href="../admin/cauhoi_add.php">
-                    <i class="bi bi-plus-circle"></i> Thêm câu hỏi mới
-                </a>
-            </div>
-            <div class="col-2 ">
-                <a class="btn btn-primary" href="../admin/export_file.php">
-                <i class="bi bi-file-earmark-text-fill"></i> Xuất File
+                <a class="btn btn-success" href="../giaovien/dethi.php">
+                    <i class="bi bi-plus-circle"></i> Thêm đề thi vào lớp 
                 </a>
             </div>
         </div>
-        <div class="table-responsive" id="dynamic_cauhoi"></div>
-     </div>   
-
-
-<script>
+        <div class="table-responsive" id="dynamic_vaolop"></div>
+    </div>   
+ <script>
 $(document).ready(function(){
     load_data(1);
 
     function load_data(page, query = '')
     {
         $.ajax({
-            url:"fetchch.php",
+            url:"fetchvaolop.php",
             method:"POST",
             data:{page:page, query:query},
             success:function(data)
             {
-                $('#dynamic_cauhoi').html(data);
+                $('#dynamic_vaolop').html(data);
             }
         });
     }
@@ -77,7 +66,6 @@ $(document).ready(function(){
     });
 });
 </script>
-
 <?php 
-    include('../includes/admin_footer.php');
+  include('../includes/admin_footer.php');
 ?>

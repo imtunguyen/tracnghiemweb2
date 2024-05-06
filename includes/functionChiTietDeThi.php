@@ -24,3 +24,9 @@ function getChiTietDeThibyId($connect, $ma_de_thi) {
     $result = $stm->get_result();
     return $result;
 }
+function AddCHDethi($connect, $ma_de_thi){
+    $stm=$connect->prepare('SELECT ma_cau_hoi FROM cau_hoi WHERE ma_cau_hoi NOT IN (SELECT ma_cau_hoi FROM chi_tiet_de_thi ) AND trang_thai = 1 ');
+    $stm->execute();
+    $result=$stm->get_result();
+    return $result;
+}
