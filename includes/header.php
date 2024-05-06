@@ -2,6 +2,9 @@
 session_start();
 include('functions.php');
 include('database.php');
+
+$id = $_SESSION['userId'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,47 +33,66 @@ include('database.php');
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
 
-                <li><a href="#" class="nav-link px-2 link-secondary">Trang Chủ</a></li>
+      <li><a href="#" class="nav-link px-2 link-secondary">Trang Chủ</a></li>
 
-                <li><a href="/lophoc.php" class="nav-link px-2">Lớp Học</a></li>
-                <li><a href="../giaovien/dethi.php" class="nav-link px-2">Đề Thi</a></li>
-                <li><a href="../giaovien/cauhoi.php" class="nav-link px-2">Câu Hỏi</a></li>
-                <li><a href="monhoc.php" class="nav-link px-2">Môn Học</a></li>
-                <li><a href="lophoc.php" class="nav-link px-2">Lớp Học</a></li>
-                <li><a href="#" class="nav-link px-2">Thống Kê</a></li>
+      <?php 
 
+      if (isset($_SESSION['username']) && isset($_SESSION['userId'])) { ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+          <script type="text/javascript">
+              toastr.options = {
+              "closeButton": true,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": false,
+              "positionClass": "toast-top-center",
+              "preventDuplicates": false,
+              "onclick": null,
+              "showDuration": "300",
+              "hideDuration": "1000",
+              "timeOut": "0",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+              }
+          toastr.info("<?php echo "Xin Chào ". $_SESSION['username'] ." Bạn Có Các Chức Năng: " .getChucNangCuaNguoiDung($connect, $_SESSION['userId']); ?>");
+        </script>
+
+      <?php
+
+      }  
+      
+      if(check($connect, $id, "vao_lophoc")) {
+        echo '<li><a href="/lophoc.php" class="nav-link px-2">Lớp Học</a></li>';
+      }
+
+      if(check($connect, $id, "xem_thongke")) {
+        echo '<li><a href="#" class="nav-link px-2">Thống Kê</a></li>';
+      }
+
+
+      if(check($connect, $id, "them_dethi") || check($connect, $id, "sua_dethi") || check($connect, $id, "xoa_dethi")) {
+        echo '<li><a href="../giaovien/dethi.php" class="nav-link px-2">Đề Thi</a></li>';
+      }
+
+      if(check($connect, $id, "them_monhoc") || check($connect, $id, "sua_monhoc") || check($connect, $id, "xoa_monhoc")) {
+        echo '<li><a href="monhoc.php" class="nav-link px-2">Môn Học</a></li>';
+      }
+
+      if(check($connect, $id, "them_cauhoi") || check($connect, $id, "sua_cauhoi") || check($connect, $id, "xoa_cauhoi")) {
+        echo '<li><a href="../giaovien/cauhoi.php" class="nav-link px-2">Câu Hỏi</a></li>';
+      }
+
+      ?>
+      
       </ul>
 
       <div class="col-md-3 text-end">
-        <?php
-          if (isset($_SESSION['username']) && isset($_SESSION['userId'])) { ?>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-            <script type="text/javascript">
-                toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-center",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "0",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-                }
-          </script>
-          <?php
-          }  
-        ?>
         <a href="dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
         <?php 
-        $id = $_SESSION['userId'];
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {
             echo '<a href="admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';
         }
