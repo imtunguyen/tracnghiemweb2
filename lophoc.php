@@ -2,7 +2,9 @@
 include('includes/header.php');
 include('includes/database.php');
 $userId = $_SESSION['userId'];
-
+if(isset($_GET['thong_bao'])) {
+  $thongBao = "Bạn đã làm bài thi rồi";
+}
 
 $sql_get_all_lop_of_user = "SELECT l.`ma_lop`, l.`trang_thai`, l.`ma_moi`, l.`ten_lop`
 FROM `lop` l
@@ -50,6 +52,14 @@ $res = mysqli_query($connect, $sql_get_all_lop_of_user);
   </div>
 </div>
 </div>
+
+<script>
+  let thongBao = "<?php echo $thongBao; ?>";
+  console.log(thongBao);
+  if(thongBao == "Bạn đã làm bài thi rồi") {
+    toastr.error(thongBao);
+  }
+</script>
 <?php
 include('includes/footer.php');
 ?>

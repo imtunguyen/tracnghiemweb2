@@ -8,6 +8,13 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
     $ma_bai_thi = $_POST['ma_bai_thi'];
     $thoi_gian_lam_bai = $_POST['thoi_gian_lam_bai'];
     $ten_de_thi = $_POST['ten_de_thi'];
+    $user_id = $_SESSION['userId'];
+    $sql_check_lam_bai = "select * from ket_qua where ma_bai_thi = $ma_bai_thi and user_id = $user_id";
+    $select = mysqli_query($connect, $sql_check_lam_bai);
+    $check_lam_bai = mysqli_num_rows($select);
+    if($check_lam_bai != 0) {
+        header("Location: lophoc.php?thong_bao=Ban da lam bai thi roi");
+    }
 }
 ?>
 

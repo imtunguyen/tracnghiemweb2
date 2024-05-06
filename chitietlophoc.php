@@ -97,7 +97,7 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
                   <input type='hidden' name='ma_de_thi' value='" . $row['ma_de_thi'] . "'>
                   <input type='hidden' name='thoi_gian_lam_bai' value='" . $row['thoi_gian_lam_bai'] . "'>
                   <input type='hidden' name='ten_de_thi' value='" . $row['ten_de_thi'] . "'>
-                  <button type='submit'>Làm bài</button>
+                  <button id='btnSubmit' class='btn btn-primary' type='submit'>Làm bài</button>
                 </form>
               </td>
               </tr>";
@@ -107,3 +107,7 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
     </tbody>
   </table>
 </div>
+
+<script>
+  
+</script>
