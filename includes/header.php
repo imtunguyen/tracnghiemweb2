@@ -32,10 +32,10 @@ require_once('./includes/database.php');
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2">Features</a></li>
-        <li><a href="#" class="nav-link px-2">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2">About</a></li>
+        <li><a href="#" class="nav-link px-2">Câu hỏi</a></li>
+        <li><a href="lophoc.php" class="nav-link px-2">Lớp học</a></li>
+        <li><a href="#" class="nav-link px-2">Đề thi</a></li>
+        <li><a href="ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
