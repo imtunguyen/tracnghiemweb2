@@ -50,11 +50,7 @@ ob_end_flush();
                 </div>
             </div>
             <div class="col-5 text-end">
-<<<<<<< HEAD:admin/dethi.php
-                <a href="dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
-=======
                 <a href="../giaovien/dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
->>>>>>> dev:giaovien/dethi.php
             </div>
         </div>
         <div class="table-responsive" id="dynamic_dethi"></div>

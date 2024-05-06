@@ -48,20 +48,12 @@ ob_end_flush();
                 </div>
             </div>
             <div class="col-4 text-end">
-<<<<<<< HEAD:admin/cauhoi.php
-                <a class="btn btn-success" href="../admin/cauhoi_add.php">
-=======
                 <a class="btn btn-success" href="../giaovien/cauhoi_add.php">
->>>>>>> dev:giaovien/cauhoi.php
                     <i class="bi bi-plus-circle"></i> Thêm câu hỏi mới
                 </a>
             </div>
             <div class="col-2 ">
-<<<<<<< HEAD:admin/cauhoi.php
-                <a class="btn btn-primary" href="../admin/export_file.php">
-=======
                 <a class="btn btn-primary" href="../giaovien/export_file.php">
->>>>>>> dev:giaovien/cauhoi.php
                 <i class="bi bi-file-earmark-text-fill"></i> Xuất File
                 </a>
             </div>
