@@ -1,9 +1,12 @@
 <?php 
 include('../includes/database.php');
 include('../includes/functionBaiThi.php');
-$ma_lop=$_GET['id'];
-$dsbaithi = loadBaiThi($connect, $ma_lop);
+include('../includes/config.php');
+include('../includes/functionDeThi.php');
+include('../includes/functions.php');
 
+$dsbaithi = loadBaiThi($connect, $_SESSION['ma_lop']);
+$dsbaithi_record = $dsbaithi->fetch_all(MYSQLI_ASSOC);
 $limit='5';
 $page=1;
 
@@ -14,69 +17,71 @@ if(isset($_POST['page']) && $_POST['page'] > 1){
     $start = 0;
 }
 
-
-$query = "SELECT bt.*, dt.* FROM bai_thi bt JOIN de_thi dt ON bt.ma_de_thi=dt.ma_de_thi where bt.ma_lop= '$ma_lop' ";
-
-if(isset($_POST['query']) && $_POST['query'] != '') {
-    $query .= " AND dt.ten_de_thi LIKE '%" . str_replace(' ', '%', $_POST['query']) . "%' ";
-}
-
-$query .= " ORDER BY bt.ma_bai_thi ASC ";
-
-$filter_query = $query . ' LIMIT '.$start.', '.$limit.''; 
-
-$statement = $connect->prepare($query);
-$statement->execute();
-$statement->store_result();
-$total_data = $statement->num_rows;
-
-$statement = $connect->prepare($filter_query);
-$statement->execute();
-$result = $statement->get_result(); 
-$total_filter_data = $result->num_rows;
-
-$output ='
-<table class=" table table-striped table-bordered">
-    <tr style="text-align: center;">
+$output = '
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
         <th>STT</th>
         <th>Tên đề thi</th>
-        <th>Môn học</th>
-        <th>Thời gian làm bài </th>
-        <th> Trạng thái </th>
+        <th>Sửa | Chi Tiết | Xóa</th>
     </tr>
+    </thead>
 ';
+$total_data = 0;
+foreach ($dsbaithi_record as $record) {
+    $ma_de_thi = $record['ma_de_thi'];
+    $query = "SELECT * FROM de_thi WHERE trang_thai = 1 AND ma_de_thi = $ma_de_thi";
 
-if($total_data > 0) {
-    $start_index = ($page - 1) * $limit + 1;
-    foreach($result as $row) {
-        $modalID = "chiTietModal" . $start_index;
-        $modalXoaID = "xoaModal" . $start_index;
-        
-        $output .= '
-        <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
-            <td>' . $start_index++ . '</td>
-            <td>' . $row['noi_dung'] . '</td>
-            <td>
-                <div class=" btn-group" role="group">
-                    <a class=" btn btn-warning mx-2 " href="../admin/cauhoi_edit.php?id=' . $row['ma_cau_hoi'] . '">
-                        <i class=" bi bi-pencil-square"></i> Sửa
-                    </a>
-                    <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
-                        <i class="bi bi-trash"></i> Xóa
-                    </a>
-                </div>
-            </td>
-        </tbody>';
-
-        modalXoaCH($row['ma_cau_hoi'], $modalXoaID);
-        modalChitietCH($connect, $row['ma_cau_hoi'], $modalID); 
+    if(isset($_POST['query']) && $_POST['query'] != '') {
+        $query .= ' AND ten_de_thi LIKE "%'.str_replace(' ', '%', $_POST['query']).'%" ';
     }
-} else {
-    $output .= '
-    <tr>
-        <td colspan="3" align="center">No Data Found</td>
-    </tr>
-    ';
+
+    $query .= ' ORDER BY ten_de_thi ASC ';
+    $filter_query = $query . ' LIMIT '.$start.', '.$limit.'';
+
+    $statement = $connect->prepare($query);
+    $statement->execute();
+    $statement->store_result();
+    $total_data = $statement->num_rows;
+
+    $statement = $connect->prepare($filter_query);
+    $statement->execute();
+    $result = $statement->get_result();
+    $total_filter_data = $result->num_rows; 
+
+    if($total_data > 0) {   
+        $start_index = ($page - 1) * $limit + 1;
+        foreach($result as $row) {
+            $modalID = "chiTietModal" . $start_index;
+            $modalXoaID = "xoaModal" . $start_index;
+            $output .= '
+            <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
+                <td>'.$start_index++.'</td>
+                <td>'.$row["ten_de_thi"].'</td>
+                <td>
+                    <div class=" btn-group" role="group">
+                        <a class=" btn btn-success mx-2 " href="../giaovien/dethi_edit.php?id=' . $row['ma_de_thi'] . '">
+                            <i class=" bi bi-pencil-square"></i> Sửa
+                        </a>
+                        <a class=" btn btn-warning mx-2 " href="../giaovien/dethi_chitiet.php?id=' . $row['ma_de_thi'] . '">
+                            <i class=" bi bi-pencil-square"></i> Chi Tiết
+                        </a>
+                        <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
+                            <i class="bi bi-trash"></i> Xóa
+                        </a>
+                    </div>
+                </td>
+            </tbody>';
+            // modalXoaDeThi($row['ma_de_thi'], $modalXoaID); 
+            // modalChitietDeThi($connect, $row['ma_de_thi'], $modalID); 
+        }
+    } else {
+        $output .= '
+        <tr>
+            <td colspan="3" align="center">No Data Found</td>
+        </tr>
+        ';
+    }
 }
 
 $output .= '
@@ -86,11 +91,7 @@ $output .= '
 <div align="center">
     <ul class="pagination">
 ';
-
 $total_links = ceil($total_data/$limit);
-$previous_link = '';
-$next_link = '';
-$page_link = '';
 
 if($total_links > 1) {
     // Hiển thị nút Previous
@@ -101,30 +102,12 @@ if($total_links > 1) {
     }
     
     // Hiển thị danh sách các trang
-    $range = 2; // Số lượng trang hiển thị trước và sau trang hiện tại (tổng cộng 5 trang)
-    $initial_num = max(2, $page - $range+2);
-    $last_num = min($page + $range, $total_links - 1);
-
-    $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="1">1</a></li>'; // Trang đầu tiên
-
-    if($initial_num > 2) {
-        $output .= '<li class="page-item disabled"><span class="page-link">...</span></li>'; // Dấu "..." nếu có nhiều trang
-    }
-
-    for($count = $initial_num; $count <= $last_num; $count++) {
+    for($count = 1; $count <= $total_links; $count++) {
         if($count == $page) {
             $output .= '<li class="page-item active"><a class="page-link" href="#">' . $count . ' <span class="sr-only"></span></a></li>';
         } else {
             $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . $count . '">' . $count . '</a></li>';
         }
-    }
-
-    if($last_num < $total_links - 1) {
-        $output .= '<li class="page-item disabled"><span class="page-link">...</span></li>'; // Dấu "..." nếu có nhiều trang
-    }
-
-    if($total_links > 1) {
-        $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . $total_links . '">' . $total_links . '</a></li>'; // Trang cuối cùng
     }
 
     // Hiển thị nút Next
@@ -135,11 +118,6 @@ if($total_links > 1) {
     }
 }
 
-$output .= $previous_link . $page_link . $next_link;
-$output .= '
-  </ul>
-</div>
-';
+$output .= '</ul></div>';
 
 echo $output;
-?>

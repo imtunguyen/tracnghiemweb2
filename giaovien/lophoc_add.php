@@ -54,7 +54,7 @@ ob_end_flush();
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a class="btn btn-secondary w-100" href="../admin/lophoc.php">
+                    <a class="btn btn-secondary w-100" href="lophoc.php">
                         <i class="bi bi-x-circle"></i> Trở về
                     </a>
                 </div>

@@ -4,36 +4,39 @@ include('../includes/config.php');
 include('../includes/admin_header.php');
 include('../includes/database.php');
 include('../includes/functions.php');
+include('../includes/functionBaiThi.php');
 include('../includes/functionLopHoc.php');
-
+thongbao();
 $ten_lop=getlophocByID($connect,$_GET['id']);
+$_SESSION['ma_lop'] = $_GET['id'];
 $ten_lop = $ten_lop->fetch_assoc()['ten_lop'];
+ob_end_flush();
 ?>
 <div class="w-100 card border-0 p-4">
-<div class="card-header bg-success bg-gradient ml-0 py-3">
-    <div class="row">
-        <div class="col-12 text-center text-white">
-            <h2>Bài thi có trong lớp <?php echo $ten_lop; ?> </h2>
-        </div>
-    </div>
-</div>
-<div class="card-body border p-4">
-    <div class="row pb-3">
-        <div class="col-7">
-            <div class="form-group">
-                <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm lớp học" />
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center text-white">
+                <h2>Bài thi có trong lớp <?php echo $ten_lop; ?> </h2>
             </div>
-           
-            
-        </div>
-        <div class="col-5 text-end">
-            <a class="btn btn-success" href="../admin/dethi_add.php">
-                <i class="bi bi-plus-circle"></i> Thêm đề thi vào lớp 
-            </a>
         </div>
     </div>
-    <div class="table-responsive" id="dynamic_vaolop"></div>
- </div>   
+    <div class="card-body border p-4">
+        <div class="row pb-3">
+            <div class="col-6">
+                <div class="form-group">
+                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm bài thi" />
+                </div>
+    
+            
+            </div>
+            <div class="col-4 text-end">
+                <a class="btn btn-success" href="../giaovien/dethi.php">
+                    <i class="bi bi-plus-circle"></i> Thêm đề thi vào lớp 
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive" id="dynamic_vaolop"></div>
+    </div>   
  <script>
 $(document).ready(function(){
     load_data(1);
@@ -46,7 +49,7 @@ $(document).ready(function(){
             data:{page:page, query:query},
             success:function(data)
             {
-                $('#dynamic_vaohoc').html(data);
+                $('#dynamic_vaolop').html(data);
             }
         });
     }

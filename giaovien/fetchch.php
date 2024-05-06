@@ -58,7 +58,7 @@ if($total_data > 0) {
             <td>' . $row['noi_dung'] . '</td>
             <td>
                 <div class=" btn-group" role="group">
-                    <a class=" btn btn-warning mx-2 " href="../admin/cauhoi_edit.php?id=' . $row['ma_cau_hoi'] . '">
+                    <a class=" btn btn-warning mx-2 " href="../giaovien/cauhoi_edit.php?id=' . $row['ma_cau_hoi'] . '">
                         <i class=" bi bi-pencil-square"></i> Sửa
                     </a>
                     <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">

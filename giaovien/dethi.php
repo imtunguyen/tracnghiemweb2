@@ -1,10 +1,8 @@
 <?php
 ob_start();
-include('../includes/config.php');
+include('../includes/header.php');
 include('../includes/database.php');
-include('../includes/admin_header.php');
 include('../includes/functionMonHoc.php');
-include('../includes/functions.php');
 include('../includes/functionDeThi.php');
 include('../includes/functionChiTietDeThi.php');
 thongBao();
@@ -15,6 +13,22 @@ if(isset($_GET['delete'])){
 ob_end_flush();
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
+    <script src="../js/script.js"></script>
+</head>
+<body>
 <style>
     .error-message {
         color: red; 
@@ -36,7 +50,7 @@ ob_end_flush();
                 </div>
             </div>
             <div class="col-5 text-end">
-                <a href="dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
+                <a href="../giaovien/dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
             </div>
         </div>
         <div class="table-responsive" id="dynamic_dethi"></div>
@@ -73,4 +87,4 @@ ob_end_flush();
 </script>
 
 <?php 
-include('../includes/admin_footer.php'); ?>
+include('../includes/footer.php'); ?>
