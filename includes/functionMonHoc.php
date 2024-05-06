@@ -46,9 +46,9 @@ function searchMonHoc($connect, $search){
     $result = $stm->get_result();
     return $result;
 }
-function xacNhanXoaMH($ma_mon_hoc){
+function xacNhanXoaMH($ma_mon_hoc, $modalXoaID){
     ?>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="<?php echo $modalXoaID; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

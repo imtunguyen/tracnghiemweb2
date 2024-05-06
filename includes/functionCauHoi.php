@@ -45,6 +45,25 @@ function searchCauHoi($connect, $search){
     $result = $stm->get_result();
     return $result;
 }
+function searchCauHoitrongDeThi($connect, $searchText, $monHoc, $doKho) {
+    $sql = "SELECT * FROM cau_hoi WHERE trang_thai=1 AND (noi_dung LIKE '%$searchText%')";
+
+    if ($monHoc !== '') {
+        $sql .= " AND ma_mon_hoc = '$monHoc'";
+    }
+    if ($doKho !== '') {
+        $sql .= " AND do_kho = '$doKho'";
+    }
+    $result = $connect->query($sql);
+    $cauHoiList = array();
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $cauHoiList[] = $row;
+        }
+    }
+    return $cauHoiList;
+}
+
 
 function modalXoaCH($ma_cau_hoi, $modalXoaID){
     ?>

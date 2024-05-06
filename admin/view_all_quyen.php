@@ -2,8 +2,9 @@
 
 require_once('../includes/quyen_functions.php');
 require_once('../includes/database.php');
+require_once('../includes/functions.php');
 
-if(isset($_GET['delete'])) {
+if(isset($_GET['delete']) && check($connect, $_SESSION['userId'], 'xoa_quyen')) {
     $id = $_GET['delete'];
         deleteQuyen($connect, $id);
     ?>

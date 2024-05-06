@@ -1,33 +1,34 @@
 <?php
 ob_start();
-include('../includes/config.php');
+include('../includes/header.php');
 include('../includes/database.php');
-include('../includes/admin_header.php');
 include('../includes/functionMonHoc.php');
-include('../includes/functions.php');
 include('../includes/functionDeThi.php');
 include('../includes/functionChiTietDeThi.php');
 thongBao();
-$monhoc = getMonHoc($connect);
-$dethi = getDeThi($connect);
 if(isset($_GET['delete'])){
     deleteDeThi($connect, $_GET['delete']);
     $_SESSION['toastr'] = 'Xóa đề thi thành công';
     header('Location: dethi.php');
-}
-if(isset($_POST['submit'])){
-    $ma_mon_hoc = $_POST['ma_mon_hoc'];
-    $trang_thai = 1;
-    $thoi_gian_lam_bai = $_POST['thoiGian'];
-    $ten_de_thi = $_POST['tenDeThi'];
-    $ma_nguoi_tao = 1;
-    addDeThi($connect, $ma_mon_hoc, $trang_thai, $thoi_gian_lam_bai, $ten_de_thi, $ma_nguoi_tao);
-    $_SESSION['toastr'] = 'Thêm đề thi thành công';
-    header('Location: dethi.php');
-    exit;
-}
 ob_end_flush();
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
+    <script src="../js/script.js"></script>
+</head>
+<body>
 <style>
     .error-message {
         color: red; 
@@ -49,7 +50,7 @@ ob_end_flush();
                 </div>
             </div>
             <div class="col-5 text-end">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDeThi"><i class="bi bi-plus-circle"></i> Thêm đề thi mới</button>
+                <a href="../giaovien/dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
             </div>
         </div>
         <div class="table-responsive" id="dynamic_dethi"></div>
@@ -57,46 +58,7 @@ ob_end_flush();
 </div>
 
 
-<script>
-$(document).ready(function() {
-    $('#thoiGian').hide();
-    $('#monhoc').hide();
-    $('#tenDeThi').hide();
 
-    $('#addDeThiForm').submit(function(event) {
-    var thoiGian = $('input[name="thoiGian"]').val();
-    var maMonHoc = $('select[name="ma_mon_hoc"]').val();
-    var tenDeThi = $('input[name="tenDeThi"]').val();
-    var isValid = true;
-
-    if(tenDeThi.trim().length === 0){ 
-        $('#tenDeThi').show();
-        isValid = false;
-    } else {
-        $('#tenDeThi').hide();
-    }
-
-    if (thoiGian < 0 || thoiGian > 200 || thoiGian.trim().length === 0) {
-    $('#thoiGian').show();
-    isValid = false;
-} else {
-    $('#thoiGian').hide();
-}
-
-    if(maMonHoc == null){
-        $('#monhoc').show();
-        isValid = false;
-    } else {
-        $('#monhoc').hide();
-    }
-
-    if(!isValid){
-        event.preventDefault();
-    }
-});
-
-});
-</script>
 <script>
     load_data(1);
     function load_data(page, query = '')
@@ -125,4 +87,4 @@ $(document).ready(function() {
 </script>
 
 <?php 
-include('../includes/admin_footer.php'); ?>
+include('../includes/footer.php'); ?>

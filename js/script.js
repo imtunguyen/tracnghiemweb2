@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(document).ready(function() {
     var $tabs = $('#t_draggable2')
     $("tbody.t_sortable").sortable({
@@ -15,7 +14,6 @@ $(document).ready(function() {
       drop: function( event, ui ) { return false; }
     });
   });
-=======
 //pagination user
 $(document).ready(function(){
 
@@ -69,4 +67,3 @@ document.getElementById('answerCount').addEventListener('change', function(){
         `;
      }
 });
->>>>>>> 72e7504b62f34051bf67611c24663dd0d9aef14b

@@ -8,8 +8,9 @@ require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
 if(isset($_POST['usernameOrEmail'])){
-  echo $usernameOrEmail = $_POST['usernameOrEmail'];
-  $userInfo = getUsername($connect, $usernameOrEmail);
+    $usernameOrEmail = $_POST['usernameOrEmail'];
+    $userInfo = getUsername($connect, $usernameOrEmail);
+    
     if($userInfo !== null && $userInfo->num_rows >= 0) {
       $row = $userInfo->fetch_assoc(); 
 ?>
@@ -43,7 +44,7 @@ if(isset($_POST['usernameOrEmail'])){
             </div>
             <hr>
             <div class="text-end">
-                <button class="btn btn-secondary">Hủy</button>
+                <a href="getUsername.php" class="btn btn-secondary">Hủy</a>
                 <button class="btn btn-primary" type="submit" name="submit">Xác nhận</button>
             </div>
         </form>

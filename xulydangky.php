@@ -9,6 +9,7 @@ if (
     $fullname = $_POST["fullname"];
     $gender = $_POST["gender"] == 1 ? 1 : 0;
     $email = $_POST["email"];
+    //sua lai
     $permission = strtolower($_POST["permission"]) == strtolower('Giáo viên') ? 2 : 3;
     $dateCreate = date("Y-m-d H:i:s");
     $birthDay = $_POST["birthday"];

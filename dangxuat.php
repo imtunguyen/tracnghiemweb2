@@ -1,10 +1,9 @@
 <?php
 session_start();
-if (isset($_SESSION['username']) && isset($_SESSION['userId']) && isset($_SESSION['permissionId'])) {
+if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
     unset($_SESSION['username']);
     unset($_SESSION['userId']);
-    unset($_SESSION['permissionId']);
-    header("Location: index.php");
+    header("Location: dangnhap.php");
 } else {
     echo "Đăng xuất không thành công";
 }

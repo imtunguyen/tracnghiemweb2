@@ -1,56 +1,79 @@
+
 <?php 
+ob_start();
 include('includes/header.php');
 include('includes/database.php');
-include('includes/functions.php');
-include('includes/functionMonHoc.php');
+$userId = $_SESSION['userId'];
+if(isset($_GET['thong_bao'])) {
+  $thongBao = "Bạn đã làm bài thi rồi";
+}
 
-$result = getMonHoc($connect);
-
+$sql_get_all_lop_of_user = "SELECT l.`ma_lop`, l.`trang_thai`, l.`ma_moi`, l.`ten_lop`
+FROM `lop` l
+JOIN `chi_tiet_lop` ctl ON ctl.`ma_lop` = l.`ma_lop`
+JOIN `users` u ON u.`id` = ctl.`user_id`
+Where u.id= $userId";
+$res = mysqli_query($connect, $sql_get_all_lop_of_user);
 ?>
 
 <div class="container">
-    <div>Search</div>
-  <div class="row p-3">
-          <?php while($monhoc_record = $result->fetch_assoc()){ ?>
-        <div class="card ms-3 col-6" style="max-width: 500px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="images/hinh1.jpg" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h3 class="card-title"><?php echo $monhoc_record['ten_mon_hoc']?></h3>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            Tham gia lớp
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>  
-        <?php } ?>
-  </div>
+  <div class="row mb-5">
+    <div class="col-4">
+      <input class="form-control mr-sm-2" type="search" placeholder="Nhập tên lớp hoặc tên giảng viên" aria-label="Search">
+    </div>
 </div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Nhập mã mời: </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input type="text" name="" id="">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary">Xác nhận</button>
-      </div>
+<div class="card-body border p-4">
+    <div class="row pb-3">
+        <div class="col-7">
+            <div class="form-group">
+                <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm lớp học" />
+            </div>
+           
+            
+        </div>
+        <div class="col-5 text-end">
+            <a class="btn btn-success" href="../giaovien/lophoc_add.php">
+                <i class="bi bi-plus-circle"></i> Thêm lớp học mới
+            </a>
+        </div>
     </div>
   </div>
+  <div class="row p-3 gap-5 m-auto">
+    <?php
+    function random_pastel_color()
+    {
+      // Tạo một mã màu ngẫu nhiên nhạt
+      $color = '#' . str_pad(dechex(mt_rand(0xaaaaff, 0xeeeeff)), 6, '0', STR_PAD_LEFT);
+      return $color;
+    }
+    while ($row = mysqli_fetch_assoc($res)) {
+      $background_color = random_pastel_color(); ?>
+      <form class="col-4 m-0 p-0" style="max-width: 380px;" action="chitietlophoc.php" method="GET">
+        <button class="btn py-0" style="width:100%;" type="submit">
+          <div class="row d-flex align-items-center justify-content-center rounded-top" style="background-color:<?php echo $background_color; ?>;  height:80px;">
+            <h3 class="text-center"><?php echo $row['ma_lop'] . "_" . $row['ten_lop']; ?></h3>
+          </div>
+          <div class="row pt-3  rounded-bottom" style="box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075); ">
+            <p>Trạng thái: <?php if ($row['trang_thai'] == 1) echo "Đang mở";
+                            else echo "Đã đóng"; ?></p>
+          <div>
+          <input type="hidden" name="ma_lop" value="<?php echo $row['ma_lop']; ?>">
+          <input type="hidden" name="ten_lop" value="<?php echo $row['ten_lop']; ?>">
+          <input type="hidden" name="ma_moi" value="<?php echo $row['ma_moi']; ?>">
+        </button>
+      </form>
+    <?php } ?>
+  </div>
 </div>
-<?php 
+</div>
+
+<script>
+  let thongBao = "<?php echo $thongBao; ?>";
+  console.log(thongBao);
+  if(thongBao == "Bạn đã làm bài thi rồi") {
+    toastr.error(thongBao);
+  }
+</script>
+<?php
 include('includes/footer.php');
 ?>

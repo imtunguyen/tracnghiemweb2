@@ -94,3 +94,17 @@
     height: 200px;
     background-color: white; /* Màu trắng cố định */
 }
+.selected {
+    background-color:blueviolet;
+    color: white; /* You can change this to any color you want */
+}
+#t_draggable1 tbody tr td {
+    cursor: pointer;
+<<<<<<< HEAD
+}
+=======
+}
+#t_draggable2 tbody tr td {
+    cursor: pointer;
+}
+>>>>>>> 9bbe3d80382488c054e897574e4d09aeff458f67

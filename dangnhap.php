@@ -90,36 +90,14 @@
                         processData: false,
                         contentType: false,
                         success: function(response) {
-                            console.log(response);
-                            toastr.options.timeOut = 3000;
-                            toastr.options.progressBar = true;
-                            if (response == "Đăng nhập thành công. Đang chuyển hướng đến trang admin.") {
-                                toastr.success(response);
-                                setTimeout(function() {
-                                    window.location.href = 'admin.php';
-                                }, 3000);
-                            }
-                            if (response == "Đăng nhập thành công. Đang chuyển hướng đến trang giáo viên.") {
-                                toastr.success(response);
-                                setTimeout(function() {
-                                    window.location.href = 'giaovien.php';
-                                }, 3000);
-                            }
-                            if (response == "Đăng nhập thành công. Đang chuyển hướng đến trang học sinh.") {
-                                toastr.success(response);
-                                setTimeout(function() {
-                                    window.location.href = 'index.php';
-                                }, 3000);
-                            }
-                            if (response == "Sai tên đăng nhập hoặc mật khẩu") {
+                            if(response == "Sai tên đăng nhập hoặc mật khẩu") {
                                 toastr.error(response);
-                            }
-                            if (response == "Đăng nhập thất bại. Vui lòng liên hệ admin để biết thêm chi tiết.") {
-                                toastr.error(response);
+                            }else {
+                                window.location.href = 'trangchu.php';
                             }
                         },
                         error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
+                            console.error();
                         }
                     });
                 }

@@ -1,12 +1,10 @@
 <?php
 ob_start();
-include('../includes/config.php');
 include('../includes/database.php');
-include('../includes/admin_header.php');
+include('../includes/header.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
-include('../includes/functions.php');
 
 thongBao();
 if(isset($_GET['delete'])){
@@ -18,6 +16,22 @@ if(isset($_GET['delete'])){
 
 ob_end_flush();
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
+    <script src="../js/script.js"></script>
+</head>
+<body>
  <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
@@ -28,14 +42,19 @@ ob_end_flush();
     </div>
     <div class="card-body border p-4">
         <div class="row pb-3">
-            <div class="col-7">
+            <div class="col-6">
                 <div class="form-group">
                     <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
                 </div>
             </div>
-            <div class="col-5 text-end">
-                <a class="btn btn-success" href="../admin/cauhoi_add.php">
+            <div class="col-4 text-end">
+                <a class="btn btn-success" href="../giaovien/cauhoi_add.php">
                     <i class="bi bi-plus-circle"></i> Thêm câu hỏi mới
+                </a>
+            </div>
+            <div class="col-2 ">
+                <a class="btn btn-primary" href="../giaovien/export_file.php">
+                <i class="bi bi-file-earmark-text-fill"></i> Xuất File
                 </a>
             </div>
         </div>
@@ -72,6 +91,7 @@ $(document).ready(function(){
     });
 });
 </script>
+
 <?php 
-    include('../includes/admin_footer.php');
+    include('../includes/footer.php');
 ?>
