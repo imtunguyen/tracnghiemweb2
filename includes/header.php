@@ -1,11 +1,10 @@
 <?php
 session_start();
-require_once('./includes/functions.php');
-require_once('./includes/database.php');
+include('functions.php');
+include('database.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +17,6 @@ require_once('./includes/database.php');
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
-
 <body>
   <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -31,11 +29,16 @@ require_once('./includes/database.php');
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2">Features</a></li>
-        <li><a href="#" class="nav-link px-2">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2">About</a></li>
+
+                <li><a href="#" class="nav-link px-2 link-secondary">Trang Chủ</a></li>
+
+                <li><a href="/lophoc.php" class="nav-link px-2">Lớp Học</a></li>
+                <li><a href="../giaovien/dethi.php" class="nav-link px-2">Đề Thi</a></li>
+                <li><a href="../giaovien/cauhoi.php" class="nav-link px-2">Câu Hỏi</a></li>
+                <li><a href="monhoc.php" class="nav-link px-2">Môn Học</a></li>
+                <li><a href="lophoc.php" class="nav-link px-2">Lớp Học</a></li>
+                <li><a href="#" class="nav-link px-2">Thống Kê</a></li>
+
       </ul>
 
       <div class="col-md-3 text-end">
@@ -61,7 +64,6 @@ require_once('./includes/database.php');
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
                 }
-            toastr.info("<?php echo "Xin Chào ". $_SESSION['username'] ." Bạn Có Các Chức Năng: " .getChucNangCuaNguoiDung($connect, $_SESSION['userId']); ?>");
           </script>
           <?php
           }  
@@ -78,4 +80,3 @@ require_once('./includes/database.php');
           <div id="extwaigglbit" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe="></div>
         </div>
     </header>
-  </div>

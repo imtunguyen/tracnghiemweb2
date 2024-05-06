@@ -46,6 +46,19 @@ function check($connect, $id, $ten_chuc_nang) {
     }
 }
 
+function getQuyen($connect, $id){
+    $query = "SELECT q.ten_quyen FROM users u 
+    JOIN chi_tiet_quyen ctq ON u.id = ctq.user_id
+    JOIN quyen q ON q.ma_quyen = ctq.ma_quyen 
+    WHERE ctq.cho_phep = 1 AND u.id = $id;";
+    $select_roles = mysqli_query($connect, $query);  
+    $roles = array();
+    while($row = mysqli_fetch_assoc($select_roles)) {
+        $roles[] = $row['ten_quyen'];
+    }
+    return $roles;
+}
+
 function getChucNangCuaNguoiDung($connect, $id) {
     $chuc_nang = "";
     $query = "select cn.* from users u 
