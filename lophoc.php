@@ -3,37 +3,23 @@
 ob_start();
 include('includes/header.php');
 include('includes/database.php');
-include('includes/functionLopHoc.php');
-thongBao();
-if(isset($_GET['delete'])){
-    deleteLopHoc($connect,$_GET['delete']);
-    $_SESSION['toastr']='Xóa lớp học thành công';
-    header('location: lophoc.php');
-    ob_end_flush();
+$userId = $_SESSION['userId'];
+if(isset($_GET['thong_bao'])) {
+  $thongBao = "Bạn đã làm bài thi rồi";
 }
+
+$sql_get_all_lop_of_user = "SELECT l.`ma_lop`, l.`trang_thai`, l.`ma_moi`, l.`ten_lop`
+FROM `lop` l
+JOIN `chi_tiet_lop` ctl ON ctl.`ma_lop` = l.`ma_lop`
+JOIN `users` u ON u.`id` = ctl.`user_id`
+Where u.id= $userId";
+$res = mysqli_query($connect, $sql_get_all_lop_of_user);
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/style.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
-    <script src="../js/script.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"/> -->
-</head>
-<div class="w-100 card border-0 p-4">
-<div class="card-header bg-success bg-gradient ml-0 py-3">
-    <div class="row">
-        <div class="col-12 text-center text-white">
-            <h2>Danh sách lớp học</h2>
-        </div>
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-4">
+      <input class="form-control mr-sm-2" type="search" placeholder="Nhập tên lớp hoặc tên giảng viên" aria-label="Search">
     </div>
 </div>
 <div class="card-body border p-4">
@@ -51,37 +37,43 @@ if(isset($_GET['delete'])){
             </a>
         </div>
     </div>
-    <div class="table-responsive" id="dynamic_lophoc"></div>
- </div>   
-<script>
-$(document).ready(function(){
-    load_data(1);
-
-    function load_data(page, query = '')
+  </div>
+  <div class="row p-3 gap-5 m-auto">
+    <?php
+    function random_pastel_color()
     {
-        $.ajax({
-            url:"fetchlophoc.php",
-            method:"POST",
-            data:{page:page, query:query},
-            success:function(data)
-            {
-                $('#dynamic_lophoc').html(data);
-            }
-        });
+      // Tạo một mã màu ngẫu nhiên nhạt
+      $color = '#' . str_pad(dechex(mt_rand(0xaaaaff, 0xeeeeff)), 6, '0', STR_PAD_LEFT);
+      return $color;
     }
+    while ($row = mysqli_fetch_assoc($res)) {
+      $background_color = random_pastel_color(); ?>
+      <form class="col-4 m-0 p-0" style="max-width: 380px;" action="chitietlophoc.php" method="GET">
+        <button class="btn py-0" style="width:100%;" type="submit">
+          <div class="row d-flex align-items-center justify-content-center rounded-top" style="background-color:<?php echo $background_color; ?>;  height:80px;">
+            <h3 class="text-center"><?php echo $row['ma_lop'] . "_" . $row['ten_lop']; ?></h3>
+          </div>
+          <div class="row pt-3  rounded-bottom" style="box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075); ">
+            <p>Trạng thái: <?php if ($row['trang_thai'] == 1) echo "Đang mở";
+                            else echo "Đã đóng"; ?></p>
+          <div>
+          <input type="hidden" name="ma_lop" value="<?php echo $row['ma_lop']; ?>">
+          <input type="hidden" name="ten_lop" value="<?php echo $row['ten_lop']; ?>">
+          <input type="hidden" name="ma_moi" value="<?php echo $row['ma_moi']; ?>">
+        </button>
+      </form>
+    <?php } ?>
+  </div>
+</div>
+</div>
 
-    $(document).on('click', '.page-link', function(){
-        var page = $(this).data('page_number');
-        var query = $('#search_box').val();
-        load_data(page, query);
-    });
-
-    $('#search_box').keyup(function(){
-        var query = $('#search_box').val();
-        load_data(1, query);
-    });
-});
+<script>
+  let thongBao = "<?php echo $thongBao; ?>";
+  console.log(thongBao);
+  if(thongBao == "Bạn đã làm bài thi rồi") {
+    toastr.error(thongBao);
+  }
 </script>
-<?php 
-  include('includes/footer.php');
+<?php
+include('includes/footer.php');
 ?>

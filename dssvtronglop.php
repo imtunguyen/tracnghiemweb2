@@ -1,7 +1,7 @@
 <?php
 include('./includes/header.php');
 include('./includes/database.php');
-if (!(isset($_SESSION['username']) && isset($_SESSION['userId']) && isset($_SESSION['permissionId']))) {
+if (!(isset($_SESSION['username']) && isset($_SESSION['userId']))) {
     header("Location: dangnhap.php");
 }
 if(!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']))) {
