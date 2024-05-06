@@ -32,10 +32,11 @@ $id = $_SESSION['userId'];
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-secondary">Trang chủ</a></li>
+          <li><a href="http://localhost/tracnghiemweb2/trangchu.php" class="nav-link px-2 link-secondary">Trang chủ</a></li>
           <li><a href="http://localhost/tracnghiemweb2/lophoc.php" class="nav-link px-2">Lớp học</a></li>
           <li><a href="http://localhost/tracnghiemweb2/giaovien/cauhoi.php" class="nav-link px-2">Câu hỏi</a></li>
           <li><a href="http://localhost/tracnghiemweb2/giaovien/dethi.php" class="nav-link px-2">Đề thi</a></li>
+          <li><a href="http://localhost/tracnghiemweb2/giaovien/monhoc.php" class="nav-link px-2">Môn học</a></li>
           <li><a href="http://localhost/tracnghiemweb2/ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>
       </ul>
 
