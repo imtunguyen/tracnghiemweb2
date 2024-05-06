@@ -89,8 +89,12 @@
                         data: data,
                         processData: false,
                         contentType: false,
-                        success: function() {
-                            window.location.href = 'trangchu.php';
+                        success: function(response) {
+                            if(response == "Sai tên đăng nhập hoặc mật khẩu") {
+                                toastr.error(response);
+                            }else {
+                                window.location.href = 'trangchu.php';
+                            }
                         },
                         error: function(xhr, status, error) {
                             console.error();
