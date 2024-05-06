@@ -1,7 +1,7 @@
 <?php
 include('./includes/header.php');
 include('./includes/database.php');
-if (!(isset($_SESSION['username']) && isset($_SESSION['userId']) && isset($_SESSION['permissionId']))) {
+if (!(isset($_SESSION['username']) && isset($_SESSION['userId']))) {
   header("Location: dangnhap.php");
 }
 if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']))) {
@@ -95,6 +95,8 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
                 <form action='lambai.php' method='post'>
                   <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
                   <input type='hidden' name='ma_de_thi' value='" . $row['ma_de_thi'] . "'>
+                  <input type='hidden' name='thoi_gian_lam_bai' value='" . $row['thoi_gian_lam_bai'] . "'>
+                  <input type='hidden' name='ten_de_thi' value='" . $row['ten_de_thi'] . "'>
                   <button type='submit'>Làm bài</button>
                 </form>
               </td>
