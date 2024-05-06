@@ -19,11 +19,18 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
             <div class="container-fluid d-flex justify-content-between">
-                <a class="navbar-brand" href="../trangchu.php">Back to Home Site</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>   
-                </button>
+                <?php 
+                session_start();
+                if(isset($_SESSION["userId"])) {
+                    echo '
+                        <a class="navbar-brand" href="../trangchu.php">Back to Home Site</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>   
+                        </button>
+                    ';
+                }
+                ?>
             </div>
 
         </nav>
@@ -33,52 +40,62 @@
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark text-light sidebar collapse">
                 <div class="position-static pt-3">
-                    <ul class="navbar-nav">
-                        <li>
-                            <div class="small fw-bold text-uppercase px-3 mt-2">
-                                Quản lý
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../admin/cauhoi.php">
-                                <span class="me-2"><i class="bi bi-house-door"></i></span>
-                                <span>Câu hỏi</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../admin/monhoc.php">
-                                <span class="me-2"><i class="bi bi-list-ol"></i></i></span>
-                                <span>Môn học</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../admin/lophoc.php">
-                                <span class="me-2"><i class="bi bi-building"></i></span>
-                                <span>Lớp học</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../admin/dethi.php">
-                                <span class="me-2"><i class="bi bi-building"></i></span>
-                                <span>Đề thi</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../admin/nguoidung.php">
-                                <span class="me-2"><i class="bi bi-building"></i></span>
-                                <span>Người dùng</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link">
-                                <span class="me-2"><i class="bi bi-journal-plus"></i></span>
-                                <span>Kết quả</span>
-                            <a class="nav-link" href="../admin/phanquyen.php">
-                                <span class="me-2"><i class="bi bi-building"></i></span>
-                                <span>Phân Quyền</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <?php
+                    
+                    if(isset($_SESSION["userId"])) {
+                    
+                        echo '
+                        
+                        <ul class="navbar-nav">
+                            <li>
+                                <div class="small fw-bold text-uppercase px-3 mt-2">
+                                    Quản lý
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../admin/cauhoi.php">
+                                    <span class="me-2"><i class="bi bi-house-door"></i></span>
+                                    <span>Câu hỏi</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../admin/monhoc.php">
+                                    <span class="me-2"><i class="bi bi-list-ol"></i></i></span>
+                                    <span>Môn học</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../admin/lophoc.php">
+                                    <span class="me-2"><i class="bi bi-building"></i></span>
+                                    <span>Lớp học</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../admin/dethi.php">
+                                    <span class="me-2"><i class="bi bi-building"></i></span>
+                                    <span>Đề thi</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../admin/nguoidung.php">
+                                    <span class="me-2"><i class="bi bi-building"></i></span>
+                                    <span>Người dùng</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <span class="me-2"><i class="bi bi-journal-plus"></i></span>
+                                    <span>Kết quả</span>
+                                <a class="nav-link" href="../admin/phanquyen.php">
+                                    <span class="me-2"><i class="bi bi-building"></i></span>
+                                    <span>Phân Quyền</span>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                        ';
+                    }
+                    ?>
                 </div>
             </nav>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

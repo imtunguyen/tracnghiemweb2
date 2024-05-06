@@ -1,5 +1,4 @@
 <?php
-include('../includes/config.php');
 include('../includes/admin_header.php');
 include('../includes/functions.php');
 include('../includes/database.php');
