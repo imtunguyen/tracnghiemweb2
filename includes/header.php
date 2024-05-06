@@ -35,38 +35,10 @@ $id = $_SESSION['userId'];
 
       <li><a href="#" class="nav-link px-2 link-secondary">Trang Chủ</a></li>
 
-      <?php 
-
-      if (isset($_SESSION['username']) && isset($_SESSION['userId'])) { ?>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-          <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-          <script type="text/javascript">
-              toastr.options = {
-              "closeButton": true,
-              "debug": false,
-              "newestOnTop": false,
-              "progressBar": false,
-              "positionClass": "toast-top-center",
-              "preventDuplicates": false,
-              "onclick": null,
-              "showDuration": "300",
-              "hideDuration": "1000",
-              "timeOut": "0",
-              "extendedTimeOut": "1000",
-              "showEasing": "swing",
-              "hideEasing": "linear",
-              "showMethod": "fadeIn",
-              "hideMethod": "fadeOut"
-              }
-          toastr.info("<?php echo "Xin Chào ". $_SESSION['username'] ." Bạn Có Các Chức Năng: " .getChucNangCuaNguoiDung($connect, $_SESSION['userId']); ?>");
-        </script>
-
       <?php
-
-      }  
       
       if(check($connect, $id, "vao_lophoc")) {
-        echo '<li><a href="/lophoc.php" class="nav-link px-2">Lớp Học</a></li>';
+        echo '<li><a href="lophoc.php" class="nav-link px-2">Lớp Học</a></li>';
       }
 
       if(check($connect, $id, "xem_thongke")) {
