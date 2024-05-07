@@ -10,7 +10,6 @@ if(isset($_POST['ma_bai_thi'])) {
 
 if(isset($_POST['ma_lop'])) {
     $ma_lop = $_POST['ma_lop'];
-    echo $ma_lop;
 
 }
 

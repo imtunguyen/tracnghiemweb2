@@ -30,7 +30,7 @@ if (
     $row_check_email = mysqli_num_rows($res_check_email);
 
     if(move_uploaded_file($tempname, $folder) && $avatar != "") {
-        echo "File uploaded successfully";
+       
     } else {
         echo "Failed to upload file";
     }
