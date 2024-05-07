@@ -53,41 +53,12 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../admin/cauhoi.php">
-                                    <span class="me-2"><i class="bi bi-house-door"></i></span>
-                                    <span>Câu hỏi</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../admin/monhoc.php">
-                                    <span class="me-2"><i class="bi bi-list-ol"></i></i></span>
-                                    <span>Môn học</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../admin/lophoc.php">
-                                    <span class="me-2"><i class="bi bi-building"></i></span>
-                                    <span>Lớp học</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../admin/dethi.php">
-                                    <span class="me-2"><i class="bi bi-building"></i></span>
-                                    <span>Đề thi</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="../admin/nguoidung.php">
-                                    <span class="me-2"><i class="bi bi-building"></i></span>
                                     <span>Người dùng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link">
-                                    <span class="me-2"><i class="bi bi-journal-plus"></i></span>
-                                    <span>Kết quả</span>
                                 <a class="nav-link" href="../admin/phanquyen.php">
-                                    <span class="me-2"><i class="bi bi-building"></i></span>
                                     <span>Phân Quyền</span>
                                 </a>
                             </li>

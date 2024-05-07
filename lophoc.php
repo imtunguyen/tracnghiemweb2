@@ -32,7 +32,7 @@ $res = mysqli_query($connect, $sql_get_all_lop_of_user);
             
         </div>
         <div class="col-5 text-end">
-            <a class="btn btn-success" href="../giaovien/lophoc_add.php">
+            <a class="btn btn-success" href="./giaovien/lophoc_add.php">
                 <i class="bi bi-plus-circle"></i> Thêm lớp học mới
             </a>
         </div>
