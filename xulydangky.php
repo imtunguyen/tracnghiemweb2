@@ -1,4 +1,5 @@
 <?php
+require_once('includes/quyen_functions.php');
 if (
     isset($_POST["username"]) && isset($_POST["fullname"]) && isset($_POST["password"]) &&
     isset($_POST["gender"]) && isset($_POST["email"]) && isset($_POST["birthday"])
@@ -14,6 +15,8 @@ if (
     $folder = "./images/" . $avatar;
     //sua lai
     $permission = strtolower($_POST["permission"]) == strtolower('Giáo viên') ? 2 : 3;
+    
+    $permission = strtolower($_POST["permission"]) == strtolower('Giáo viên') ? getMaQuyenTheoTen($connect, "giao_vien") : getMaQuyenTheoTen($connect, "hoc_sinh");
     $dateCreate = date("Y-m-d H:i:s");
     $birthDay = $_POST["birthday"];
     $status = 1;

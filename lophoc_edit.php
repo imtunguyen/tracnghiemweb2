@@ -1,9 +1,13 @@
 <?php
-ob_start();
-include('../includes/config.php');
-include('../includes/database.php');
-include('../includes/admin_header.php');
-include('../includes/functionLopHoc.php');
+require_once('includes/functionLopHoc.php');
+
+$ma_lop = $_GET['ma_lop'];
+$name = "";
+$query = "select ten_lop from lop where ma_lop = $ma_lop and trang_thai = 1";
+$result = mysqli_query($connect, $query);
+while($row = mysqli_fetch_assoc($result)) {
+    $name = $row['ten_lop'];
+}
 
 if (isset($_POST['ten_lop'])) {
     $ten_lop = trim($_POST['ten_lop']);
@@ -18,23 +22,14 @@ if (isset($_POST['ten_lop'])) {
         toastr.error("<?php echo "Tên môn lớp không được để trống. Vui lòng nhập lại"; ?>");
 </script>"
         <?php
-    } else {
-        updateLopHoc($connect, $_POST['ten_lop'], $_GET['id']);
+    } 
+    else {
+        updateLopHoc($connect, $_POST['ten_lop'], $_GET['ma_lop']);
         $_SESSION['toastr'] = 'Cập nhật lớp học thành công';
         header('Location: lophoc.php');
         
+    }
 }
-}
-
-if (isset($_GET['id'])) {
-    if ($stm = $connect->prepare('SELECT * FROM lop WHERE ma_lop =?')) {
-        $stm->bind_param('i', $_GET['id']);
-        $stm->execute();
-
-        $result = $stm->get_result();
-        $lop_hoc = $result->fetch_assoc();
-        if ($lop_hoc) {
-
 ?>
 
 <div class="w-100 card border-0 p-4">
@@ -50,7 +45,7 @@ if (isset($_GET['id'])) {
             <div class="p-3">
                 <div class="form-floating py-1 col-12">
                     <input class="form-control border shadow" name="ten_lop"
-                        value="<?php echo $lop_hoc['ten_lop'] ?>" />
+                        value="<?php echo $name ?>" />
                     <label class=" ms-2">Tên lớp học</label>
                     <span></span>
                     
@@ -64,7 +59,7 @@ if (isset($_GET['id'])) {
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a class="btn btn-secondary w-100" href="../admin/lophoc.php">
+                    <a class="btn btn-secondary w-100" href="lophoc.php">
                         <i class="bi bi-x-circle"></i> Trở về
                     </a>
                 </div>
@@ -72,15 +67,3 @@ if (isset($_GET['id'])) {
         </form>
     </div>
 </div>
-<?php
-        }
-        $stm->close();
-    } else {
-        echo 'Could not prepare statement!';
-    }
-} else {
-    echo "No lop selected";
-    die();
-}
-include('../includes/admin_footer.php');
-?>
