@@ -46,7 +46,7 @@ $statement->execute();
 $result = $statement->get_result(); 
 $total_filter_data = $result->num_rows;
 
-$output = '<div class="row">';
+$output = '<div class="row" style="gap: 38px;">';
 
 if($total_data > 0) {
     foreach($result as $row)
@@ -55,7 +55,7 @@ if($total_data > 0) {
         $background_color = random_pastel_color();
         $output .= '
 
-        <form class="col-4 m-0 p-0" style="max-width: 380px;" action="chitietlophoc.php" method="GET">
+        <form class="col-4 p-0" style="max-width: 380px; " action="chitietlophoc.php" method="GET">
           <button class="btn py-0" style="width:100%;" type="submit">
             <div class="row d-flex align-items-center justify-content-center rounded-top" style="background-color:'.$background_color.'; height:80px;">
               <h3 class="text-center">'.$row["ma_lop"]. '_'.$row["ten_lop"].'</h3>
@@ -72,7 +72,7 @@ if($total_data > 0) {
                 $output .= 
 
                 '
-                <div class="btn-group">
+                <div class="btn-group mb-3">
                     <a href="lophoc.php?lophoc=edit&ma_lop='.$row["ma_lop"].'" class="btn btn-primary active">
                         <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Edit
                     </a>
@@ -82,7 +82,7 @@ if($total_data > 0) {
             if(check($connect, $_SESSION['userId'], 'xoa_lophoc')) {
                 $output .= 
                 '
-                <div class="btn-group">
+                <div class="btn-group mb-3">
                     <a href="lophoc.php?delete='.$row["ma_lop"].'" style="background-color: red; border: 2px solid red; color: white;
                     padding: 5px; border-radius: 10px; " class="delete_lophoc" id="'.$row["ten_lop"].'"><i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Delete
                     </a>

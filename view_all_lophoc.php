@@ -29,7 +29,7 @@ if(isset($_GET['delete']) && check($connect, $_SESSION['userId'], 'xoa_lophoc'))
     </div>
 </div>
 
-<div class="row p-3 gap-5 m-auto" id="dynamic_content">
+<div class="row p-3 m-auto" id="dynamic_content">
 </div>
 </div>
 </div>
