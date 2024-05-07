@@ -3,7 +3,9 @@
 include('includes/header.php');
 include('includes/database.php');
 if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi']) &&
-isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
+isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
+&& isset($_POST['ma_lop'])) {
+    
     $ma_de_thi = $_POST['ma_de_thi'];
     $ma_bai_thi = $_POST['ma_bai_thi'];
     $thoi_gian_lam_bai = $_POST['thoi_gian_lam_bai'];
@@ -13,7 +15,13 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
     $select = mysqli_query($connect, $sql_check_lam_bai);
     $check_lam_bai = mysqli_num_rows($select);
     if($check_lam_bai != 0) {
-        header("Location: lophoc.php?thong_bao=Ban da lam bai thi roi");
+        $ma_lop = $_POST['ma_lop'];
+        $sql_lh = "SELECT * FROM lop WHERE ma_lop = $ma_lop";
+        $result_lh = mysqli_query($connect, $sql_lh);
+        $row_lh = mysqli_fetch_assoc($result_lh);
+        $ten_lop = $row_lh['ten_lop'];
+        $ma_moi = $row_lh['ma_moi'];
+        header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_da_lam_bai=bandalambaithiroi");
     }
 }
 ?>
@@ -27,7 +35,7 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
         <div class="col-8">
             <div class="text-danger mb-2">
                 <span style="font-weight: bold;">Số lần vi phạm (chuyển tab): </span> 
-                <span>2</span>
+                <span id="slctab">0</span>
             </div>
             <div class="mb-2">
                 <span style="font-weight: bold;">Thời gian làm bài: </span>
@@ -163,13 +171,20 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
     }, 1000); // Cập nhật thời gian mỗi giây
 }
 
-document.getElementById("submitButton").addEventListener('click', function() {
-
-})
 
 window.onload = function() {
     startCountdown();
 };
+let vipham=0;
+$(window).blur(function() {
+    ++vipham;
+   alert('Bạn đã tab ra ngoài ' + vipham + ' lần');
+   if(vipham == 3) {
+    document.getElementById("submitButton").click();
+   }
+   document.getElementById("slctab").innerText = vipham;
+   //do something else
+});
 </script>
 
 <?php
