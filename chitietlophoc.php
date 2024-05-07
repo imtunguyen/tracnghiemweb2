@@ -17,6 +17,13 @@ if(isset($_GET['thong_bao'])) {
     echo "<script>toastr.success('Thêm đề thi vào lớp thành công');</script>";
 }
 }
+
+if(isset($_GET['thong_bao_update'])) {
+  $thong_bao_update =  $_GET['thong_bao_update'];
+  if($thong_bao_update != "") {
+    echo "<script>toastr.success('Cập nhật đề thi thành công');</script>";
+}
+}
 ?>
 
 <div class="container">
@@ -102,6 +109,17 @@ if(isset($_GET['thong_bao'])) {
                 <td>" . $row['tg_ket_thuc'] . "</td>
                 <td>" . $row['thoi_gian_lam_bai'] . "</td>
                 <td>
+                <div class='w-75 btn-group' role='group'>
+                <form action='baithi_sua.php' method='post'>
+                  <input type='hidden' name='ma_lop' value='$ma_lop'>
+                  <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
+                  <button id='btnSubmit1' class='btn btn-success mx-2' type='submit'>Sửa</button>
+                </form>
+                <form action='baithi_xoa.php' method='post'>
+                  <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
+                  <button id='btnSubmit2' class='btn btn-danger mx-2' type='submit'>Xóa</button>
+                </form>
+            </div>
                 <form action='lambai.php' method='post'>
                   <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
                   <input type='hidden' name='ma_de_thi' value='" . $row['ma_de_thi'] . "'>
@@ -118,6 +136,3 @@ if(isset($_GET['thong_bao'])) {
   </table>
 </div>
 
-<script>
-  
-</script>
