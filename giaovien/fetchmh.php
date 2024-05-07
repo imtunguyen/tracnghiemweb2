@@ -50,7 +50,7 @@ if($total_data > 0) {
             <td>'.$row["ten_mon_hoc"].'</td>
             <td>
                 <div class="w-75 btn-group" role="group">
-                    <a class="btn btn-warning mx-2" href="../admin/monhoc_edit.php?id='.$row['ma_mon_hoc'].'">
+                    <a class="btn btn-warning mx-2" href="../giaovien/monhoc_edit.php?id='.$row['ma_mon_hoc'].'">
                         <i class="bi bi-pencil-square"></i> Sửa
                     </a>
                     <a class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#' . $modalXoaID .'">
