@@ -23,7 +23,7 @@ FROM (
     JOIN chi_tiet_lop ON kq.user_id = chi_tiet_lop.user_id
     JOIN chi_tiet_quyen ctq ON ctq.user_id = kq.user_id
     WHERE chi_tiet_lop.ma_lop = $ma_lop
-      AND ctq.ma_quyen = 3
+      AND ctq.ma_quyen = 4
     GROUP BY kq.user_id
 ) AS subquery";
 $result_get_dtb_lop = mysqli_query($connect, $sql_get_dtb_lop);
@@ -33,7 +33,7 @@ $dtb_lop = $row_get_dtb_lop['trungBinh'];
 // get tong ket qua trong lop
 $sql_get_slKq = "SELECT count(kq.user_id) as SlKq From ket_qua kq Join 
 chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
-Join chi_tiet_quyen ctq on ctq.user_id = kq.user_id Where ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop";
+Join chi_tiet_quyen ctq on ctq.user_id = kq.user_id Where ctq.ma_quyen = 4 AND ctl.ma_lop = $ma_lop";
 $result_get_slKq = mysqli_query($connect, $sql_get_slKq);
 $row_slKq = mysqli_fetch_assoc($result_get_slKq);
 $slKq = $row_slKq['SlKq'];
@@ -42,7 +42,7 @@ $slKq = $row_slKq['SlKq'];
 
 $sql_get_slkq9 = "SELECT count(kq.user_id) as slkq From ket_qua kq Join 
 chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
-Join chi_tiet_quyen ctq on ctq.user_id = kq.user_id Where ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop
+Join chi_tiet_quyen ctq on ctq.user_id = kq.user_id Where ctq.ma_quyen = 4 AND ctl.ma_lop = $ma_lop
 AND kq.diem >= 9";
 $result_get_slkq9 = mysqli_query($connect, $sql_get_slkq9);
 $row_slKq9 = mysqli_fetch_assoc($result_get_slkq9);
@@ -107,7 +107,7 @@ $slKq9 = $row_slKq9['slkq'];
                         JOIN bai_thi ON kq.ma_bai_thi = bai_thi.ma_bai_thi
                         JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi 
                         JOIN users ON users.id = kq.user_id
-                        WHERE ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop  
+                        WHERE ctq.ma_quyen = 4 AND ctl.ma_lop = $ma_lop  
                         ORDER BY kq.diem DESC 
                         LIMIT 10;
                         ";
