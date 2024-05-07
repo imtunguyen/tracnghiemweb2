@@ -46,6 +46,9 @@
                         <div class="input-group mb-3">
                             <button type="button" id="submitBtn" class="btn btn-lg btn-primary w-100 fs-6">Đăng nhập</button>
                         </div>
+                        <div class="forgot">
+                            <small><a href="dangky.php">Chưa có tài khoản? Đăng ký!</a></small>
+                        </div>
                     </div>
             </div>
             </form>

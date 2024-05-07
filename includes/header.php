@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('functions.php');
+include('functionUsers.php');
 include('database.php');
 
 $id = $_SESSION['userId'];
@@ -17,7 +18,7 @@ $id = $_SESSION['userId'];
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body>
@@ -41,8 +42,9 @@ $id = $_SESSION['userId'];
       </ul>
 
       <div class="col-md-3 text-end">
-       
-        <a href="dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
+          
+          <img src="images/<?php echo $res= getImage($connect, $id);?>"  width="32" height="32" class="rounded-circle">
+          <a href="dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
         <?php 
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {
             echo '<a href="admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';
@@ -53,7 +55,5 @@ $id = $_SESSION['userId'];
           <div id="extwaigglbit" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe="></div>
         </div>
       </div>
-        <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <a href="dangky.php" type="button" class="btn btn-primary">Sign-up</a>
       </div>
     </header>

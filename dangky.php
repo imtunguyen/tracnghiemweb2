@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-md-7 right-box">
-                <form id="registerForm" method="POST">
+                <form id="registerForm" method="POST" enctype="multipart/form-data">
                     <div class="row align-items-center">
                         <div class="header-text mb-4 text-center">
                             <h2>ĐĂNG KÝ</h2>
@@ -58,8 +58,14 @@
                             <span class="error text-danger" id="birthday-error"></span>
                         </div>
                         <div class="form-group mb-3">
+                            <label for="avatar" class="form-label">Chọn Avatar</label>
+                            <input class="form-control" type="file" name="avatar" id="avatar" accept=".png, .jpg, .jpeg, .gif, .bmp, .tiff, .raw, .webp, .svg" onchange="displayFileName()">
+                            <span class="error text-danger" id="avatar-error"></span>
+                        </div>
+                        <div id="file-name"></div>
+                        <div class="form-group mb-3">
                             <select name="permission" class="form-select" id="permission">
-                                <option selected>--Chọn quyền--</option>
+                                <option selected disabled>--Chọn quyền--</option>
                                 <option>Giáo viên</option>
                                 <option>Học sinh</option>
                             </select>
@@ -74,6 +80,8 @@
         </div>
     </div>
     <script>
+        
+
         $(document).ready(function() {
             function isValidEmail(email) {
                 // Biểu thức chính quy để kiểm tra định dạng email
@@ -85,13 +93,13 @@
                 // Kiểm tra định dạng ngày (YYYY-MM-DD) sử dụng regex
                 var datePattern = /^\d{4}-\d{2}-\d{2}$/;
                 if (!datePattern.test(dateString)) return false;
-
                 // Chuyển đổi chuỗi ngày thành đối tượng Date
                 var dateObject = new Date(dateString);
-
                 // Kiểm tra nếu ngày hợp lệ
                 return !isNaN(dateObject.getTime());
             }
+            
+
             const checkValidation = function() {
                 const fullname = $('#fullname').val();
                 const username = $('#username').val();
@@ -190,8 +198,6 @@
             });
         });
     </script>
-
-
 </body>
 
 </html>
