@@ -1,7 +1,7 @@
 <?php
 include('./includes/header.php');
 include('./includes/database.php');
-if (!(isset($_SESSION['username']) && isset($_SESSION['userId']))) {
+if (!(isset($_SESSION['userId']))) {
   header("Location: dangnhap.php");
 }
 if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']))) {
@@ -10,6 +10,12 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
   $ma_lop = $_GET['ma_lop'];
   $ten_lop = $_GET['ten_lop'];
   $ma_moi = $_GET['ma_moi'];
+}
+if(isset($_GET['thong_bao'])) {
+  $thong_bao =  $_GET['thong_bao'];
+  if($thong_bao != "") {
+    echo "<script>toastr.success('Thêm đề thi vào lớp thành công');</script>";
+}
 }
 ?>
 
@@ -51,7 +57,11 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
       <button class="btn btn-primary">Tìm kiếm</button>
     </div>
     <div class="col-6 text-end">
-      <button class="btn btn-primary">Thêm đề thi vào lớp</button>
+      <form class="btn p-0 m-0" action="baithi_add.php" method="POST">
+        <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
+        <button type="submit" class="btn btn-primary">Thêm đề thi vào lớp</button>
+      </form>
+      
       <form class="btn p-0 m-0" action="dssvtronglop.php" method="GET">
         <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
         <input type="hidden" name="ten_lop" value="<?php echo $ten_lop; ?>">
