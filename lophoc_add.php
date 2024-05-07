@@ -1,8 +1,15 @@
 <?php
-ob_start();
-include('../includes/database.php');
-include('../includes/admin_header.php');
-include('../includes/functionLopHoc.php');
+require_once('includes/functionLopHoc.php');
+
+function addLop($ten_lop, $connect, $ma_moi) {
+    $query = "INSERT INTO lop(ten_lop, ma_moi, trang_thai) ";
+    $query .= "VALUES('{$ten_lop}', '{$ma_moi}', 1) "; 
+    $create_query = mysqli_query($connect, $query);  
+
+    $new_id = mysqli_insert_id($connect);
+
+    return $new_id;
+}
 
 if (isset($_POST['ten_lop'])) {
     $ten_lop = trim($_POST['ten_lop']);
@@ -19,14 +26,20 @@ if (isset($_POST['ten_lop'])) {
         </script>"
         <?php
     } else {
-        $trang_thai = 1;
-        $ma_moi=0;
-        addLopHoc($connect, $_POST['ten_lop'], $trang_thai ,$ma_moi);
+        $user_id = $_SESSION['userId'];
+        $ma_moi=CheckMaMoi($connect);
+        
+        $lop_id = addLop($ten_lop, $connect, $ma_moi);
+
+        $query2 = "INSERT INTO chi_tiet_lop(user_id, ma_lop, trang_thai) ";
+        $query2 .= "VALUES($user_id, $lop_id, 1)"; 
+        $result = mysqli_query($connect, $query2); 
+
         $_SESSION['toastr'] = 'Thêm lớp học mới thành công';
         header('Location: lophoc.php');
     }
 }
-ob_end_flush();
+
 ?>
 <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
@@ -61,6 +74,3 @@ ob_end_flush();
         </form>
     </div>
 </div>
-<?php
-include('../includes/admin_footer.php');
-?>

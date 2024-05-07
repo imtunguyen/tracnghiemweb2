@@ -55,6 +55,9 @@
                         </div>
                         <div class="form-group mb-3">
                             <input type="date" class="form-control form-control-lg bg-light fs-6" id="birthday" name="birthday">
+                            <label class="form-check-label" for="birthday">
+                                Nam Sinh
+                            </label>
                             <span class="error text-danger" id="birthday-error"></span>
                         </div>
                         <div class="form-group mb-3">

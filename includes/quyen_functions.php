@@ -122,7 +122,7 @@ function getNameById($connect, $id) {
 
 function getUserNameById($connect, $id) {
     $name = "";
-    $query = "select username from users where id = $id";
+    $query = "select username from users where id = $id and trang_thai = 1";
     $result = mysqli_query($connect, $query);
     while($row = mysqli_fetch_assoc($result)) {
         $name = $row['username'];

@@ -1,8 +1,19 @@
 <?php 
+session_start();
 include('includes/database.php');
 include('includes/functionLopHoc.php');
+include('includes/functions.php');
 $limit='8';
 $page=1;
+
+function random_pastel_color()
+{
+    // Tạo một mã màu ngẫu nhiên nhạt
+    $color = '#' . str_pad(dechex(mt_rand(0xaaaaff, 0xeeeeff)), 6, '0', STR_PAD_LEFT);
+    return $color;
+}
+
+$userId = $_SESSION['userId'];
 
 if(isset($_POST['page']) && $_POST['page'] > 1){
     $start=(($_POST['page'] - 1) * $limit);
@@ -11,7 +22,11 @@ if(isset($_POST['page']) && $_POST['page'] > 1){
     $start = 0;
 }
 
-$query = "SELECT * FROM lop WHERE trang_thai = 1";
+$query = "SELECT l.`ma_lop`, l.`trang_thai`, l.`ma_moi`, l.`ten_lop`
+FROM `lop` l
+JOIN `chi_tiet_lop` ctl ON ctl.`ma_lop` = l.`ma_lop`
+JOIN `users` u ON u.`id` = ctl.`user_id`
+Where u.id= $userId";
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
     $query .= ' AND ten_lop LIKE "%'.str_replace(' ', '%', $_POST['query']).'%" ';
@@ -31,45 +46,58 @@ $statement->execute();
 $result = $statement->get_result(); 
 $total_filter_data = $result->num_rows;
 
-$output = '<div class="row">'; // Bắt đầu một hàng mới
+$output = '<div class="row">';
 
-if($total_data > 0){
-    $start_index = ($page - 1) * $limit + 1;
-    foreach($result as $row){
-        $modalXoaID = "xoaModal" . $start_index;
+if($total_data > 0) {
+    foreach($result as $row)
+    {
+        $s = $row['trang_thai'] == 1 ? "Đang mở" : "Đã đóng";
+        $background_color = random_pastel_color();
         $output .= '
-            <div class="col-md-3">
-                <div class="card mb-3 shadow-sm">
-                    <div class="card-header bg-dark text-white border-dark">
-                        <h5 class="card-title text-center">'.$row["ten_lop"].'</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Mã mời: '.$row["ma_moi"].'</p>
-                        <div class="btn-group" role="group">
-                            <a class="btn btn-success" href="giaovien/vaolop.php?id=' . $row['ma_lop'] . '" >
-                                <i class="bi bi-pencil-square"></i> Vào lớp
-                            </a>
-                            <a class="btn btn-warning" href="giaovien/lophoc_edit.php?id=' . $row['ma_lop'] . '">
-                                <i class="bi bi-pencil-square"></i> Sửa
-                            </a>
-                            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
-                                <i class="bi bi-trash"></i> Xóa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>';
-        xoaLopHoc($row['ma_lop'],$modalXoaID);
-        // Chú ý: Đây là cách đánh STT cho từng grid, bắt đầu từ 1
-        $start_index++;
+
+        <form class="col-4 m-0 p-0" style="max-width: 380px;" action="chitietlophoc.php" method="GET">
+          <button class="btn py-0" style="width:100%;" type="submit">
+            <div class="row d-flex align-items-center justify-content-center rounded-top" style="background-color:'.$background_color.'; height:80px;">
+              <h3 class="text-center">'.$row["ma_lop"]. '_'.$row["ten_lop"].'</h3>
+            </div>
+            <div class="row pt-3  rounded-bottom" style="box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075); ">
+              <p>Trạng thái: '.$s.'</p>
+            <div>
+            <input type="hidden" name="ma_lop" value="'. $row["ma_lop"] .'">
+            <input type="hidden" name="ten_lop" value="'.$row["ten_lop"].'">
+            <input type="hidden" name="ma_moi" value="'.$row["ma_moi"].'">
+            ';
+
+            if(check($connect, $_SESSION['userId'], 'sua_lophoc')) {
+                $output .= 
+
+                '
+                <div class="btn-group">
+                    <a href="lophoc.php?lophoc=edit&ma_lop='.$row["ma_lop"].'" class="btn btn-primary active">
+                        <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Edit
+                    </a>
+                </div>';
+            }
+
+            if(check($connect, $_SESSION['userId'], 'xoa_lophoc')) {
+                $output .= 
+                '
+                <div class="btn-group">
+                    <a href="lophoc.php?delete='.$row["ma_lop"].'" style="background-color: red; border: 2px solid red; color: white;
+                    padding: 5px; border-radius: 10px; " class="delete_lophoc" id="'.$row["ten_lop"].'"><i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Delete
+                    </a>
+                </div>';
+
+                
+            }
+          
+        $output .=  
+            '</button>
+        </form>
+
+        ';
     }
-} else {
-    $output .= '
-    <tr>
-        <td colspan="3" align="center">No Data Found</td>
-    </tr>
-    ';
-}
+} 
 
 $output .= '
 </table>
@@ -85,15 +113,13 @@ $next_link = '';
 $page_link = '';
 
 if($total_links > 1) {
-    // Hiển thị nút Previous
     if($page > 1) {
 $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page - 1) . '">Previous</a></li>';
     } else {
         $output .= '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
     }
     
-    // Hiển thị danh sách các trang
-    $range = 2; // Số lượng trang hiển thị trước và sau trang hiện tại (tổng cộng 8 trang)
+    $range = 2; 
     $initial_num = max(2, $page - $range+2);
     $last_num = min($page + $range, $total_links - 1);
 
@@ -135,3 +161,14 @@ $output .= '
 
 echo $output;
 ?>
+<script>
+$(document).ready(function() {
+  $("a.delete_lophoc").on("click", function(event) {
+    var id = $(this).attr('id');
+    if (confirm("Bạn Muốn Xóa Lớp Học '" + id + "' Vĩnh Viễn?")) {
+    } else {
+      event.preventDefault(); 
+    }
+  });
+});
+</script>
