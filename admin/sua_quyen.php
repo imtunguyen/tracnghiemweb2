@@ -30,7 +30,7 @@ if(isset($_POST['update_quyen'])) {
         (isset($_POST["xem_thongke"]) && $_POST["xem_thongke"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_thongke"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_thongke"), 0);
         (isset($_POST["vao_lophoc"]) && $_POST["vao_lophoc"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "vao_lophoc"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "vao_lophoc"), 0);
         (isset($_POST["lam_baithi"]) && $_POST["lam_baithi"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "lam_baithi"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "lam_baithi"), 0);
-    
+        (isset($_POST["xem_ketqua"]) && $_POST["xem_ketqua"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_ketqua"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_ketqua"), 0);
         ?>
 
         <script>window.location.href = "phanquyen.php";</script>
@@ -62,6 +62,12 @@ if(isset($_POST['update_quyen'])) {
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="xem_thongke" name="xem_thongke"  <?php if(checkExistedCheckBox($connect, $ma_quyen, "xem_thongke")) { echo "checked"; } ?> >
                         <label class="form-check-label" for="xem_thongke">Xem Thống Kê</label>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="xem_ketqua" name="xem_ketqua" <?php if(checkExistedCheckBox($connect, $ma_quyen, "xem_ketqua")) { echo "checked"; } ?>>
+                        <label class="form-check-label" for="xem_ketqua">Xem kết quả học tập</label>
                     </div>
                 </tr>
                 <tr>

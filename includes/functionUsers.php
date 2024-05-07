@@ -10,6 +10,21 @@ function getUsername($connect, $usernameOrEmail)
     $stm->close();
     return $result;
 }
+function getImage($connect, $userId)
+{
+    $stm = $connect->prepare('SELECT * FROM users WHERE id = ?');
+    $stm->bind_param('s', $userId);
+    $stm->execute();
+    $result = $stm->get_result();
+    $stm->close();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['avatar'];
+    } else {
+        return null;
+    }
+    
+}
 
 function updatePassword($connect, $usernameOrEmail, $password)
 {

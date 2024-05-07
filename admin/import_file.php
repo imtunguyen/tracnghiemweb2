@@ -65,7 +65,7 @@ if (isset($_FILES['fileToUpload'])) {
         $difficultyLevels[] = $doKho;
     }
     $trang_thai = 1;
-    $ma_nguoi_tao = 1;
+    $ma_nguoi_tao = $_SESSION['userId'];
     $ma_mon_hoc = $_POST['ma_mon_hoc'];
     $dap_an = 0;
     echo $ma_mon_hoc;

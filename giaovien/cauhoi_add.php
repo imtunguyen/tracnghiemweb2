@@ -8,7 +8,7 @@ require_once '../vendor/autoload.php';
 
     if(isset($_POST['cau_hoi']) && isset($_POST['ma_mon_hoc']) && isset($_POST['do_kho']) && isset($_POST['cau_tra_loi'])){
         $trang_thai = 1;
-        $ma_nguoi_tao = 1;
+        $ma_nguoi_tao = $_SESSION['userId'];
         $ma_mon_hoc = $_POST['ma_mon_hoc'];
         $do_kho = $_POST['do_kho'];
         $noi_dung = $_POST['cau_hoi'];
