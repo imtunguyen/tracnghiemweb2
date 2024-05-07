@@ -18,6 +18,13 @@ if(isset($_GET['thong_bao'])) {
 }
 }
 
+if(isset($_GET['thong_bao_da_lam_bai'])) {
+  $thong_bao_da_lam_bai =  $_GET['thong_bao_da_lam_bai'];
+  if($thong_bao_da_lam_bai != "") {
+    echo "<script>toastr.error('Bạn đã làm đề thi này rồi');</script>";
+}
+}
+
 if(isset($_GET['thong_bao_update'])) {
   $thong_bao_update =  $_GET['thong_bao_update'];
   if($thong_bao_update != "") {
@@ -121,6 +128,7 @@ if(isset($_GET['thong_bao_update'])) {
                 </form>
             </div>
                 <form action='lambai.php' method='post'>
+                  <input type='hidden' name='ma_lop' value='$ma_lop'>
                   <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
                   <input type='hidden' name='ma_de_thi' value='" . $row['ma_de_thi'] . "'>
                   <input type='hidden' name='thoi_gian_lam_bai' value='" . $row['thoi_gian_lam_bai'] . "'>
