@@ -52,7 +52,7 @@ function validate($connect, $name) {
 
 function getIdTheoTen($connect, $ten) {
     $id = "";
-    $query = "select ma_chuc_nang from chuc_nang where ten_chuc_nang = '$ten'";
+    $query = "select ma_chuc_nang from chuc_nang where ten_chuc_nang = '$ten' and trang_thai = 1";
     $result = mysqli_query($connect, $query);
     while($row = mysqli_fetch_assoc($result)) {
         $id = $row['ma_chuc_nang'];
@@ -89,7 +89,7 @@ function checkExistedCheckBox($connect, $ma_quyen, $ten_chuc_nang) {
     $query = "SELECT * FROM quyen q
                 JOIN chi_tiet_chuc_nang ctcn ON ctcn.ma_quyen = q.ma_quyen
                 JOIN chuc_nang cn ON cn.ma_chuc_nang = ctcn.ma_chuc_nang
-                WHERE cho_phep = 1 AND q.ma_quyen = $ma_quyen AND cn.ten_chuc_nang = '{$ten_chuc_nang}';";
+                WHERE cho_phep = 1 AND q.ma_quyen = $ma_quyen AND cn.ten_chuc_nang = '{$ten_chuc_nang}' and q.trang_thai = 1;";
     $rowcount = 0;
     if ($result = mysqli_query($connect, $query))
     {
@@ -112,7 +112,7 @@ function deleteQuyen($connect, $ma_quyen) {
 
 function getNameById($connect, $id) {
     $name = "none";
-    $query = "select ten_quyen from quyen where ma_quyen = '$id'";
+    $query = "select ten_quyen from quyen where ma_quyen = '$id' and trang_thai = 1";
     $result = mysqli_query($connect, $query);
     while($row = mysqli_fetch_assoc($result)) {
         $name = $row['ten_quyen'];

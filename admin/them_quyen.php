@@ -32,11 +32,12 @@ if(isset($_POST['add_quyen'])) {
         addChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_thongke"));
         addChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "vao_lophoc"));
         addChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "lam_baithi"));
+        addChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_ketqua"));
         
         (isset($_POST["xem_thongke"]) && $_POST["xem_thongke"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_thongke"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_thongke"), 0);
         (isset($_POST["vao_lophoc"]) && $_POST["vao_lophoc"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "vao_lophoc"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "vao_lophoc"), 0);
         (isset($_POST["lam_baithi"]) && $_POST["lam_baithi"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "lam_baithi"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "lam_baithi"), 0);
-
+        (isset($_POST["xem_ketqua"]) && $_POST["xem_ketqua"] === 'on') ? updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_ketqua"), 1) : updateChiTietChucNang($connect, $ma_quyen, getIdTheoTen($connect, "xem_ketqua"), 0);
       
         ?>
 
@@ -70,6 +71,12 @@ if(isset($_POST['add_quyen'])) {
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="xem_thongke" name="xem_thongke">
                         <label class="form-check-label" for="xem_thongke">Xem Thống Kê</label>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="xem_ketqua" name="xem_ketqua">
+                        <label class="form-check-label" for="xem_ketqua">Xem kết quả học tập</label>
                     </div>
                 </tr>
                 <tr>
