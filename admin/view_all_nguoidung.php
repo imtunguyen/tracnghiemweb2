@@ -2,8 +2,9 @@
 
 require_once('../includes/functionUsers.php');
 require_once('../includes/database.php');
+require_once('../includes/functions.php');
 
-if(isset($_GET['delete'])) {
+if(isset($_GET['delete']) && $_SESSION['userId'] != $_GET['delete']  && check($connect, $_SESSION['userId'], 'xoa_nguoidung')) {
   $id = $_GET['delete'];
     deleteNguoiDung($connect, $id);
   ?>

@@ -4,7 +4,10 @@ require_once('../includes/quyen_functions.php');
 require_once('../includes/database.php');
 require_once('../includes/functions.php');
 
-if(isset($_GET['delete']) && check($connect, $_SESSION['userId'], 'xoa_quyen')) {
+if(isset($_GET['delete']) && check($connect, $_SESSION['userId'], 'xoa_quyen') 
+&& getMaQuyenCuaNguoiDung($connect, $_SESSION['userId']) != $_GET['delete'] && getNameById($connect,  $_SESSION['userId']) != "giao_vien" 
+&& getNameById($connect,  $_SESSION['userId']) != "hoc_sinh" 
+&& getNameById($connect,  $_SESSION['userId']) != "admin" && getNameById($connect,  $_SESSION['userId']) != "manager") {
     $id = $_GET['delete'];
         deleteQuyen($connect, $id);
     ?>

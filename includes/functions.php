@@ -31,7 +31,7 @@ function check($connect, $id, $ten_chuc_nang) {
     join quyen q on q.ma_quyen = ctq.ma_quyen 
     join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = q.ma_quyen
     join chuc_nang cn on ctcn.ma_chuc_nang = cn.ma_chuc_nang
-    where ctcn.cho_phep = 1 and ctq.cho_phep = 1 and u.id = $id and cn.ten_chuc_nang = '{$ten_chuc_nang}';";
+    where ctcn.cho_phep = 1 and ctq.cho_phep = 1 and u.id = $id and cn.ten_chuc_nang = '{$ten_chuc_nang}' and q.trang_thai = 1 and cn.trang_thai = 1;";
 
     $rowcount = 0;
     if ($result = mysqli_query($connect, $query))
@@ -66,11 +66,21 @@ function getChucNangCuaNguoiDung($connect, $id) {
     join quyen q on q.ma_quyen = ctq.ma_quyen 
     join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = q.ma_quyen
     join chuc_nang cn on ctcn.ma_chuc_nang = cn.ma_chuc_nang
-    where ctcn.cho_phep = 1 and ctq.cho_phep = 1 and  u.id = $id;";
+    where ctcn.cho_phep = 1 and ctq.cho_phep = 1 and q.trang_thai = 1 and cn.trang_thai = 1 and  u.id = $id;";
     $select_roles = mysqli_query($connect, $query);  
     while($row = mysqli_fetch_assoc($select_roles)) {
         $chuc_nang .= $row['ten_chuc_nang'];
         $chuc_nang .= ", ";
     }
     return $chuc_nang;
+}
+
+function getMaQuyenCuaNguoiDung($connect, $id) {
+    $role_id = "";
+    $query = "select ma_quyen from chi_tiet_quyen where user_id = $id and cho_phep = 1;";
+    $select_roles = mysqli_query($connect, $query);  
+    while($row = mysqli_fetch_assoc($select_roles)) {
+        $role_id = $row['ma_quyen'];
+    }
+    return $role_id;
 }

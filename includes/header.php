@@ -32,11 +32,34 @@ $id = $_SESSION['userId'];
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-secondary">Trang chủ</a></li>
-          <li><a href="http://localhost/tracnghiemweb2/lophoc.php" class="nav-link px-2">Lớp học</a></li>
-          <li><a href="http://localhost/tracnghiemweb2/giaovien/cauhoi.php" class="nav-link px-2">Câu hỏi</a></li>
-          <li><a href="http://localhost/tracnghiemweb2/giaovien/dethi.php" class="nav-link px-2">Đề thi</a></li>
-          <li><a href="http://localhost/tracnghiemweb2/ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>
+      <li><a href="#" class="nav-link px-2 link-secondary">Trang chủ</a></li>
+      <?php
+      
+      if(check($connect, $id, "vao_lophoc")) {
+        echo '<li><a href="http://localhost/tracnghiemweb2/lophoc.php" class="nav-link px-2">Lớp học</a></li>';
+      }
+
+      if(check($connect, $id, "xem_thongke")) {
+        echo '<li><a href="#" class="nav-link px-2">Thống Kê</a></li>';
+      }
+
+      if(check($connect, $id, "xem_ketqua")) {
+        echo '<li><a href="http://localhost/tracnghiemweb2/ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>';
+      }
+
+      if(check($connect, $id, "them_dethi") || check($connect, $id, "sua_dethi") || check($connect, $id, "xoa_dethi")) {
+        echo '<li><a href="http://localhost/tracnghiemweb2/giaovien/dethi.php" class="nav-link px-2">Đề thi</a></li>';
+      }
+
+      if(check($connect, $id, "them_monhoc") || check($connect, $id, "sua_monhoc") || check($connect, $id, "xoa_monhoc")) {
+        echo '<li><a href="monhoc.php" class="nav-link px-2">Môn Học</a></li>';
+      }
+
+      if(check($connect, $id, "them_cauhoi") || check($connect, $id, "sua_cauhoi") || check($connect, $id, "xoa_cauhoi")) {
+        echo '<li><a href="http://localhost/tracnghiemweb2/giaovien/cauhoi.php" class="nav-link px-2">Câu hỏi</a></li>';
+      }
+
+      ?>
       </ul>
 
       <div class="col-md-3 text-end">
@@ -51,8 +74,4 @@ $id = $_SESSION['userId'];
         <div id="extwaiokist" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe=" vn="9zlar">
           <div id="extwaigglbit" style="display:none" v="hffpf" q="47eb450c" c="190.7" i="197" u="16.87" s="02082404" sg="svr_undefined-ga_02082404-bai_02072413" d="1" w="false" e="" a="2" m="BMe="></div>
         </div>
-      </div>
-        <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <a href="dangky.php" type="button" class="btn btn-primary">Sign-up</a>
-      </div>
     </header>
