@@ -12,7 +12,7 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_lop'])) {
             JOIN chi_tiet_quyen ctq ON ctq.user_id = kq.user_id 
             JOIN bai_thi ON kq.ma_bai_thi = bai_thi.ma_bai_thi
             JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi 
-            WHERE ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop AND bai_thi.ma_bai_thi = $ma_bai_thi
+            WHERE ctq.ma_quyen = 4 AND ctl.ma_lop = $ma_lop AND bai_thi.ma_bai_thi = $ma_bai_thi
             ";
 
     $result = mysqli_query($connect, $sql);

@@ -1,7 +1,7 @@
 <?php
 include('./includes/header.php');
 include('./includes/database.php');
-if (!(isset($_SESSION['username']) && isset($_SESSION['userId']))) {
+if (!(isset($_SESSION['userId']))) {
   header("Location: dangnhap.php");
 }
 if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']))) {
@@ -10,6 +10,26 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
   $ma_lop = $_GET['ma_lop'];
   $ten_lop = $_GET['ten_lop'];
   $ma_moi = $_GET['ma_moi'];
+}
+if(isset($_GET['thong_bao'])) {
+  $thong_bao =  $_GET['thong_bao'];
+  if($thong_bao != "") {
+    echo "<script>toastr.success('Thêm đề thi vào lớp thành công');</script>";
+}
+}
+
+if(isset($_GET['thong_bao_da_lam_bai'])) {
+  $thong_bao_da_lam_bai =  $_GET['thong_bao_da_lam_bai'];
+  if($thong_bao_da_lam_bai != "") {
+    echo "<script>toastr.error('Bạn đã làm đề thi này rồi');</script>";
+}
+}
+
+if(isset($_GET['thong_bao_update'])) {
+  $thong_bao_update =  $_GET['thong_bao_update'];
+  if($thong_bao_update != "") {
+    echo "<script>toastr.success('Cập nhật đề thi thành công');</script>";
+}
 }
 ?>
 
@@ -51,7 +71,11 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
       <button class="btn btn-primary">Tìm kiếm</button>
     </div>
     <div class="col-6 text-end">
-      <button class="btn btn-primary">Thêm đề thi vào lớp</button>
+      <form class="btn p-0 m-0" action="baithi_add.php" method="POST">
+        <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
+        <button type="submit" class="btn btn-primary">Thêm đề thi vào lớp</button>
+      </form>
+      
       <form class="btn p-0 m-0" action="dssvtronglop.php" method="GET">
         <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
         <input type="hidden" name="ten_lop" value="<?php echo $ten_lop; ?>">
@@ -92,7 +116,19 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
                 <td>" . $row['tg_ket_thuc'] . "</td>
                 <td>" . $row['thoi_gian_lam_bai'] . "</td>
                 <td>
+                <div class='w-75 btn-group' role='group'>
+                <form action='baithi_sua.php' method='post'>
+                  <input type='hidden' name='ma_lop' value='$ma_lop'>
+                  <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
+                  <button id='btnSubmit1' class='btn btn-success mx-2' type='submit'>Sửa</button>
+                </form>
+                <form action='baithi_xoa.php' method='post'>
+                  <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
+                  <button id='btnSubmit2' class='btn btn-danger mx-2' type='submit'>Xóa</button>
+                </form>
+            </div>
                 <form action='lambai.php' method='post'>
+                  <input type='hidden' name='ma_lop' value='$ma_lop'>
                   <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
                   <input type='hidden' name='ma_de_thi' value='" . $row['ma_de_thi'] . "'>
                   <input type='hidden' name='thoi_gian_lam_bai' value='" . $row['thoi_gian_lam_bai'] . "'>
@@ -108,6 +144,3 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
   </table>
 </div>
 
-<script>
-  
-</script>
