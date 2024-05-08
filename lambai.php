@@ -30,14 +30,13 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
     $row_dh = mysqli_fetch_assoc($result_dh);
     $tgbd = $row_dh['tg_bat_dau'];
     $tgkt = $row_dh['tg_ket_thuc'];
-
-    $tgbd_timestamp = strtotime($tgbd);
-    $tgkt_timestamp = strtotime($tgkt);
-    $thoi_gian_hien_tai = time();
-    if($tgbd_timestamp < $thoi_gian_hien_tai) {
+    date_default_timezone_set('Asia/Ho_Chi_Minh'); 
+    $tght = date('Y-m-d H:i:s', time());
+    
+    if($tgbd > $tght) {
         header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_chua_toi_gio_lam_bai=chuatoigiolambai"); 
     }    
-    if($thoi_gian_hien_tai > $tgkt_timestamp) {
+    if($tght >= $tgkt) {
         header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_het_gio_gio_lam_bai=chuatoigiolambai"); 
     }
 
