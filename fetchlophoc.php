@@ -22,7 +22,7 @@ if(isset($_POST['page']) && $_POST['page'] > 1){
     $start = 0;
 }
 
-$query = "SELECT l.`ma_lop`, l.`trang_thai`, l.`ma_moi`, l.`ten_lop`
+$query = "SELECT distinct l.`ma_lop`, l.`trang_thai`, l.`ma_moi`, l.`ten_lop`
 FROM `lop` l
 JOIN `chi_tiet_lop` ctl ON ctl.`ma_lop` = l.`ma_lop`
 JOIN `users` u ON u.`id` = ctl.`user_id`
