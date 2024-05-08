@@ -89,6 +89,7 @@ if($total_data > 0) {
             $output .= '
                     <form action="baithi_xoa.php" method="post">
                       <input type="hidden" name="ma_bai_thi" value="' . $row['ma_bai_thi'] . '">
+                      <input type="hidden" name="ma_lop" value="' . $ma_lop . '">
                       <button class="btn btn-danger mx-2" type="submit">Xóa</button>
                     </form>';
         }

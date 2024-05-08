@@ -46,6 +46,13 @@ if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
     echo "<script>toastr.error('Đã quá giờ làm bài');</script>";
 }
 }
+
+if(isset($_GET['thong_bao_delete'])) {
+  $thong_bao_delete = $_GET['thong_bao_delete'];
+  if($thong_bao_delete != "") {
+    echo "<script>toastr.success('Xóa thành công');</script>";
+}
+}
 ?>
 
 <div class="container">

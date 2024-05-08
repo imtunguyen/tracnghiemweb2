@@ -45,7 +45,7 @@ function modalXoaDeThi($ma_de_thi, $modalXoaID){
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <a class=" btn btn-danger mx-2" href="../admin/cauhoi.php?delete=<?php echo $ma_de_thi; ?>">Xóa Đề Thi</a>
+                <a class=" btn btn-danger mx-2" href="../giaovien/dethi.php?delete=<?php echo $ma_de_thi; ?>">Xóa Đề Thi</a>
             </div>
         </div>
     </div>
