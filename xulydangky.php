@@ -33,6 +33,7 @@ if (
        
     } else {
         echo "Failed to upload file";
+        die();
     }
     if($row_check_email > 0) {
         echo "Email đã tồn tại";
