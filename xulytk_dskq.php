@@ -26,7 +26,7 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_lop'])) {
         JOIN chi_tiet_quyen ctq ON ctq.user_id = kq.user_id
         JOIN chi_tiet_chuc_nang ctcn ON ctcn.ma_quyen = ctq.ma_quyen 
         WHERE kq.user_id = ctl.user_id AND kq.ma_bai_thi = $ma_bai_thi
-         AND ctcn.ma_chuc_nang = 22
+         AND ctcn.ma_chuc_nang = 22 AND ctcn.cho_phep = 1
     ) AND ma_lop = $ma_lop ;";
     $result_get_userId = mysqli_query($connect, $sql_get_userId);
     while($row_get_userId = mysqli_fetch_assoc($result_get_userId)) {
@@ -46,7 +46,7 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_lop'])) {
     JOIN users ON users.id = kq.user_id
     JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
     Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
-    Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND bai_thi.ma_bai_thi = $ma_bai_thi
+    Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND bai_thi.ma_bai_thi = $ma_bai_thi AND ctcn.cho_phep = 1
     ";
 
     $result = mysqli_query($connect, $sql);

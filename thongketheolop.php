@@ -23,7 +23,7 @@ FROM (
     JOIN chi_tiet_lop ON kq.user_id = chi_tiet_lop.user_id
     JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
     Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
-    Where ctcn.ma_chuc_nang = 22
+    Where ctcn.ma_chuc_nang = 22 AND ctcn.cho_phep = 1
      AND chi_tiet_lop.ma_lop = $ma_lop
     GROUP BY kq.user_id
 ) AS subquery";
@@ -35,7 +35,7 @@ $dtb_lop = $row_get_dtb_lop['trungBinh'];
 $sql_get_slKq = "SELECT count(kq.user_id) as SlKq From ket_qua kq Join 
 chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
 JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
-Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop";
+Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1";
 $result_get_slKq = mysqli_query($connect, $sql_get_slKq);
 $row_slKq = mysqli_fetch_assoc($result_get_slKq);
 $slKq = $row_slKq['SlKq'];
@@ -45,7 +45,7 @@ $slKq = $row_slKq['SlKq'];
 $sql_get_slkq9 = "SELECT count(kq.user_id) as slkq From ket_qua kq Join 
 chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
 JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
-Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop
+Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1
 AND kq.diem >= 9";
 $result_get_slkq9 = mysqli_query($connect, $sql_get_slkq9);
 $row_slKq9 = mysqli_fetch_assoc($result_get_slkq9);
@@ -110,7 +110,7 @@ $slKq9 = $row_slKq9['slkq'];
                         JOIN users ON users.id = kq.user_id
                         JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
                         Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
-                        Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop  
+                        Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1 
                         ORDER BY kq.diem DESC 
                         LIMIT 10;
                         ";

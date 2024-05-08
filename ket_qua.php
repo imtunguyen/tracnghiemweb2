@@ -7,7 +7,13 @@ include('includes/database.php');
 
 <?php 
     if(isset($_POST['submit'])) {
-        $query = "select ch.* from chi_tiet_de_thi ctdt join de_thi dt on ctdt.ma_de_thi = dt.ma_de_thi join cau_hoi ch on ch.ma_cau_hoi = ctdt.ma_cau_hoi where dt.ma_de_thi = 1";
+        if(isset($_POST['ma_bai_thi'])) {
+            $ma_bai_thi = $_POST['ma_bai_thi'];
+        }
+        if(isset($_POST['ma_de_thi'])) {
+            $ma_de_thi = $_POST['ma_de_thi'];
+        }
+        $query = "SELECT ch.* from chi_tiet_de_thi ctdt join de_thi dt on ctdt.ma_de_thi = dt.ma_de_thi join cau_hoi ch on ch.ma_cau_hoi = ctdt.ma_cau_hoi where dt.ma_de_thi = $ma_de_thi";
         $select_socauhoi = mysqli_query($connect,$query);
         $tong = mysqli_num_rows($select_socauhoi); 
         //so cau dung
@@ -26,12 +32,10 @@ include('includes/database.php');
                 }
             }
         }
-        $cc = $tong - $d - $s;
-        $diem_cua_1_cau_dung = 10 / 2;
+        $cc = $tong - ($d + $s);
+        $diem_cua_1_cau_dung = 10 / $tong;
         $diem = $diem_cua_1_cau_dung * $d;
-        if(isset($_POST['ma_bai_thi'])) {
-            $ma_bai_thi = $_POST['ma_bai_thi'];
-        }
+        
         $user_id = $_SESSION['userId'];
         $sql_insert = "INSERT INTO ket_qua(ma_bai_thi, user_id, so_cau_dung, 
         so_cau_sai, so_cau_chua_chon, diem) VALUES 

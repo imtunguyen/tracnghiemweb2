@@ -1,5 +1,5 @@
 <?php
-session_start();
+include('config.php');
 include('functions.php');
 include('functionUsers.php');
 include('database.php');
@@ -38,10 +38,6 @@ $id = $_SESSION['userId'];
       
       if(check($connect, $id, "vao_lophoc")) {
         echo '<li><a href="http://localhost/tracnghiemweb2/lophoc.php" class="nav-link px-2">Lớp học</a></li>';
-      }
-
-      if(check($connect, $id, "xem_thongke")) {
-        echo '<li><a href="#" class="nav-link px-2">Thống Kê</a></li>';
       }
 
       if(check($connect, $id, "xem_ketqua")) {
