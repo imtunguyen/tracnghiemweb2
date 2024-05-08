@@ -16,7 +16,6 @@ if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = 0;
 }
 
-
 $query = "SELECT * FROM bai_thi bt 
           JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi 
           WHERE bt.ma_lop = '$ma_lop'";
@@ -27,18 +26,12 @@ if(isset($_POST['query']) && $_POST['query'] != '') {
 
 $query .= ' ORDER BY dt.ten_de_thi ASC ';
 
-
-$filter_query = $query . ' LIMIT '.$start.', '.$limit.'';
+$filter_query = $query . ' LIMIT '.$start.', '.$limit;
 
 $statement = $connect->prepare($query);
 $statement->execute();
-$statement->store_result();
-$total_data = $statement->num_rows;
-
-$statement = $connect->prepare($filter_query);
-$statement->execute();
-$result = $statement->get_result(); // Get the result set
-$total_filter_data = $result->num_rows; // Get the total number of rows fetched
+$result = $statement->get_result();
+$total_data = $result->num_rows;
 
 $output = '
 <table class="table table-striped table-bordered">
@@ -53,7 +46,7 @@ $output = '
         <th>Hành động</th>
     </tr>
     </thead>
-';
+    <tbody>';
 
 if($total_data > 0) {   
     $start_index = ($page - 1) * $limit + 1;
@@ -64,67 +57,80 @@ if($total_data > 0) {
 
     $result = mysqli_query($connect, $sql);
     $stt = 0;
+
     while ($row = $result->fetch_assoc()) {
         $stt += 1;
-        
         $output .= '
-        <tbody>
-        <td>' . $stt . '</td>
-        <td>' . $row['ten_de_thi'] . '</td>
-        <td>' . $row['ten_mon_hoc'] . '</td>
-        <td>' . $row['tg_bat_dau'] . '</td>
-        <td>' . $row['tg_ket_thuc'] . '</td>
-        <td>' . $row['thoi_gian_lam_bai'] . '</td>
-        <td>
-            <div class="w-75 btn-group" role="group">
-                <form action="baithi_sua.php" method="post">
-                    <input type="hidden" name="ma_lop" value="' . $ma_lop . '">
-                    <input type="hidden" name="ma_bai_thi" value="' . $row['ma_bai_thi'] . '">
-                    <button id="btnSubmit1" class="btn btn-success mx-2" type="submit">Sửa</button>
-                </form>
-                <form action="baithi_xoa.php" method="post">
-                    <input type="hidden" name="ma_bai_thi" value="' . $row['ma_bai_thi'] . '">
-                    <button id="btnSubmit2" class="btn btn-danger mx-2" type="submit">Xóa</button>
-                </form>
-            </div>
-            <form action="lambai.php" method="post">
-                <input type="hidden" name="ma_lop" value="' . $ma_lop . '">
-                <input type="hidden" name="ma_bai_thi" value="' . $row['ma_bai_thi'] . '">
-                <input type="hidden" name="ma_de_thi" value="' . $row['ma_de_thi'] . '">
-                <input type="hidden" name="thoi_gian_lam_bai" value="' . $row['thoi_gian_lam_bai'] . '">
-                <input type="hidden" name="ten_de_thi" value="' . $row['ten_de_thi'] . '">
-                <button id="btnSubmit" class="btn btn-primary" type="submit">Làm bài</button>
-            </form>
-        </td>
-        </tbody>';
-      
+        <tr>
+            <td>' . $stt . '</td>
+            <td>' . $row['ten_de_thi'] . '</td>
+            <td>' . $row['ten_mon_hoc'] . '</td>
+            <td>' . $row['tg_bat_dau'] . '</td>
+            <td>' . $row['tg_ket_thuc'] . '</td>
+            <td>' . $row['thoi_gian_lam_bai'] . '</td>
+            <td>
+                <div class="w-75 btn-group" role="group">';
+
+        if(check($connect, $_SESSION['userId'], 'sua_dethi')) {
+            $output .= '
+                    <form action="baithi_sua.php" method="post">
+                      <input type="hidden" name="ma_lop" value="' . $ma_lop . '">
+                      <input type="hidden" name="ma_bai_thi" value="' . $row['ma_bai_thi'] . '">
+                      <button class="btn btn-success mx-2" type="submit">Sửa</button>
+                    </form>';
+        }
+        
+        if(check($connect, $_SESSION['userId'], 'xoa_dethi')) {
+            $output .= '
+                    <form action="baithi_xoa.php" method="post">
+                      <input type="hidden" name="ma_bai_thi" value="' . $row['ma_bai_thi'] . '">
+                      <button class="btn btn-danger mx-2" type="submit">Xóa</button>
+                    </form>';
+        }
+        
+        if(check($connect, $_SESSION['userId'], 'lam_baithi')) {
+            $output .= '
+                    <form action="lambai.php" method="post">
+                      <input type="hidden" name="ma_lop" value="' . $ma_lop . '">
+                      <input type="hidden" name="ma_bai_thi" value="' . $row['ma_bai_thi'] . '">
+                      <input type="hidden" name="ma_de_thi" value="' . $row['ma_de_thi'] . '">
+                      <input type="hidden" name="thoi_gian_lam_bai" value="' . $row['thoi_gian_lam_bai'] . '">
+                      <input type="hidden" name="ten_de_thi" value="' . $row['ten_de_thi'] . '">
+                      <button class="btn btn-primary" type="submit">Làm bài</button>
+                    </form>';
+        }
+
+        $output .= '
+                </div>
+            </td>
+        </tr>';
+        
+        $stt++;
     }
 } else {
     $output .= '
     <tr>
-        <td colspan="3" align="center">No Data Found</td>
-    </tr>
-    ';
+        <td colspan="7" align="center">No Data Found</td>
+    </tr>';
 }
 
 $output .= '
+    </tbody>
 </table>
 <br />
-<label>Tổng:  '.$total_data.'</label>
+<label>Tổng: ' . $total_data . '</label>
 <div align="center">
-    <ul class="pagination">
-';
-$total_links = ceil($total_data/$limit);
+    <ul class="pagination">';
+
+$total_links = ceil($total_data / $limit);
 
 if($total_links > 1) {
-    // Hiển thị nút Previous
     if($page > 1) {
         $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page - 1) . '">Previous</a></li>';
     } else {
         $output .= '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
     }
     
-    // Hiển thị danh sách các trang
     for($count = 1; $count <= $total_links; $count++) {
         if($count == $page) {
             $output .= '<li class="page-item active"><a class="page-link" href="#">' . $count . ' <span class="sr-only"></span></a></li>';
@@ -133,7 +139,6 @@ if($total_links > 1) {
         }
     }
 
-    // Hiển thị nút Next
     if($page < $total_links) {
         $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page + 1) . '">Next</a></li>';
     } else {
@@ -144,3 +149,4 @@ if($total_links > 1) {
 $output .= '</ul></div>';
 
 echo $output;
+?>
