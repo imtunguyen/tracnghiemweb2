@@ -26,8 +26,8 @@ include('includes/database.php');
                 }
             }
         }
-        $cc = $tong - $d - $s;
-        $diem_cua_1_cau_dung = 10 / 2;
+        $cc = $tong - ($d + $s);
+        $diem_cua_1_cau_dung = 10 / $tong;
         $diem = $diem_cua_1_cau_dung * $d;
         if(isset($_POST['ma_bai_thi'])) {
             $ma_bai_thi = $_POST['ma_bai_thi'];

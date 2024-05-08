@@ -34,12 +34,12 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
     $tgbd_timestamp = strtotime($tgbd);
     $tgkt_timestamp = strtotime($tgkt);
     $thoi_gian_hien_tai = time();
-    if($tgbd_timestamp < $thoi_gian_hien_tai) {
-        header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_chua_toi_gio_lam_bai=chuatoigiolambai"); 
-    }    
-    if($thoi_gian_hien_tai > $tgkt_timestamp) {
-        header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_het_gio_gio_lam_bai=chuatoigiolambai"); 
-    }
+    // if($tgbd_timestamp < $thoi_gian_hien_tai) {
+    //     header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_chua_toi_gio_lam_bai=chuatoigiolambai"); 
+    // }    
+    // if($thoi_gian_hien_tai > $tgkt_timestamp) {
+    //     header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_het_gio_gio_lam_bai=chuatoigiolambai"); 
+    // }
 
 }
 ?>
