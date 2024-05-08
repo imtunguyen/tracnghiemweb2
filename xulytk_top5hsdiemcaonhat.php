@@ -9,11 +9,12 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_lop'])) {
             FROM ket_qua kq 
             JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
             JOIN lop ON lop.ma_lop = ctl.ma_lop
-            JOIN chi_tiet_quyen ctq ON ctq.user_id = kq.user_id 
             JOIN bai_thi ON kq.ma_bai_thi = bai_thi.ma_bai_thi
             JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi 
             JOIN users ON users.id = kq.user_id
-            WHERE ctq.ma_quyen = 4 AND ctl.ma_lop = $ma_lop AND bai_thi.ma_bai_thi = $ma_bai_thi
+            JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
+            Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
+            Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND bai_thi.ma_bai_thi = $ma_bai_thi
             ORDER BY kq.diem DESC 
             LIMIT 5";
 
