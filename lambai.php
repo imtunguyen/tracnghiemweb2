@@ -154,6 +154,8 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
     echo '</div>';
     ?>
     <input type="text" hidden name="ma_bai_thi" value=" <?php echo $ma_bai_thi; ?> ">
+    <input type="text" hidden name="ma_bai_thi" value=" <?php echo $ma_de_thi; ?> ">
+
     <div class="button-submit">
         <input class="btn btn-primary" id="submitButton" type="submit" name="submit" value = "Submit">
     <div>
