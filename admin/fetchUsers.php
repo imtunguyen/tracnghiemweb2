@@ -41,7 +41,6 @@ $output = '
 <thead>
     <tr>
         <th>userID</th>
-        <th>Ảnh</th>
         <th>Username</th>
         <th>Quyền</th>
         <th></th>
@@ -54,7 +53,6 @@ if($total_data > 0)
     $output .= '
     <tr>
       <td>'.$row["id"].'</td>
-      <td>'.$row["avatar"].'</td>
       <td>'.$row["username"].'</td>
       <td><a style="color: green;" href="nguoidung.php?view_roles&user_id='.$row["id"].'">'.$ten_quyen.'</a></td>
       <td><a class="delete_user" style="color: red;" href="nguoidung.php?delete='.$row["id"].'" id="'.$row['username'].'">Delete</a></td>

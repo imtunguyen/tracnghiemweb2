@@ -204,40 +204,39 @@
             });
 
             $('#registerForm').keypress(function(e) {
-        // Kiểm tra nếu phím được nhấn là phím "Enter"
-        if (e.which == 13) {
-            // Ngăn chặn hành động mặc định của nút submit
-            e.preventDefault();
-            $(".error").html("");
-            var form = $('#registerForm')[0];
-            var data = new FormData(form);
-            if (checkValidation()) {
-                $.ajax({
-                    type: 'POST',
-                    url: 'xulydangky.php',
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        console.log("Kết quả trả về: " + response);
-                        if (response == "Tên tài khoản bị trùng") toastr.error(response);
-                        if (response == "Đăng ký thất bại") toastr.error(response);
-                        if (response == "Failed to upload file") toastr.error(response);
-                        if (response == "Email đã tồn tại") toastr.error(response);
-                        if (response == "Đăng ký thành công đang chuyển hướng đến trang đăng nhập...") {
-                            toastr.success(response);
-                            setTimeout(function() {
-                                window.location.href = 'dangnhap.php';
-                            }, 2000);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                if (e.which == 13) {
+                    // Ngăn chặn hành động mặc định của nút submit
+                    e.preventDefault();
+                    $(".error").html("");
+                    var form = $('#registerForm')[0];
+                    var data = new FormData(form);
+                    if (checkValidation()) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'xulydangky.php',
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                console.log("Kết quả trả về: " + response);
+                                if (response == "Tên tài khoản bị trùng") toastr.error(response);
+                                if (response == "Đăng ký thất bại") toastr.error(response);
+                                if (response == "Failed to upload file") toastr.error(response);
+                                if (response == "Email đã tồn tại") toastr.error(response);
+                                if (response == "Đăng ký thành công đang chuyển hướng đến trang đăng nhập...") {
+                                    toastr.success(response);
+                                    setTimeout(function() {
+                                        window.location.href = 'dangnhap.php';
+                                    }, 2000);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                            }
+                        });
                     }
-                });
-            }
-        }
-    });
+                }
+            });
 
         });
     </script>

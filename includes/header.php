@@ -40,10 +40,6 @@ $id = $_SESSION['userId'];
         echo '<li><a href="http://localhost/tracnghiemweb2/lophoc.php" class="nav-link px-2">Lớp học</a></li>';
       }
 
-      if(check($connect, $id, "xem_thongke")) {
-        echo '<li><a href="#" class="nav-link px-2">Thống Kê</a></li>';
-      }
-
       if(check($connect, $id, "xem_ketqua")) {
         echo '<li><a href="http://localhost/tracnghiemweb2/ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>';
       }
@@ -70,7 +66,7 @@ $id = $_SESSION['userId'];
           <a href="http://localhost/tracnghiemweb2/dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
         <?php 
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {
-            echo '<a href="admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';
+            echo '<a href="http://localhost/tracnghiemweb2/admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';
         }
 
         ?>

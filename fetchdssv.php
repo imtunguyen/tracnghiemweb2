@@ -30,10 +30,13 @@ JOIN
 `chi_tiet_quyen` ctq ON users.id = ctq.user_id 
 JOIN 
 `quyen` q ON ctq.ma_quyen = q.ma_quyen
+JOIN `chi_tiet_chuc_nang` ctcn ON ctcn.ma_quyen = q.ma_quyen
+JOIN `chuc_nang` cn ON cn.ma_chuc_nang = ctcn.ma_chuc_nang 
 WHERE 
 ctl.ma_lop = $ma_lop 
 AND users.trang_thai = 1
-AND q.ten_quyen = 'giao_vien'";
+AND ctcn.cho_phep = 1
+AND cn.ten_chuc_nang = 'lam_baithi'";
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
     $query .= ' AND users.ho_va_ten LIKE "%'.str_replace(' ', '%', $_POST['query']).'%" ';
