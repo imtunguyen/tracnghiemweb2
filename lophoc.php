@@ -18,3 +18,6 @@ switch($source) {
 }
 
 ?>
+<?php 
+include('includes/footer.php');
+?>
