@@ -59,7 +59,7 @@ if(isset($_SESSION['email'])){
                 </div>
                 <hr>
                 <div class="text-end">
-                    <button class="btn btn-secondary" type="button">Hủy</button>
+                    <a href="dangnhap.php" class="btn btn-secondary" type="button">Hủy</a>
                     <button class="btn btn-primary" type="submit" name="submit">Xác nhận</button>
                 </div>
             </form>

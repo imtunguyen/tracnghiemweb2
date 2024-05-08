@@ -11,7 +11,7 @@ if (isset($_POST['ten_de_thi']) && isset($_POST['thoi_gian_lam_bai']) && isset($
     $thoi_gian_lam_bai = trim($_POST['thoi_gian_lam_bai']);
     $ma_mon_hoc = trim($_POST['ma_mon_hoc']);
     $trang_thai = 1;
-    $ma_nguoi_tao = 1;
+    $ma_nguoi_tao = $_SESSION['user_id'];
     if (empty($ten_de_thi)) {
         ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -20,7 +20,7 @@ if (isset($_POST['ten_de_thi']) && isset($_POST['thoi_gian_lam_bai']) && isset($
             toastr.options = {
             "progressBar" : true
         }
-        toastr.error("<?php echo "Tên đề thithi không được để trống. Vui lòng nhập lại"; ?>");
+        toastr.error("<?php echo "Tên đề thi không được để trống. Vui lòng nhập lại"; ?>");
 </script>"
         <?php
     }else{
