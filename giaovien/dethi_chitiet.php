@@ -207,7 +207,19 @@
             row.removeClass('selected');
         }
       
-        
+        $('#refresh').click(function(){
+            $('#filter_monhoc option:first').prop('selected', true);
+            $('#filter_dokho option:first').prop('selected', true);
+            $('#search_box').val('');
+            $.ajax({
+                url: 'dethi_search.php', 
+                type: 'GET',
+                data: {search_text: '', mon_hoc: '', do_kho: ''}, 
+                success: function(response) {
+                    $('#t_draggable1 tbody').html(response);
+                }
+        });
+        });
     });
 </script>
 
