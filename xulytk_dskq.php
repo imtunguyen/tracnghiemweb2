@@ -30,9 +30,9 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_lop'])) {
     ) AND ma_lop = $ma_lop ;";
     $result_get_userId = mysqli_query($connect, $sql_get_userId);
     while($row_get_userId = mysqli_fetch_assoc($result_get_userId)) {
-        $tght = time();
-        $tgkt_timestamp = strtotime($tgkt);
-        if($tght > $tgkt_timestamp) {
+        date_default_timezone_set('Asia/Ho_Chi_Minh'); 
+        $tght = date('Y-m-d H:i:s', time());
+        if($tght >= $tgkt) {
             add_kq_0($connect, $ma_bai_thi, $row_get_userId['user_id']);
         }
     }

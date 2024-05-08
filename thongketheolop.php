@@ -101,7 +101,7 @@ $slKq9 = $row_slKq9['slkq'];
                         role: "style"
                     }],
                     <?php 
-                        $sql_select_top10 = "SELECT kq.*, dt.ten_de_thi, users.ho_va_ten
+                        $sql_select_top10 = "SELECT DISTINCT kq.*, dt.ten_de_thi, users.ho_va_ten
                         FROM ket_qua kq 
                         JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
                         JOIN lop ON lop.ma_lop = ctl.ma_lop

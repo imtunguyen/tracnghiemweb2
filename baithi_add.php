@@ -81,6 +81,8 @@ if(isset($_GET['thongbao'])) {
     function validateForm() {
         var tgbd = document.getElementById('tgbd').value;
         var tgkt = document.getElementById('tgkt').value;
+        
+
         var currentTime = new Date();
 
 

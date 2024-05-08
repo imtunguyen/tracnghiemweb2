@@ -30,13 +30,14 @@ if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_lop'])) {
     ) AND ma_lop = $ma_lop ;";
     $result_get_userId = mysqli_query($connect, $sql_get_userId);
     while($row_get_userId = mysqli_fetch_assoc($result_get_userId)) {
-        $tght = date('Y-m-d H:i:s');
-        if($tght > $tgkt) {
+        date_default_timezone_set('Asia/Ho_Chi_Minh'); 
+        $tght = date('Y-m-d H:i:s', time());
+        if($tght >= $tgkt) {
             add_kq_0($connect, $ma_bai_thi, $row_get_userId['user_id']);
-        } 
+        }
     }
 
-    $sql = "SELECT kq.diem
+    $sql = "SELECT DISTINCT kq.diem
             FROM ket_qua kq 
             JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
             JOIN lop ON lop.ma_lop = ctl.ma_lop
