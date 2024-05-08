@@ -48,14 +48,17 @@ ob_end_flush();
                 </div>
             </div>
             <div class="col-4 text-end">
+                <?php  if(check($connect, $_SESSION['userId'], 'them_cauhoi')) {echo'
                 <a class="btn btn-success" href="../giaovien/cauhoi_add.php">
                     <i class="bi bi-plus-circle"></i> Thêm câu hỏi mới
-                </a>
+                </a>';}?>
             </div>
             <div class="col-2 ">
+                <?php  if(check($connect, $_SESSION['userId'], 'them_cauhoi')) {echo'
+                
                 <a class="btn btn-primary" href="../giaovien/export_file.php">
                 <i class="bi bi-file-earmark-text-fill"></i> Xuất File
-                </a>
+                </a>';}?>
             </div>
         </div>
         <div class="table-responsive" id="dynamic_cauhoi"></div>

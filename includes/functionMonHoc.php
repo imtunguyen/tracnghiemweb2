@@ -60,7 +60,7 @@ function xacNhanXoaMH($ma_mon_hoc, $modalXoaID){
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <a class=" btn btn-danger mx-2" href="../admin/monhoc.php?delete=<?php echo $ma_mon_hoc; ?>">Xóa Môn Học</a>
+                    <a class=" btn btn-danger mx-2" href="../giaovien/monhoc.php?delete=<?php echo $ma_mon_hoc; ?>">Xóa Môn Học</a>
                 </div>
             </div>
         </div>

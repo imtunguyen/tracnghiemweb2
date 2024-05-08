@@ -1,6 +1,8 @@
 <?php
+session_start();
 include('../includes/config.php');
 include('../includes/database.php');
+include('../includes/functions.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
@@ -57,13 +59,20 @@ if($total_data > 0) {
             <td>' . $start_index++ . '</td>
             <td>' . $row['noi_dung'] . '</td>
             <td>
-                <div class=" btn-group" role="group">
+                <div class=" btn-group" role="group">';
+                if(check($connect, $_SESSION['userId'], 'sua_cauhoi')) {
+                $output .= '
                     <a class=" btn btn-warning mx-2 " href="../giaovien/cauhoi_edit.php?id=' . $row['ma_cau_hoi'] . '">
                         <i class=" bi bi-pencil-square"></i> Sửa
-                    </a>
+                    </a>';
+                }
+                if(check($connect, $_SESSION['userId'], 'xoa_cauhoi')) {
+                    $output .= '
                     <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
                         <i class="bi bi-trash"></i> Xóa
-                    </a>
+                    </a>';
+                } 
+                    $output .= '
                 </div>
             </td>
         </tbody>';
