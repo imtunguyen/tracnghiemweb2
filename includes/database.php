@@ -1,5 +1,5 @@
 <?php
-$connect = mysqli_connect('localhost', 'root', '', 'quan_ly_trac_nghiem1');
+$connect = mysqli_connect('localhost', 'root', '', 'hehehe');
 
 if (mysqli_connect_errno()){
     exit('Failed to connect to MySQL: ' . mysqli_connect_error());
