@@ -66,7 +66,7 @@ $id = $_SESSION['userId'];
       <div class="col-md-3 text-end">
           
           <img src="images/<?php echo $res= getImage($connect, $id);?>"  width="32" height="32" class="rounded-circle">
-          <a href="http://localhost/tracnghiemweb2/suathongtin.php/id=<?php echo $id?>" class="btn btn-info">Chỉnh sửa</a>
+          <a href="http://localhost/tracnghiemweb2/suathongtin.php?id=<?php echo $id?>" class="btn btn-info">Chỉnh sửa</a>
           <a href="http://localhost/tracnghiemweb2/dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
         <?php 
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {

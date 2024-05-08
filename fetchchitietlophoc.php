@@ -16,9 +16,10 @@ if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = 0;
 }
 
-$query = "SELECT * FROM bai_thi bt 
-          JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi 
-          WHERE bt.ma_lop = '$ma_lop'";
+$query = "SELECT bt.ma_de_thi, bt.ma_bai_thi, bt.tg_bat_dau, bt.tg_ket_thuc, dt.thoi_gian_lam_bai, dt.ten_de_thi, dt.ma_mon_hoc, mh.ten_mon_hoc
+FROM bai_thi bt
+JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi JOIN mon_hoc mh ON mh.ma_mon_hoc = dt.ma_mon_hoc
+WHERE bt.ma_lop = $ma_lop AND bt.trang_thai = 1 ";
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
     $query .= ' AND dt.ten_de_thi LIKE "%'.str_replace(' ', '%', $_POST['query']).'%" ';
@@ -30,8 +31,13 @@ $filter_query = $query . ' LIMIT '.$start.', '.$limit;
 
 $statement = $connect->prepare($query);
 $statement->execute();
+$statement->store_result();
+$total_data = $statement->num_rows;
+
+$statement = $connect->prepare($filter_query);
+$statement->execute();
 $result = $statement->get_result();
-$total_data = $result->num_rows;
+$total_filter_data = $result->num_rows; 
 
 $output = '
 <table class="table table-striped table-bordered">
@@ -45,22 +51,15 @@ $output = '
         <th>Thời gian làm bài</th>
         <th>Hành động</th>
     </tr>
-    </thead>
-    <tbody>';
+    </thead>';
 
 if($total_data > 0) {   
     $start_index = ($page - 1) * $limit + 1;
-    $sql = "SELECT bt.ma_de_thi, bt.ma_bai_thi, bt.tg_bat_dau, bt.tg_ket_thuc, dt.thoi_gian_lam_bai, dt.ten_de_thi, dt.ma_mon_hoc, mh.ten_mon_hoc
-    FROM bai_thi bt
-    JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi JOIN mon_hoc mh ON mh.ma_mon_hoc = dt.ma_mon_hoc
-    WHERE bt.ma_lop = $ma_lop AND bt.trang_thai = 1 ";
-
-    $result = mysqli_query($connect, $sql);
     $stt = 0;
 
-    while ($row = $result->fetch_assoc()) {
+    foreach($result as $row) {
         $stt += 1;
-        $output .= '
+        $output .= '<tbody>
         <tr>
             <td>' . $stt . '</td>
             <td>' . $row['ten_de_thi'] . '</td>
@@ -103,7 +102,8 @@ if($total_data > 0) {
         $output .= '
                 </div>
             </td>
-        </tr>';
+        </tr>
+        <tbody>';
         
         $stt++;
     }
@@ -115,22 +115,23 @@ if($total_data > 0) {
 }
 
 $output .= '
-    </tbody>
 </table>
 <br />
-<label>Tổng: ' . $total_data . '</label>
+<label>Tổng:  '.$total_data.'</label>
 <div align="center">
-    <ul class="pagination">';
-
-$total_links = ceil($total_data / $limit);
+    <ul class="pagination">
+';
+$total_links = ceil($total_data/$limit);
 
 if($total_links > 1) {
+    // Hiển thị nút Previous
     if($page > 1) {
         $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page - 1) . '">Previous</a></li>';
     } else {
         $output .= '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
     }
     
+    // Hiển thị danh sách các trang
     for($count = 1; $count <= $total_links; $count++) {
         if($count == $page) {
             $output .= '<li class="page-item active"><a class="page-link" href="#">' . $count . ' <span class="sr-only"></span></a></li>';
@@ -139,6 +140,7 @@ if($total_links > 1) {
         }
     }
 
+    // Hiển thị nút Next
     if($page < $total_links) {
         $output .= '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="' . ($page + 1) . '">Next</a></li>';
     } else {
@@ -149,4 +151,3 @@ if($total_links > 1) {
 $output .= '</ul></div>';
 
 echo $output;
-?>

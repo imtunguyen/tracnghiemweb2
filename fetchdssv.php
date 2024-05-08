@@ -16,16 +16,30 @@ if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = 0;
 }
 
-$query = "SELECT * FROM chi_tiet_lop ct 
-          JOIN users u ON u.id = ct.user_id 
-          JOIN lop l ON l.ma_lop = ct.ma_lop 
-          WHERE ct.ma_lop = '$ma_lop'";
+$query = "SELECT 
+users.id, 
+users.ho_va_ten, 
+users.ngay_sinh, 
+users.gioi_tinh, 
+users.email
+FROM 
+`users`
+JOIN 
+`chi_tiet_lop` ctl ON users.id = ctl.user_id
+JOIN 
+`chi_tiet_quyen` ctq ON users.id = ctq.user_id 
+JOIN 
+`quyen` q ON ctq.ma_quyen = q.ma_quyen
+WHERE 
+ctl.ma_lop = $ma_lop 
+AND users.trang_thai = 1
+AND q.ten_quyen = 'giao_vien'";
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
-    $query .= ' AND u.ho_va_ten LIKE "%'.str_replace(' ', '%', $_POST['query']).'%" ';
+    $query .= ' AND users.ho_va_ten LIKE "%'.str_replace(' ', '%', $_POST['query']).'%" ';
 }
 
-$query .= ' ORDER BY u.ho_va_ten ASC ';
+$query .= ' ORDER BY users.ho_va_ten ASC ';
 
 $filter_query = $query . ' LIMIT '.$start.', '.$limit.'';
 
@@ -55,39 +69,20 @@ $output = '
 
 if($total_data > 0) {   
     $start_index = ($page - 1) * $limit + 1;
+    $stt = 0;
     foreach($result as $row) {
+        $stt += 1;
         $output .= '<tbody>';
-        $sql = "SELECT 
-            users.id, 
-            users.ho_va_ten, 
-            users.ngay_sinh, 
-            users.gioi_tinh, 
-            users.email
-        FROM 
-            `users`
-        JOIN 
-            `chi_tiet_lop` ctl ON users.id = ctl.user_id
-        JOIN 
-            `chi_tiet_quyen` ctq ON users.id = ctq.user_id 
-        JOIN 
-            `quyen` q ON ctq.ma_quyen = q.ma_quyen
-        WHERE 
-            ctl.ma_lop = $ma_lop 
-            AND users.trang_thai = 1
-            AND q.ten_quyen = 'giao_vien'";
-
-        $additional_result = mysqli_query($connect, $sql);
-        while ($additional_row = mysqli_fetch_assoc($additional_result)) {
             $output .= "<tr>
-                            <td>" . $additional_row['id'] . "</td>
-                            <td>" . $additional_row['ho_va_ten'] . "</td>
-                            <td>" . ($additional_row['gioi_tinh'] == 1 ? 'Nam' : 'Nữ') . "</td>
-                            <td>" . $additional_row['ngay_sinh'] . "</td>
-                            <td>" . $additional_row['email'] . "</td>
+                            <td>" . $row['id'] . "</td>
+                            <td>" . $row['ho_va_ten'] . "</td>
+                            <td>" . ($row['gioi_tinh'] == 1 ? 'Nam' : 'Nữ') . "</td>
+                            <td>" . $row['ngay_sinh'] . "</td>
+                            <td>" . $row['email'] . "</td>
                         </tr>";
         }
         $output .= '</tbody>';
-    }
+    
 } else {
     $output .= '
     <tr>

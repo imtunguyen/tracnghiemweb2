@@ -1,11 +1,9 @@
 <?php
-include('includes/database.php');
-include('includes/header.php');
-
+include 'includes/header.php';
+$id = "";
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
-
 $users = getUsernamebyID($connect, $id);
 $user = $users->fetch_assoc();
 
@@ -39,36 +37,38 @@ $user = $users->fetch_assoc();
                 <div class="p-3">
                     <p>Họ Tên</p>
                     <div class="form-floating py-1 col-12">
-                        <input class="form-control border shadow" name="fullname"   value="<?php echo $user['ho_va_ten'] ?>"/>
+                        <input class="form-control border shadow" id="fullname" name="fullname"   value="<?php echo $user['ho_va_ten'] ?>"/>
                         <label class="ms-2">Họ Tên </label>
                         <span class="error text-danger" id="fullname-error"></span>
                     </div>
                     <p>Email</p>
                     <div class="form-floating py-1 col-12">
-                        <input class="form-control border shadow" name="email" value="<?php echo $user['email'] ?>"/>
+                        <input class="form-control border shadow" id="email" name="email" value="<?php echo $user['email'] ?>"/>
                         <label class="ms-2">Email</label>
                         <span class="error text-danger" id="email-error"></span>
                     </div>
                     <p>Tên đăng nhập</p>
                     <div class="form-floating py-1 col-12">
-                        <input class="form-control border shadow" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                        <input class="form-control border shadow" id="username" name="username" value="<?php echo $user['username']; ?>">
                         <label class="ms-2">Tên đăng nhập</label>
                         <span class="error text-danger" id="username-error"></span>
                     </div>
                     <p>Ngày Sinh</p>
                     <div class="form-floating py-1 col-12">
-                        <input type="date" class="form-control border shadow" name="birthday" value="<?php echo htmlspecialchars($user['ngay_sinh']); ?>">
+                        <input type="date" class="form-control border shadow" id="birthday" name="birthday" value="<?php echo $user['ngay_sinh']; ?>">
                         <label class="ms-2">Ngày Sinh</label>
                         <span class="error text-danger" id="birthday-error"></span>
                     </div>
                     <p>Avatar</p>
+                        <img src="./images/<?php echo $user['avatar']?>" alt="" height="100px" width="auto">
                         <label for="avatar" class="form-label"></label>
-                        <input class="form-control" type="file" name="avatar" id="avatar" accept=".png, .jpg, .jpeg, .gif, .bmp, .tiff, .raw, .webp, .svg">
+                        <input class="form-control" type="file" name="avatar" id="avatar" accept=".png, .jpg, .jpeg, .gif, .bmp, .tiff, .raw, .webp, .svg" >
+                        <input type="hidden" name="old_avatar" value="<?php echo $user['avatar']?>">
                 </div>
 
                 <div class="row pt-2">
                     <div class="col-6 col-md-3">
-                        <button type="submit" id="submitBtn" class="btn btn-success w-100">
+                        <button type="button" id="submitBtn" class="btn btn-success w-100">
                             <i class="bi bi-check-circle"></i> Sửa
                         </button>
                     </div>
@@ -84,21 +84,18 @@ $user = $users->fetch_assoc();
 
     <script>
     $(document).ready(function() {
-        function isValidEmail(email) {
-                // Biểu thức chính quy để kiểm tra định dạng email
-                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailPattern.test(email);
+            function isValidEmail(email) {
+                var emailPattern = /^[^\s@]+@gmail\.com$/;
+               return emailPattern.test(email);
             }
 
             function isValidDate(dateString) {
-                // Kiểm tra định dạng ngày (YYYY-MM-DD) sử dụng regex
                 var datePattern = /^\d{4}-\d{2}-\d{2}$/;
                 if (!datePattern.test(dateString)) return false;
-                // Chuyển đổi chuỗi ngày thành đối tượng Date
                 var dateObject = new Date(dateString);
-                // Kiểm tra nếu ngày hợp lệ
                 return !isNaN(dateObject.getTime());
             }
+            
 
             const checkValidation = function() {
                 const fullname = $('#fullname').val();
@@ -106,6 +103,7 @@ $user = $users->fetch_assoc();
                 const email = $('#email').val();
                 const birthday = $("#birthday").val();
                 console.log(birthday);
+                console.log(fullname);
                 if (fullname.length == 0) {
                     $("#fullname-error").text("Họ và tên không được để trống!");
                     return false;
@@ -151,12 +149,12 @@ $user = $users->fetch_assoc();
                         processData: false,
                         contentType: false,
                         success: function(response) {
-                            console.log(response);
+                            console.log('ket qua'+response);
                             toastr.options.timeOut = 3000;
                             toastr.options.progressBar = true;
                             if (response == "Tên tài khoản bị trùng") toastr.error(response);
                             if (response == "Email đã tồn tại") toastr.error(response);
-                            if (response == "Câp nhật thông tin thành công") {
+                            if (response == "Cập nhật thông tin thành công") {
                                 toastr.success(response);
                                 setTimeout(function() {
                                     window.location.href = 'trangchu.php';
@@ -175,5 +173,5 @@ $user = $users->fetch_assoc();
 
 
 <?php
-include('includes/footer.php');
+include 'includes/footer.php';
 ?>
