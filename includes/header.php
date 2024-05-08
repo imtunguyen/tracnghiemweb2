@@ -53,7 +53,7 @@ $id = $_SESSION['userId'];
       }
 
       if(check($connect, $id, "them_monhoc") || check($connect, $id, "sua_monhoc") || check($connect, $id, "xoa_monhoc")) {
-        echo '<li><a href="monhoc.php" class="nav-link px-2">Môn Học</a></li>';
+        echo '<li><a href="http://localhost/tracnghiemweb2/giaovien/monhoc.php" class="nav-link px-2">Môn Học</a></li>';
       }
 
       if(check($connect, $id, "them_cauhoi") || check($connect, $id, "sua_cauhoi") || check($connect, $id, "xoa_cauhoi")) {

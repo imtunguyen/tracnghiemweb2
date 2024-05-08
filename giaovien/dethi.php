@@ -49,9 +49,12 @@ ob_end_flush();
                     <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm đề thi" />
                 </div>
             </div>
-            <div class="col-5 text-end">
-                <a href="../giaovien/dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
-            </div>
+            <?php 
+            if(check($connect, $_SESSION['userId'], 'them_monhoc')) {echo'
+                <div class="col-5 text-end">
+                    <a href="../giaovien/dethi_add.php" class="btn btn-success" ><i class="bi bi-plus-circle"></i> Thêm đề thi mới</a>
+                </div>';}
+            ?>
         </div>
         <div class="table-responsive" id="dynamic_dethi"></div>
     </div> 
