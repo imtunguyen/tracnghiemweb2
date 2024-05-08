@@ -21,9 +21,10 @@ FROM (
     SELECT SUM(kq.diem) AS tong_diem
     FROM ket_qua kq
     JOIN chi_tiet_lop ON kq.user_id = chi_tiet_lop.user_id
-    JOIN chi_tiet_quyen ctq ON ctq.user_id = kq.user_id
-    WHERE chi_tiet_lop.ma_lop = $ma_lop
-      AND ctq.ma_quyen = 3
+    JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
+    Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
+    Where ctcn.ma_chuc_nang = 22
+     AND chi_tiet_lop.ma_lop = $ma_lop
     GROUP BY kq.user_id
 ) AS subquery";
 $result_get_dtb_lop = mysqli_query($connect, $sql_get_dtb_lop);
@@ -33,7 +34,8 @@ $dtb_lop = $row_get_dtb_lop['trungBinh'];
 // get tong ket qua trong lop
 $sql_get_slKq = "SELECT count(kq.user_id) as SlKq From ket_qua kq Join 
 chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
-Join chi_tiet_quyen ctq on ctq.user_id = kq.user_id Where ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop";
+JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
+Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop";
 $result_get_slKq = mysqli_query($connect, $sql_get_slKq);
 $row_slKq = mysqli_fetch_assoc($result_get_slKq);
 $slKq = $row_slKq['SlKq'];
@@ -42,12 +44,12 @@ $slKq = $row_slKq['SlKq'];
 
 $sql_get_slkq9 = "SELECT count(kq.user_id) as slkq From ket_qua kq Join 
 chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
-Join chi_tiet_quyen ctq on ctq.user_id = kq.user_id Where ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop
+JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
+Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop
 AND kq.diem >= 9";
 $result_get_slkq9 = mysqli_query($connect, $sql_get_slkq9);
 $row_slKq9 = mysqli_fetch_assoc($result_get_slkq9);
 $slKq9 = $row_slKq9['slkq'];
-
 ?>
 <div class="container">
     <article>
@@ -76,7 +78,7 @@ $slKq9 = $row_slKq9['slkq'];
                     <img src="./images/dcao.png" alt="">
                     <div class="d-flex flex-column justify-content-center">
                         <p class="mb-1">Tỷ lệ đạt điểm cao của lớp (9đ)</p>
-                        <p class="m-0"><?php echo ($slKq9 / $slKq) * 100  ?></p>
+                        <p class="m-0"><?php if ($slKq != 0) echo ($slKq9 / $slKq) * 100  ?></p>
                     </div>
                 </div>
             </div>
@@ -99,15 +101,16 @@ $slKq9 = $row_slKq9['slkq'];
                         role: "style"
                     }],
                     <?php 
-                        $sql_select_top10 = "SELECT kq.*, dt.ten_de_thi, users.ho_va_ten
+                        $sql_select_top10 = "SELECT DISTINCT kq.*, dt.ten_de_thi, users.ho_va_ten
                         FROM ket_qua kq 
                         JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
                         JOIN lop ON lop.ma_lop = ctl.ma_lop
-                        JOIN chi_tiet_quyen ctq ON ctq.user_id = kq.user_id 
                         JOIN bai_thi ON kq.ma_bai_thi = bai_thi.ma_bai_thi
                         JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi 
                         JOIN users ON users.id = kq.user_id
-                        WHERE ctq.ma_quyen = 3 AND ctl.ma_lop = $ma_lop  
+                        JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
+                        Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
+                        Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop  
                         ORDER BY kq.diem DESC 
                         LIMIT 10;
                         ";
@@ -164,7 +167,9 @@ $slKq9 = $row_slKq9['slkq'];
                     <select class="form-select" id="bai_thi_select">
                         <option selected>--Chọn đề thi--</option>
                         <?php
-                        $sql_get_baithi = "SELECT bt.ma_bai_thi, dt.ten_de_thi
+                        
+                        
+                        $sql_get_baithi = "SELECT bt.ma_bai_thi, bt.tg_ket_thuc, dt.ten_de_thi
                         FROM bai_thi bt 
                         JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi
                         JOIN lop l ON l.ma_lop = bt.ma_lop

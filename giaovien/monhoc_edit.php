@@ -1,8 +1,6 @@
 <?php
 ob_start();
-include('../includes/config.php');
-include('../includes/database.php');
-include('../includes/admin_header.php');
+include('../includes/header.php');
 include('../includes/functionMonHoc.php');
 
 if (isset($_POST['ten_mon_hoc'])) {
@@ -38,7 +36,27 @@ if (isset($_GET['id'])) {
         if ($mon_hoc) {
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
+    <script src="../js/script.js"></script>
+    
+</head>
+<style>
+    .error-message {
+        color: red;
+}
+</style>
 <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
@@ -66,7 +84,7 @@ if (isset($_GET['id'])) {
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a class="btn btn-secondary w-100" href="../admin/monhoc.php">
+                    <a class="btn btn-secondary w-100" href="../giaovien/monhoc.php">
                         <i class="bi bi-x-circle"></i> Trở về
                     </a>
                 </div>
@@ -84,5 +102,5 @@ if (isset($_GET['id'])) {
     echo "No mon_hoc selected";
     die();
 }
-include('../includes/admin_footer.php');
+include('../includes/footer.php');
 ?>

@@ -10,6 +10,16 @@ function getUsername($connect, $usernameOrEmail)
     $stm->close();
     return $result;
 }
+function getUsernamebyID($connect, $userId)
+{
+    $stm = $connect->prepare('SELECT * FROM users WHERE id = ?');
+    $stm->bind_param('i', $userId);
+    $stm->execute();
+    $result = $stm->get_result();
+    $stm->close();
+    return $result;
+    
+}
 function getImage($connect, $userId)
 {
     $stm = $connect->prepare('SELECT * FROM users WHERE id = ?');

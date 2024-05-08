@@ -3,7 +3,9 @@
 include('includes/header.php');
 include('includes/database.php');
 if(isset($_POST['ma_bai_thi']) && isset($_POST['ma_de_thi']) &&
-isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
+isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
+&& isset($_POST['ma_lop'])) {
+    
     $ma_de_thi = $_POST['ma_de_thi'];
     $ma_bai_thi = $_POST['ma_bai_thi'];
     $thoi_gian_lam_bai = $_POST['thoi_gian_lam_bai'];
@@ -12,9 +14,32 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
     $sql_check_lam_bai = "select * from ket_qua where ma_bai_thi = $ma_bai_thi and user_id = $user_id";
     $select = mysqli_query($connect, $sql_check_lam_bai);
     $check_lam_bai = mysqli_num_rows($select);
+    // check da lam bai
+    $ma_lop = $_POST['ma_lop'];
+    $sql_lh = "SELECT * FROM lop WHERE ma_lop = $ma_lop";
+    $result_lh = mysqli_query($connect, $sql_lh);
+    $row_lh = mysqli_fetch_assoc($result_lh);
+    $ten_lop = $row_lh['ten_lop'];
+    $ma_moi = $row_lh['ma_moi'];
     if($check_lam_bai != 0) {
-        header("Location: lophoc.php?thong_bao=Ban da lam bai thi roi");
+        header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_da_lam_bai=bandalambaithiroi");
     }
+
+    $sql_dh = "SELECT * FROM bai_thi WHERE ma_bai_thi = $ma_bai_thi";
+    $result_dh = mysqli_query($connect,$sql_dh);
+    $row_dh = mysqli_fetch_assoc($result_dh);
+    $tgbd = $row_dh['tg_bat_dau'];
+    $tgkt = $row_dh['tg_ket_thuc'];
+    date_default_timezone_set('Asia/Ho_Chi_Minh'); 
+    $tght = date('Y-m-d H:i:s', time());
+    
+    if($tgbd > $tght) {
+        header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_chua_toi_gio_lam_bai=chuatoigiolambai"); 
+    }    
+    if($tght >= $tgkt) {
+        header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_het_gio_gio_lam_bai=chuatoigiolambai"); 
+    }
+
 }
 ?>
 
@@ -27,7 +52,7 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
         <div class="col-8">
             <div class="text-danger mb-2">
                 <span style="font-weight: bold;">Số lần vi phạm (chuyển tab): </span> 
-                <span>2</span>
+                <span id="slctab">0</span>
             </div>
             <div class="mb-2">
                 <span style="font-weight: bold;">Thời gian làm bài: </span>
@@ -163,13 +188,20 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])) {
     }, 1000); // Cập nhật thời gian mỗi giây
 }
 
-document.getElementById("submitButton").addEventListener('click', function() {
-
-})
 
 window.onload = function() {
     startCountdown();
 };
+let vipham=0;
+$(window).blur(function() {
+    ++vipham;
+   alert('Bạn đã tab ra ngoài ' + vipham + ' lần');
+   if(vipham == 3) {
+    document.getElementById("submitButton").click();
+   }
+   document.getElementById("slctab").innerText = vipham;
+   //do something else
+});
 </script>
 
 <?php

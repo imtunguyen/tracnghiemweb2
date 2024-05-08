@@ -55,6 +55,9 @@
                         </div>
                         <div class="form-group mb-3">
                             <input type="date" class="form-control form-control-lg bg-light fs-6" id="birthday" name="birthday">
+                            <label class="form-check-label" for="birthday">
+                                Nam Sinh
+                            </label>
                             <span class="error text-danger" id="birthday-error"></span>
                         </div>
                         <div class="form-group mb-3">
@@ -64,7 +67,7 @@
                         </div>
                         <div id="file-name"></div>
                         <div class="form-group mb-3">
-                            <select name="permission" class="form-select" id="permission">
+                            <select name="permission" id="permission" class="form-select" id="permission">
                                 <option selected disabled>--Chọn quyền--</option>
                                 <option>Giáo viên</option>
                                 <option>Học sinh</option>
@@ -85,8 +88,8 @@
         $(document).ready(function() {
             function isValidEmail(email) {
                 // Biểu thức chính quy để kiểm tra định dạng email
-                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailPattern.test(email);
+                var emailPattern = /^[^\s@]+@gmail\.com$/;
+               return emailPattern.test(email);
             }
 
             function isValidDate(dateString) {
@@ -108,8 +111,8 @@
                 const gender = $("#gender").val();
                 const email = $('#email').val();
                 const permission = $('#permission').val();
+                console.log(permission);
                 const birthday = $("#birthday").val();
-                console.log(birthday);
                 if (fullname.length == 0) {
                     $("#fullname-error").text("Họ và tên không được để trống!");
                     return false;
@@ -161,6 +164,9 @@
                 } else if (!isValidDate(birthday)) {
                     $("#birthday-error").text("Ngày sinh không hợp lệ!");
                     return false;
+                } else if (permission == null) {
+                    $("#permission-error").text("Vui lòng chọn quyền.");
+                    return false;
                 }
                 return true;
             }
@@ -176,17 +182,16 @@
                         processData: false,
                         contentType: false,
                         success: function(response) {
-                            console.log(response);
-                            toastr.options.timeOut = 3000;
-                            toastr.options.progressBar = true;
+                            console.log("KEt qua tra ve: " + response);
                             if (response == "Tên tài khoản bị trùng") toastr.error(response);
                             if (response == "Đăng ký thất bại") toastr.error(response);
+                            if(response == "Failed to upload file") toastr.error(response);
                             if (response == "Email đã tồn tại") toastr.error(response);
                             if (response == "Đăng ký thành công đang chuyển hướng đến trang đăng nhập...") {
                                 toastr.success(response);
                                 setTimeout(function() {
                                     window.location.href = 'dangnhap.php';
-                                }, 3000);
+                                }, 2000);
 
                             }
                         },

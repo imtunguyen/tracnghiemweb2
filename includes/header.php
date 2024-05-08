@@ -33,7 +33,7 @@ $id = $_SESSION['userId'];
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a href="#" class="nav-link px-2 link-secondary">Trang chủ</a></li>
+      <li><a href="http://localhost/tracnghiemweb2/trangchu.php" class="nav-link px-2 link-secondary">Trang chủ</a></li>
       <?php
       
       if(check($connect, $id, "vao_lophoc")) {
@@ -53,7 +53,7 @@ $id = $_SESSION['userId'];
       }
 
       if(check($connect, $id, "them_monhoc") || check($connect, $id, "sua_monhoc") || check($connect, $id, "xoa_monhoc")) {
-        echo '<li><a href="monhoc.php" class="nav-link px-2">Môn Học</a></li>';
+        echo '<li><a href="http://localhost/tracnghiemweb2/giaovien/monhoc.php" class="nav-link px-2">Môn Học</a></li>';
       }
 
       if(check($connect, $id, "them_cauhoi") || check($connect, $id, "sua_cauhoi") || check($connect, $id, "xoa_cauhoi")) {
@@ -66,7 +66,8 @@ $id = $_SESSION['userId'];
       <div class="col-md-3 text-end">
           
           <img src="images/<?php echo $res= getImage($connect, $id);?>"  width="32" height="32" class="rounded-circle">
-          <a href="dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
+          <a href="http://localhost/tracnghiemweb2/suathongtin.php?id=<?php echo $id?>" class="btn btn-info">Chỉnh sửa</a>
+          <a href="http://localhost/tracnghiemweb2/dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
         <?php 
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {
             echo '<a href="admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';
