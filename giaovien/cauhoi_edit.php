@@ -1,13 +1,13 @@
 <?php
 ob_start();
-include('../includes/config.php');
 include('../includes/database.php');
+include('../includes/header.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
 if(isset($_POST['cau_hoi'])){
     $trang_thai =1;
-    $ma_nguoi_tao =1;
+    $ma_nguoi_tao =$_SESSION['userId'];
     $ma_mon_hoc = $_POST['ma_mon_hoc'];
     $do_kho = $_POST['do_kho'];
     $noi_dung = $_POST['cau_hoi'];
@@ -51,11 +51,11 @@ if(isset($_GET['id'])){
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản lý trắc nghiệm</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body>
@@ -157,7 +157,7 @@ if(isset($_GET['id'])){
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a class="btn btn-secondary w-100" href="../admin/cauhoi.php">
+                    <a class="btn btn-secondary w-100" href="../giaovien/cauhoi.php">
                         <i class="bi bi-x-circle"></i> Trở về
                     </a>
                 </div>

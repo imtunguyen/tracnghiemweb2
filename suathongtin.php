@@ -73,7 +73,7 @@ $user = $users->fetch_assoc();
                         </button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a class="btn btn-secondary w-100" href="../giaovien/dethi.php">
+                        <a class="btn btn-secondary w-100" href="trangchu.php">
                             <i class="bi bi-x-circle"></i> Trở về
                         </a>
                     </div>
