@@ -64,14 +64,15 @@ include('includes/functionUsers.php');
                             console.log('ket qua'+response);
                             toastr.options.timeOut = 3000;
                             toastr.options.progressBar = true;
-                            if (response == "Cập nhật thông tin thành công") {
-                                toastr.success(response);
+                            if (response != "Không tìm thấy Username hoặc Email") {
                                 setTimeout(function() {
-                                    window.location.href = 'confirmUsername.php';
-                                }, 3000);
+                                    window.location.href = `confirmUsername.php?username=${response}`;
+                                    
+                                    
+                                }, 1000);
 
                             }else{
-                                window.location.href = `confirmUsername.php?username=${response}`;
+                                toastr.error(response);
                             }
                         },
                         error: function(xhr, status, error) {
