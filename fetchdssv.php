@@ -72,7 +72,7 @@ if($total_data > 0) {
         JOIN 
             `quyen` q ON ctq.ma_quyen = q.ma_quyen
         WHERE 
-            ctl.ma_lop = 1 
+            ctl.ma_lop = $ma_lop 
             AND users.trang_thai = 1
             AND q.ten_quyen = 'giao_vien'";
 
@@ -80,7 +80,7 @@ if($total_data > 0) {
         while ($additional_row = mysqli_fetch_assoc($additional_result)) {
             $output .= "<tr>
                             <td>" . $additional_row['id'] . "</td>
-                            <td>" . $additional_row['id'] . '-' . $additional_row['ho_va_ten'] . "</td>
+                            <td>" . $additional_row['ho_va_ten'] . "</td>
                             <td>" . ($additional_row['gioi_tinh'] == 1 ? 'Nam' : 'Nữ') . "</td>
                             <td>" . $additional_row['ngay_sinh'] . "</td>
                             <td>" . $additional_row['email'] . "</td>
