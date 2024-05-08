@@ -11,7 +11,7 @@ if (isset($_POST['ten_de_thi']) && isset($_POST['thoi_gian_lam_bai']) && isset($
     $thoi_gian_lam_bai = trim($_POST['thoi_gian_lam_bai']);
     $ma_mon_hoc = trim($_POST['ma_mon_hoc']);
     $trang_thai = 1;
-    $ma_nguoi_tao = 1;
+    $ma_nguoi_tao = $_SESSION['userId'];
     addDeThi($connect, $ma_mon_hoc, $trang_thai, $thoi_gian_lam_bai, $ten_de_thi, $ma_nguoi_tao);
     $_SESSION['toastr'] = 'Thêm đề thi thành công';
     header('Location: dethi.php');
