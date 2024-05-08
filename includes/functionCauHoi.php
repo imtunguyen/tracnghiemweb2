@@ -45,8 +45,8 @@ function searchCauHoi($connect, $search){
     $result = $stm->get_result();
     return $result;
 }
-function searchCauHoitrongDeThi($connect, $searchText, $monHoc, $doKho) {
-    $sql = "SELECT * FROM cau_hoi WHERE trang_thai=1 AND (noi_dung LIKE '%$searchText%')";
+function searchCauHoitrongDeThi($connect, $searchText, $monHoc, $doKho,$madethi) {
+    $sql = "SELECT * FROM cau_hoi WHERE trang_thai=1 AND (noi_dung LIKE '%$searchText%') AND ma_cau_hoi NOT IN(SELECT ma_cau_hoi FROM chi_tiet_de_thi WHERE ma_de_thi = $madethi ) ";
 
     if ($monHoc !== '') {
         $sql .= " AND ma_mon_hoc = '$monHoc'";

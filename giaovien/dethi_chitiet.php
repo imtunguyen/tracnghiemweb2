@@ -14,6 +14,7 @@
     $addchdethi=AddCHDethi($connect,$_GET['id']);
     $dethi = getChiTietDeThibyId($connect, $_GET['id']);
     $_SESSION['ma_de_thi'] = $_GET['id'];
+    
 
 
     if(isset($_POST['submit'])){
@@ -233,7 +234,7 @@ $('#search_box, #filter_monhoc, #filter_dokho').change(function() {
         $.ajax({
             url: 'dethi_search.php',
             type: 'GET',
-            data: {search_text: searchText, mon_hoc: monHoc, do_kho: doKho},
+            data: {search_text: searchText, mon_hoc: monHoc, do_kho: doKho,},
             success: function(response) {
                 $('#t_draggable1 tbody').html(response);
             }
