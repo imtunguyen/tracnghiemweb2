@@ -105,6 +105,38 @@
                     });
                 }
             });
+
+            $('#loginForm').keypress(function(e) {
+        // Kiểm tra nếu phím được nhấn là phím "Enter"
+        if (e.which == 13) {
+            // Ngăn chặn hành động mặc định của nút submit
+            e.preventDefault();
+            $(".error").html("");
+            var form = $('#loginForm')[0];
+            var data = new FormData(form);
+            console.log(checkValidation());
+            if (checkValidation()) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'xulydangnhap.php',
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if(response == "Sai tên đăng nhập hoặc mật khẩu") {
+                            toastr.error(response);
+                        }else {
+                            window.location.href = 'trangchu.php';
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error();
+                    }
+                });
+            }
+        }
+    });
+
         });
     </script>
 </body>
