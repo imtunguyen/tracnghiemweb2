@@ -38,6 +38,12 @@ if(isset($_GET['thong_bao_chua_toi_gio_lam_bai'])) {
     echo "<script>toastr.error('Chưa tới giờ làm bài');</script>";
 }
 }
+if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
+  $thong_bao_hglb = $_GET['thong_bao_het_gio_gio_lam_bai'];
+  if($thong_bao_hglb != "") {
+    echo "<script>toastr.error('Đã quá giờ làm bài');</script>";
+}
+}
 ?>
 
 <div class="container">
