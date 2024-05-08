@@ -1,6 +1,7 @@
 <?php
 include('./includes/header.php');
 include('./includes/database.php');
+
 if (!(isset($_SESSION['userId']))) {
   header("Location: dangnhap.php");
 }
@@ -58,7 +59,7 @@ if(isset($_GET['thong_bao_update'])) {
     <p >Giáo viên: <?php echo $ten_gv; ?></p>
   </div>
   <div class="row mb-3">
-    <p style="font-weight: bold;">Mã mời: <?php echo $ma_moi ?></p>
+    <p style="font-weight: bold;">Mã mời: <?php if(check($connect, $_SESSION['userId'], 'them_lophoc')) {echo $ma_moi;} ?></p>
   </div>
   <h3 class="text-center mb-3">
     Danh sách đề thi trong lớp
@@ -71,16 +72,26 @@ if(isset($_GET['thong_bao_update'])) {
       <button class="btn btn-primary">Tìm kiếm</button>
     </div>
     <div class="col-6 text-end">
-      <form class="btn p-0 m-0" action="baithi_add.php" method="POST">
-        <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
-        <button type="submit" class="btn btn-primary">Thêm đề thi vào lớp</button>
-      </form>
-      
+      <?php 
+      if(check($connect, $_SESSION['userId'], 'them_dethi')) {
+        echo
+      '<form class="btn p-0 m-0" action="baithi_add.php" method="POST">
+      <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
+      <button type="submit" class="btn btn-primary">Thêm đề thi vào lớp</button>
+      </form>';
+      }
+      ?>
+      <?php 
+      if(check($connect, $_SESSION['userId'], 'xem_thongke')) {
+        echo
+      '
       <form class="btn p-0 m-0" action="dssvtronglop.php" method="GET">
         <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
         <input type="hidden" name="ten_lop" value="<?php echo $ten_lop; ?>">
         <button type="submit" class="btn btn-primary">Xem DSSV</button>
-      </form>
+      </form>';
+      }
+      ?>
 
     </div>
   </div>
@@ -116,17 +127,30 @@ if(isset($_GET['thong_bao_update'])) {
                 <td>" . $row['tg_ket_thuc'] . "</td>
                 <td>" . $row['thoi_gian_lam_bai'] . "</td>
                 <td>
-                <div class='w-75 btn-group' role='group'>
-                <form action='baithi_sua.php' method='post'>
+                <div class='w-75 btn-group' role='group'>";
+        
+                if(check($connect, $_SESSION['userId'], 'sua_dethi')) {
+
+                echo
+                "<form action='baithi_sua.php' method='post'>
                   <input type='hidden' name='ma_lop' value='$ma_lop'>
                   <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
                   <button id='btnSubmit1' class='btn btn-success mx-2' type='submit'>Sửa</button>
-                </form>
+                </form>";
+                }
+                
+                if(check($connect, $_SESSION['userId'], 'xoa_dethi')) {
+                echo "
                 <form action='baithi_xoa.php' method='post'>
                   <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
                   <button id='btnSubmit2' class='btn btn-danger mx-2' type='submit'>Xóa</button>
-                </form>
-            </div>
+                </form>";
+                }
+                echo "
+                </div>";
+                
+                if(check($connect, $_SESSION['userId'], 'lam_baithi')) {
+                echo  "
                 <form action='lambai.php' method='post'>
                   <input type='hidden' name='ma_lop' value='$ma_lop'>
                   <input type='hidden' name='ma_bai_thi' value='" . $row['ma_bai_thi'] . "'>
@@ -134,7 +158,10 @@ if(isset($_GET['thong_bao_update'])) {
                   <input type='hidden' name='thoi_gian_lam_bai' value='" . $row['thoi_gian_lam_bai'] . "'>
                   <input type='hidden' name='ten_de_thi' value='" . $row['ten_de_thi'] . "'>
                   <button id='btnSubmit' class='btn btn-primary' type='submit'>Làm bài</button>
-                </form>
+                </form>";
+                }
+                
+        echo "
               </td>
               </tr>";
       }
