@@ -132,13 +132,20 @@ if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
       $stt = 0;
       $user_id = $_SESSION['userId'];
       while ($row = mysqli_fetch_assoc($result)) {
+        // Convert time strings to Unix timestamps
+        $tg_bat_dau_timestamp = strtotime($row['tg_bat_dau']);
+        $tg_ket_thuc_timestamp = strtotime($row['tg_ket_thuc']);
+
+        // Format Unix timestamps to display date and time in "ngày/tháng/năm giờ:phút:giây" format
+        $tg_bat_dau_formatted = date("d/m/Y H:i:s", $tg_bat_dau_timestamp);
+        $tg_ket_thuc_formatted = date("d/m/Y H:i:s", $tg_ket_thuc_timestamp);
         $stt += 1;
         echo "<tr>
                 <td>" . $stt . "</td>
                 <td>" . $row['ten_de_thi'] . "</td>
                 <td>" . $row['ten_mon_hoc'] . "</td>
-                <td>" . $row['tg_bat_dau'] . "</td>
-                <td>" . $row['tg_ket_thuc'] . "</td>
+                <td>" . $tg_bat_dau_formatted . "</td>
+                <td>" . $tg_ket_thuc_formatted . "</td>
                 <td>" . $row['thoi_gian_lam_bai'] . "</td>
                 <td>
                 <div class='w-75 btn-group' role='group'>";

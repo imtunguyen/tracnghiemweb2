@@ -50,7 +50,6 @@ AND kq.diem >= 9";
 $result_get_slkq9 = mysqli_query($connect, $sql_get_slkq9);
 $row_slKq9 = mysqli_fetch_assoc($result_get_slkq9);
 $slKq9 = $row_slKq9['slkq'];
-
 ?>
 <div class="container">
     <article>
@@ -79,7 +78,7 @@ $slKq9 = $row_slKq9['slkq'];
                     <img src="./images/dcao.png" alt="">
                     <div class="d-flex flex-column justify-content-center">
                         <p class="mb-1">Tỷ lệ đạt điểm cao của lớp (9đ)</p>
-                        <p class="m-0"><?php echo ($slKq9 / $slKq) * 100  ?></p>
+                        <p class="m-0"><?php if ($slKq != 0) echo ($slKq9 / $slKq) * 100  ?></p>
                     </div>
                 </div>
             </div>
@@ -168,7 +167,9 @@ $slKq9 = $row_slKq9['slkq'];
                     <select class="form-select" id="bai_thi_select">
                         <option selected>--Chọn đề thi--</option>
                         <?php
-                        $sql_get_baithi = "SELECT bt.ma_bai_thi, dt.ten_de_thi
+                        
+                        
+                        $sql_get_baithi = "SELECT bt.ma_bai_thi, bt.tg_ket_thuc, dt.ten_de_thi
                         FROM bai_thi bt 
                         JOIN de_thi dt ON bt.ma_de_thi = dt.ma_de_thi
                         JOIN lop l ON l.ma_lop = bt.ma_lop
