@@ -18,8 +18,6 @@ if (
     $avatar = $_FILES["avatar"]["name"];
     $tempname = $_FILES["avatar"]["tmp_name"];
     $folder = "./images/" . $avatar;
-    //sua lai
-    $permission = strtolower($_POST["permission"]) == strtolower('Giáo viên') ? 2 : 3;
     
     $permission = strtolower($_POST["permission"]) == strtolower('Giáo viên') ? getMaQuyenTheoTen($connect, "giao_vien") : getMaQuyenTheoTen($connect, "hoc_sinh");
     $dateCreate = date("Y-m-d H:i:s");

@@ -40,10 +40,6 @@ $id = $_SESSION['userId'];
         echo '<li><a href="http://localhost/tracnghiemweb2/lophoc.php" class="nav-link px-2">Lớp học</a></li>';
       }
 
-      if(check($connect, $id, "xem_thongke")) {
-        echo '<li><a href="#" class="nav-link px-2">Thống Kê</a></li>';
-      }
-
       if(check($connect, $id, "xem_ketqua")) {
         echo '<li><a href="http://localhost/tracnghiemweb2/ketquahoctap.php" class="nav-link px-2">Kết quả học tập</a></li>';
       }
