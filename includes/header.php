@@ -66,7 +66,7 @@ $id = $_SESSION['userId'];
           <a href="http://localhost/tracnghiemweb2/dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
         <?php 
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {
-            echo '<a href="admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';
+            echo '<a href="http://localhost/tracnghiemweb2/admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';
         }
 
         ?>

@@ -26,9 +26,9 @@ include('includes/functionUsers.php');
         <form id="changeForm"  method="post"> 
             <label for=""><h4>Đổi mật khẩu</h4></label><hr>
             <label for="">Nhập mật khẩu mới:</label><br>
-            <input type="text" class="form-control" id="newPassword" name="newPassword"><br>
+            <input type="password" class="form-control" id="newPassword" name="newPassword"><br>
             <label for="">Xác nhận mật khẩu:</label><br>
-            <input type="text" class="form-control" id="reNewPassword" name="reNewPassword">
+            <input type="password" class="form-control" id="reNewPassword" name="reNewPassword">
             <span class="error text-danger" id="password-error"></span>
             <hr>
             <div class="text-end">

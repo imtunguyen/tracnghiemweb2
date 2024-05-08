@@ -8,8 +8,9 @@ if(isset($_GET['search_text']) && isset($_GET['mon_hoc']) && isset($_GET['do_kho
     $searchText = $_GET['search_text'];
     $monHoc = $_GET['mon_hoc'];
     $doKho = $_GET['do_kho'];
+    $madethi=$_SESSION['ma_de_thi'];
 
-    $results = searchCauHoitrongDeThi($connect, $searchText, $monHoc, $doKho);
+    $results = searchCauHoitrongDeThi($connect, $searchText, $monHoc, $doKho,$madethi);
 
     if (!empty($results)) {
         echo '<table class="table-striped" id="t_draggable1">';
