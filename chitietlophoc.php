@@ -89,7 +89,7 @@ if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
       if(check($connect, $_SESSION['userId'], 'them_dethi')) {
         echo
       '<form class="btn p-0 m-0" action="baithi_add.php" method="POST">
-      <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
+      <input type="hidden" name="ma_lop" value="' .$ma_lop . '">
       <button type="submit" class="btn btn-primary">Thêm đề thi vào lớp</button>
       </form>';
       }
@@ -99,8 +99,9 @@ if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
         echo
       '
       <form class="btn p-0 m-0" action="dssvtronglop.php" method="GET">
-        <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
-        <input type="hidden" name="ten_lop" value="<?php echo $ten_lop; ?>">
+        <input type="hidden" name="ma_lop" value="' .$ma_lop . '">
+        <input type="hidden" name="ten_lop" value="' .$ten_lop . '">
+
         <button type="submit" class="btn btn-primary">Xem DSSV</button>
       </form>';
       }
