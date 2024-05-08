@@ -35,7 +35,7 @@ if(isset($_GET['thongbao'])) {
                     <select name='ma_de_thi'  class="form-select border shadow">
                         <?php
                             $user_id = $_SESSION['userId'];;
-                            $sql_dt = "SELECT * FROM de_thi WHERE trang_thai = 1 AND ma_nguoi_tao = $user_id";
+                            $sql_dt = "SELECT * FROM de_thi WHERE trang_thai = 1";
                             $result_dt = mysqli_query($connect, $sql_dt);
                             while($row_dt = $result_dt->fetch_assoc()) {
                                 echo "<option  value='" .$row_dt['ma_de_thi']. "'>" .$row_dt['ten_de_thi']. "</option>";

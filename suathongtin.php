@@ -73,7 +73,7 @@ $user = $users->fetch_assoc();
                         </button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a class="btn btn-secondary w-100" href="../giaovien/dethi.php">
+                        <a class="btn btn-secondary w-100" href="./trangchu.php">
                             <i class="bi bi-x-circle"></i> Trở về
                         </a>
                     </div>
@@ -150,7 +150,7 @@ $user = $users->fetch_assoc();
                         contentType: false,
                         success: function(response) {
                             console.log('ket qua'+response);
-                            toastr.options.timeOut = 3000;
+                            toastr.options.timeOut = 1000;
                             toastr.options.progressBar = true;
                             if (response == "Tên tài khoản bị trùng") toastr.error(response);
                             if (response == "Email đã tồn tại") toastr.error(response);
@@ -158,7 +158,7 @@ $user = $users->fetch_assoc();
                                 toastr.success(response);
                                 setTimeout(function() {
                                     window.location.href = 'trangchu.php';
-                                }, 3000);
+                                }, 1000);
 
                             }
                         },

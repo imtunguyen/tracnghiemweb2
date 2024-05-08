@@ -82,7 +82,7 @@ include('includes/functionUsers.php');
                                 toastr.success(response);
                                 setTimeout(function() {
                                     window.location.href = 'dangnhap.php';
-                                }, 2000);
+                                }, 1000);
                             }
                         },
                         error: function(xhr, status, error) {
@@ -111,7 +111,7 @@ include('includes/functionUsers.php');
                                 toastr.success(response);
                                 setTimeout(function() {
                                     window.location.href = 'dangnhap.php';
-                                }, 2000);
+                                }, 1000);
 
                             }
                         },

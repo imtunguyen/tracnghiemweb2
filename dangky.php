@@ -227,7 +227,7 @@
                                     toastr.success(response);
                                     setTimeout(function() {
                                         window.location.href = 'dangnhap.php';
-                                    }, 2000);
+                                    }, 1000);
                                 }
                             },
                             error: function(xhr, status, error) {
