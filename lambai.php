@@ -34,9 +34,6 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
     $tgbd_timestamp = strtotime($tgbd);
     $tgkt_timestamp = strtotime($tgkt);
     $thoi_gian_hien_tai = time();
-    echo $tgbd_timestamp;
-    echo "hádsa";
-    echo $thoi_gian_hien_tai;
     if($tgbd_timestamp < $thoi_gian_hien_tai) {
         header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_chua_toi_gio_lam_bai=chuatoigiolambai"); 
     }    
