@@ -50,11 +50,14 @@ if(isset($_GET['delete'])){
                
                 
             </div>
-            <div class="col-5 text-end">
-                <a class="btn btn-success" href="../giaovien/monhoc_add.php">
-                    <i class="bi bi-plus-circle"></i> Thêm môn học mới
-                </a>
-            </div>
+            <?php 
+            if(check($connect, $_SESSION['userId'], 'them_monhoc')) {echo'
+                <div class="col-5 text-end">
+                    <a class="btn btn-success" href="../giaovien/monhoc_add.php">
+                        <i class="bi bi-plus-circle"></i> Thêm môn học mới
+                    </a>
+                </div>';}
+            ?>
         </div>
         <div class="table-responsive" id="dynamic_contentmh"></div>
      </div>   

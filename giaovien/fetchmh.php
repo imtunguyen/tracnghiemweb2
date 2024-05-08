@@ -1,6 +1,8 @@
 <?php
+session_start();
 include('../includes/database.php');
 include('../includes/functionMonHoc.php');
+include('../includes/functions.php');
 $limit = '5';
 $page = 1;
 
@@ -49,13 +51,20 @@ if($total_data > 0) {
             <td>'.$start_index++.'</td>
             <td>'.$row["ten_mon_hoc"].'</td>
             <td>
-                <div class="w-75 btn-group" role="group">
+                <div class="w-75 btn-group" role="group">';
+                if(check($connect, $_SESSION['userId'], 'sua_monhoc')) {
+                    $output .= '
                     <a class="btn btn-warning mx-2" href="../giaovien/monhoc_edit.php?id='.$row['ma_mon_hoc'].'">
                         <i class="bi bi-pencil-square"></i> Sửa
-                    </a>
+                    </a>';
+                }
+                if(check($connect, $_SESSION['userId'], 'xoa_monhoc')) {    
+                    $output .= '
                     <a class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#' . $modalXoaID .'">
                         <i class="bi bi-trash"></i> Xóa
-                    </a>
+                    </a>';
+                }
+                $output .= '    
                 </div>
             </td>';
         xacNhanXoaMH($row['ma_mon_hoc'], $modalXoaID);

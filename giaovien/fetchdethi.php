@@ -57,16 +57,27 @@ if($total_data > 0) {
             <td>'.$start_index++.'</td>
             <td>'.$row["ten_de_thi"].'</td>
             <td>
-                <div class=" btn-group" role="group">
+                <div class=" btn-group" role="group">';
+                if(check($connect, $_SESSION['userId'], 'sua_dethi')) { 
+                    $output .='
                     <a class=" btn btn-success mx-2 " href="../giaovien/dethi_edit.php?id=' . $row['ma_de_thi'] . '">
                         <i class=" bi bi-pencil-square"></i> Sửa
-                    </a>
+                    </a>';
+                }
+                if(check($connect, $_SESSION['userId'], 'them_dethi') || check($connect, $_SESSION['userId'], 'sua_dethi')) { 
+                    $output .='
                     <a class=" btn btn-warning mx-2 " href="../giaovien/dethi_chitiet.php?id=' . $row['ma_de_thi'] . '">
                         <i class=" bi bi-pencil-square"></i> Chi Tiết
-                    </a>
+                    </a>';
+                } 
+                if(check($connect, $_SESSION['userId'], 'xoa_dethi')) {
+                    $output .= '
+                    
                     <a class=" btn btn-danger mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalXoaID . '">
                         <i class="bi bi-trash"></i> Xóa
-                    </a>
+                    </a>';
+                }
+                    $output .= '
                 </div>
             </td>
         </tbody>';
