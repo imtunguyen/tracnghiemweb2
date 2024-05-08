@@ -31,6 +31,22 @@ function checkExistedMaMoi($connect, $ma_moi) {
   }
 }
 
+function checkExisted($connect, $ma_lop, $user_id) {
+  $query = "SELECT * FROM chi_tiet_lop
+                WHERE trang_thai = 1 AND user_id = $user_id and ma_lop = $ma_lop";
+  $rowcount = 0;
+  if ($result = mysqli_query($connect, $query))
+  {
+      $rowcount=mysqli_num_rows($result);
+  }
+  if($rowcount > 0) {
+      return true;
+  }
+  else {
+      return false;
+  }
+} 
+
 function getIdByMaMoi($connect, $ma_moi) {
   $id = "";
   $query = "SELECT ma_lop FROM lop WHERE trang_thai = 1 AND ma_moi = '{$ma_moi}'";
@@ -43,15 +59,15 @@ function getIdByMaMoi($connect, $ma_moi) {
 
 if(isset($_POST['ma_moi']) ) {
   $ma_moi = $_POST['ma_moi'];
-  $ma_lop = getIdByMaMoi($connect, $ma_moi);
-  if(checkExistedMaMoi($connect, $ma_moi)) {
+  $ma_lop = checkExistedMaMoi($connect, $ma_moi) ? getIdByMaMoi($connect, $ma_moi) : "none";
+  if($ma_lop != "none" && checkExisted($connect, $ma_lop, $userId) == false) {
     $query2 = "INSERT INTO chi_tiet_lop(user_id, ma_lop, trang_thai) ";
     $query2 .= "VALUES($userId, $ma_lop, 1)"; 
     $result = mysqli_query($connect, $query2);
     header('Location: lophoc.php');
   }
   else {?>
-    <script>alert("mã mời sai")</script>
+    <script>toastr.error("Kiểm tra lại mã mời của bạn!");</script>
     <?php
   }
 }
@@ -70,36 +86,17 @@ if(isset($_POST['ma_moi']) ) {
       </a>
     </div>';} ?>
     <?php if(check($connect, $_SESSION['userId'], 'lam_baithi')){echo '<div class="col">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-      Tham gia lớp học
-      </button>
+      <form action="" method="post">
+        <input type="text" name="ma_moi">
+        <input type="submit" value="Tham Gia Lớp Học">
+        </form>
     </div>';} ?>
     
 </div>
 
 <div class="row p-3 m-auto" id="dynamic_content">
 </div>
-
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Nhập mã mời</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <form action="" method="post">
-        <input type="text" name="ma_moi">
-        <input type="submit" value="submit">
-        </form>
-      </div>
-
-    </div>
-  </div>
+  
 
 <script>
   let thongBao = "<?php echo $thongBao; ?>";
@@ -142,4 +139,6 @@ include('includes/footer.php');
     });
 
     }); 
+
+  
 </script>
