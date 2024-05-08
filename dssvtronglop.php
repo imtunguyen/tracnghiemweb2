@@ -7,7 +7,8 @@ if (!(isset($_SESSION['username']) && isset($_SESSION['userId']))) {
 if(!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']))) {
     header("Location: lophoc.php");
 } else {
-  $ma_lop = $_GET['ma_lop'];
+  $ma_lop = $_GET['ma_lop']; 
+  $_SESSION['ma_lop'] = $ma_lop;
   $ten_lop = $_GET['ten_lop'];
 }
 ?>
@@ -20,54 +21,40 @@ if(!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']))) {
     </h3>
     <div class="row mb-2"> 
         <div class="col-4">
-            <input type="text" class="form-control d-flex" placeholder="Nhập tên sinh viên">
-        </div>
-        <div class="col-2">
-            <button class="btn btn-primary">Tìm kiếm</button>
+        <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm sinh viên" />
         </div>
         <div class="col-6 text-end">
         <form class="btn p-0 m-0" action="thongketheolop.php" method="GET">
                 <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
                 <button type="submit" class="btn btn-primary">Xem thống kê</button>
-            </form>
+        </form>
         </div>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Họ tên</th>
-                <th>Giới tính</th>
-                <th>Ngày sinh</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $sql = "SELECT 
-               users.id, 
-               users.ho_va_ten, 
-               users.ngay_sinh, 
-               users.gioi_tinh, 
-               users.email
-           FROM 
-               `users`
-           JOIN 
-               `chi_tiet_lop` ctl ON users.id = ctl.user_id
-           WHERE 
-               ctl.ma_lop = 1 AND users.trang_thai = 1";
-            $result = mysqli_query($connect, $sql);
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>
-                <td>" . $row['id'] . "</td>
-                <td>" . $row['id'] . '-' . $row['ho_va_ten'] . "</td>
-                <td>" . ($row['gioi_tinh'] == 1 ? 'Nam' : 'Nữ') . "</td>
-                <td>" . $row['ngay_sinh'] . "</td>
-                <td>" . $row['email'] . "</td>
-              </tr>";
-            }
-            ?>
-
-        </tbody>
-    </table>
+    <div class="table-responsive" id="dynamic_dssv"></div>
 </div>
+<script>
+    load_data(1);
+    function load_data(page, query = '')
+    {
+        $.ajax({
+            url:"fetchdssv.php",
+            method:"POST",
+            data:{page:page, query:query},
+            success:function(data)
+            {
+                $('#dynamic_dssv').html(data);
+            }
+        });
+    }
+
+    $(document).on('click', '.page-link', function(){
+        var page = $(this).data('page_number');
+        var query = $('#search_box').val();
+        load_data(page, query);
+    });
+
+    $('#search_box').keyup(function(){
+        var query = $('#search_box').val();
+        load_data(1, query);
+    });
+</script>

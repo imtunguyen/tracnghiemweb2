@@ -9,6 +9,7 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
   header("Location: lophoc.php");
 } else {
   $ma_lop = $_GET['ma_lop'];
+  $_SESSION['ma_lop'] = $ma_lop;
   $ten_lop = $_GET['ten_lop'];
   $ma_moi = $_GET['ma_moi'];
 }
@@ -79,10 +80,8 @@ if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
   </h3>
   <div class="row mb-2">
     <div class="col-4">
-      <input type="text" class="form-control d-flex" placeholder="Nhập tên đề thi">
-    </div>
-    <div class="col-2">
-      <button class="btn btn-primary">Tìm kiếm</button>
+      <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm đề thi" />
+
     </div>
     <div class="col-6 text-end">
       <?php 
@@ -109,6 +108,7 @@ if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
 
     </div>
   </div>
+  <div class="table-responsive" id="dynamic_chitietlop"></div>
   <table class="table">
     <thead>
       <tr>
@@ -184,4 +184,31 @@ if(isset($_GET['thong_bao_het_gio_gio_lam_bai'])) {
     </tbody>
   </table>
 </div>
+
+<script>
+    load_data(1);
+    function load_data(page, query = '')
+    {
+        $.ajax({
+            url:"fetchchitietlophoc.php",
+            method:"POST",
+            data:{page:page, query:query},
+            success:function(data)
+            {
+                $('#dynamic_chitietlop').html(data);
+            }
+        });
+    }
+
+    $(document).on('click', '.page-link', function(){
+        var page = $(this).data('page_number');
+        var query = $('#search_box').val();
+        load_data(page, query);
+    });
+
+    $('#search_box').keyup(function(){
+        var query = $('#search_box').val();
+        load_data(1, query);
+    });
+</script>
 

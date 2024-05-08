@@ -1,4 +1,5 @@
 
+
 <?php 
     include '../includes/header.php';
     include '../includes/database.php';
@@ -128,6 +129,7 @@
                         
                         <?php
                         if ($dethi->num_rows > 0) {
+                            $stt = 1;
                             $stt = 1;
                             while ($chiTiet = $dethi->fetch_assoc()) {
                                 $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"]);
