@@ -10,6 +10,9 @@ include('includes/database.php');
         if(isset($_POST['ma_bai_thi'])) {
             $ma_bai_thi = $_POST['ma_bai_thi'];
         }
+        if(isset($_POST['ma_de_thi'])) {
+            $ma_de_thi = $_POST['ma_de_thi'];
+        }
         $query = "select ch.* from chi_tiet_de_thi ctdt join de_thi dt on ctdt.ma_de_thi = dt.ma_de_thi join cau_hoi ch on ch.ma_cau_hoi = ctdt.ma_cau_hoi where dt.ma_de_thi = $ma_de_thi";
         $select_socauhoi = mysqli_query($connect,$query);
         $tong = mysqli_num_rows($select_socauhoi); 
