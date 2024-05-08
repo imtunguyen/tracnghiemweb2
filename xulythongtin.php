@@ -37,12 +37,11 @@ if (
 
         if($row_check_email > 0) {
             echo "Email đã tồn tại";
-            exit(); // Exit the script if email already exists
+            exit(); 
         } elseif ($row_check_username > 0) {
             echo "Tên tài khoản bị trùng";
-            exit(); // Exit the script if username already exists
+            exit(); 
         } else {
-            // Update the user information
             $sql_update_user = "UPDATE users SET ho_va_ten = '$fullname', username = '$username', email = '$email', ngay_sinh = '$birthDay', avatar = '$avatar' WHERE id = $id";
         
             if(mysqli_query($connect, $sql_update_user)) {

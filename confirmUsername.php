@@ -7,8 +7,8 @@ require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
-if(isset($_POST['usernameOrEmail'])){
-    $usernameOrEmail = $_POST['usernameOrEmail'];
+if(isset($_GET['username'])){
+    $usernameOrEmail = $_GET['username'];
     $userInfo = getUsername($connect, $usernameOrEmail);
     
     if($userInfo !== null && $userInfo->num_rows >= 0) {
@@ -28,7 +28,7 @@ if(isset($_POST['usernameOrEmail'])){
 </head>
 <body>
 <div class="d-flex justify-content-center align-items-center min-vh-100" style="background-color: #e9ebee;">
-    <div class="row border rounded-4 p-4 bg-white shadow box-area" style="max-width: 500px; max-height: 250px;">
+    <div class="row border rounded-4 p-4 bg-white shadow box-area" >
         <form action="sendEmail.php" method="post"> 
             <label for=""><h4>Gửi đến Email</h4></label>
             <div class="row">
@@ -38,13 +38,13 @@ if(isset($_POST['usernameOrEmail'])){
                     <input type="hidden" name="email" value="<?php echo $row['email'] ?>">
                 </div>
                 <div class="right-box col-md-4">
-                    <img src="<?php echo $row['avatar']?>" style="width: 50px;"><br>
+                    <img src="./images/<?php echo $row['avatar']?>" style="width: 50px;"><br>
                     <label for=""><?php echo $row['username'] ?></label>
                 </div>
             </div>
             <hr>
             <div class="text-end">
-                <a href="getUsername.php" class="btn btn-secondary">Hủy</a>
+                <a href="dangnhap.php" class="btn btn-secondary">Hủy</a>
                 <button class="btn btn-primary" type="submit" name="submit">Xác nhận</button>
             </div>
         </form>
