@@ -4,8 +4,8 @@
     if( isset($_POST['tgbd']) && isset($_POST['tgkt']) && isset($_POST['ma_lop'])) {
         
         $ma_dt = $_POST['ma_de_thi'];
-        $tgbd = date('Y-m-d', strtotime($_POST['tgbd']));
-        $tgkt = date('Y-m-d', strtotime($_POST['tgkt']));
+        $tgbd = date('Y-m-d H:i:s', strtotime($_POST['tgbd']));
+        $tgkt = date('Y-m-d H:i:s', strtotime($_POST['tgkt']));
         $userId = $_SESSION['userId'];
         $ma_lop = $_POST['ma_lop'];
 
