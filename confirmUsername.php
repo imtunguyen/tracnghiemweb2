@@ -9,10 +9,9 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
 if(isset($_GET['username'])){
     $usernameOrEmail = $_GET['username'];
-    $userInfo = getUsername($connect, $usernameOrEmail);
+    $row = getUsername($connect, $usernameOrEmail);
     
-    if($userInfo !== null && $userInfo->num_rows >= 0) {
-      $row = $userInfo->fetch_assoc(); 
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +54,6 @@ if(isset($_GET['username'])){
           else{
              
           }
-      }
+      
 include('includes/admin_footer.php');
 ?>

@@ -8,13 +8,11 @@ if(isset($_POST['usernameOrEmail'])) {
     $usernameOrEmail = $_POST['usernameOrEmail'];
 
     $userInfo = getUsername($connect, $usernameOrEmail);
-    if(!$userInfo){
+    if($userInfo == null) {
         echo "Không tìm thấy Username hoặc Email";
         exit();
-    }
-    else{
-        echo  $usernameOrEmail;
-        exit();
+    } else {
+        echo $userInfo['email']; 
     }
 
 }else{

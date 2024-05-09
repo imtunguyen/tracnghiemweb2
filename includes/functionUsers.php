@@ -8,7 +8,7 @@ function getUsername($connect, $usernameOrEmail)
     $stm->execute();
     $result = $stm->get_result();
     $stm->close();
-    return $result;
+    return $result->fetch_assoc();
 }
 function getUsernamebyID($connect, $userId)
 {

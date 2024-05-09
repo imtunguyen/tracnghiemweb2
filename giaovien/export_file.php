@@ -19,10 +19,10 @@ while ($question = $questions->fetch_assoc()) {
     $answerLetters = ['A.', 'B.', 'C.', 'D.']; 
     $index = 0; 
     while ($answer = $answers->fetch_assoc()) {
-        $section->addText($answerLetters[$index] . " " . $answer['noi_dung']);
         if ($answer['la_dap_an'] == 1) {
-            // Hiển thị thông tin nếu câu trả lời là đáp án
-            $section->addText("", array('underline' => 'single'));
+            $section->addText($answerLetters[$index] . " " . $answer['noi_dung']. "*");
+        } else {
+            $section->addText($answerLetters[$index] . " " . $answer['noi_dung']);
         }
         $index++;  
     }
