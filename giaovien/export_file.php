@@ -14,34 +14,33 @@ $questions = getCauHoi($connect);
 
 $stt = 1;
 while ($question = $questions->fetch_assoc()) {
-    $section->addText("Câu " . $stt . ": " . $question['noi_dung']);
+    $output ="
+				<h1> Câu " . $stt . ": " . $question['noi_dung']."</h1>
+			";
     $answers = getCauTraLoi($connect, $question['ma_cau_hoi']);
     $answerLetters = ['A.', 'B.', 'C.', 'D.']; 
     $index = 0; 
     while ($answer = $answers->fetch_assoc()) {
+        $answerTest = $answerLetters[$index] . " " . $answer['noi_dung'];
         if ($answer['la_dap_an'] == 1) {
-            $section->addText($answerLetters[$index] . " " . $answer['noi_dung']. "*");
+            $output .= "<u>". $answerTest. "</u>";
         } else {
-            $section->addText($answerLetters[$index] . " " . $answer['noi_dung']);
+            $output .= " $answerTest ";
         }
         $index++;  
     }
     $stt++;
+
+    $date = date("Y-m-d");
+			
+    header("Content-Type: application/vnd.msword");
+	header("Expires: 0");//no-cache
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");//no-cache
+	header("content-disposition: attachment;filename=".$date.".doc");
+			
+	echo "<html>";
+	echo $output;
+	echo "</html>";
 }
-
-$filename = 'export.docx';
-$phpWord->save($filename);
-
-header('Content-Description: File Transfer');
-header('Content-Type: application/octet-stream');
-header('Content-Disposition: attachment; filename=' . $filename);
-header('Content-Transfer-Encoding: binary');
-header('Expires: 0');
-header('Cache-Control: must-revalidate');
-header('Pragma: public');
-header('Content-Length: ' . filesize($filename));
-ob_clean();
-flush();
-readfile($filename);
-exit;
+			
 ?>
