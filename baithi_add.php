@@ -4,6 +4,7 @@ use Smalot\PdfParser\Encoding\PostScriptGlyphs;
 
 include('./includes/header.php');
 include('./includes/database.php');
+include('.includes/functionDeThi.php');
 if(isset($_POST['ma_lop'])) {
     $ma_lop = $_POST['ma_lop'];
 }
@@ -31,11 +32,15 @@ if(isset($_GET['thongbao'])) {
             <input hidden name="ma_lop" type="text" value="<?php echo $ma_lop; ?>">
             <div class="p-3">
                 <label>Chọn đề thi</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="ngan_hang1" name="ngan_hang"  onchange="doalert(this)">
+                    <label class="form-check-label" for="ngan_hang_de_thi">Ngân hàng đề thi</label>
+                </div>
                 <div class="form-floating py-1 col-12">
-                    <select name='ma_de_thi'  class="form-select border shadow">
+                    <select name='ma_de_thi'  class="form-select border shadow" id="ma_de_thi_select" >
                         <?php
-                            $user_id = $_SESSION['userId'];;
-                            $sql_dt = "SELECT * FROM de_thi WHERE trang_thai = 1";
+                            $user_id = $_SESSION['userId'];
+                            $sql_dt = "SELECT * FROM de_thi WHERE trang_thai = 1 AND ma_nguoi_tao = $user_id";
                             $result_dt = mysqli_query($connect, $sql_dt);
                             while($row_dt = $result_dt->fetch_assoc()) {
                                 echo "<option  value='" .$row_dt['ma_de_thi']. "'>" .$row_dt['ten_de_thi']. "</option>";
@@ -43,6 +48,7 @@ if(isset($_GET['thongbao'])) {
                         ?>
                     </select>
                 </div>
+                
             </div>
 
             <div class="p-3">
@@ -76,6 +82,33 @@ if(isset($_GET['thongbao'])) {
         </form>
     </div>
 </div>
+<script>
+    function doalert(checkboxElem) {
+        var selectElem = document.getElementById("ma_de_thi_select");
+        var userid=null;
+        if (checkboxElem.checked) {
+            loadDeThi(userid);
+        } else {
+            userid=<?php echo $user_id; ?>;
+            loadDeThi(userid);
+            alert("Ngân hàng đề thi đã được đóng. ");
+            
+        }
+    }
+
+    function loadDeThi(userId) {
+        var selectElem = document.getElementById("ma_de_thi_select");
+        $result=nganhangDeThi($connect,$userId);
+        <?php
+        $result_dt = mysqli_query($connect, $sql_dt);
+        while ($row_dt = $result_dt->fetch_assoc()) {
+            echo "selectElem.innerHTML += '<option value=\"" . $row_dt['ma_de_thi'] . "\">" . $row_dt['ten_de_thi'] . "</option>';";
+        }
+        ?>
+    }
+</script>
+
+
 <script>
     
     function validateForm() {
