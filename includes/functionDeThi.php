@@ -6,6 +6,17 @@ function getDeThi($connect) {
     $result = $stm->get_result();
     return $result;
 }
+function nganhangDeThi($connect,$userID){
+    $stm = $connect->prepare('SELECT * FROM de_thi WHERE trang_thai = 1');
+    if($userID!=null){
+        $stm=$connect->prepare('SELECT * FROM de_thi WHERE trang_thai = 1 AND ma_nguoi_tao = ?');
+        $stm->bind_param('i', $userID);
+    }
+    
+    $stm->execute();
+    $result=$stm->get_result();
+    return $result;
+}
 function getDeThibyID($connect, $id) {
     $stm = $connect->prepare('SELECT * FROM de_thi WHERE ma_de_thi =?');
     $stm->bind_param('i', $id);
@@ -131,3 +142,4 @@ $(document).ready(function() {
 });
 </script><?php
 }
+
