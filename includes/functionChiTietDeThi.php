@@ -31,3 +31,50 @@ function AddCHDethi($connect, $ma_de_thi){
     $result=$stm->get_result();
     return $result;
 }
+function modalChiTietDT($connect, $ma_de_thi, $modalID){
+    ?>
+    <div class="modal fade" id="<?php echo $modalID; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Câu hỏi trong đề thi</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <table class="table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Câu hỏi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                <?php 
+                    $cauhoi = getChiTietDeThibyId($connect, $ma_de_thi);
+                    $i = 1;
+                    while ($row = $cauhoi->fetch_assoc()) {
+                        $ma_cau_hoi = $row['ma_cau_hoi'];
+                        $stm = $connect->prepare('SELECT noi_dung FROM cau_hoi WHERE ma_cau_hoi = ?');
+                        $stm->bind_param('i', $ma_cau_hoi);
+                        $stm->execute();
+                        $result = $stm->get_result();
+                        $row = $result->fetch_assoc();
+                        $noi_dung = $row['noi_dung'];
+                    ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><?php echo $noi_dung; ?></td>
+                        </tr>
+                    <?php } ?>  
+                </tbody>
+            </table>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+}

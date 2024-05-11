@@ -6,6 +6,7 @@ include('includes/functionUsers.php');
 include('includes/functionCauHoi.php');
 include('includes/functionCauTraLoi.php');
 include('includes/functionDeThi.php');
+include('includes/functionChiTietDeThi.php');
 
 $limit = 5;
 $page = 1;
@@ -17,8 +18,7 @@ if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = 0;
 }
 $ma_nguoi_tao =  $_SESSION['userId'];
-$users = getUsernamebyID($connect, $ma_nguoi_tao);
-$user = $users->fetch_assoc();
+
 $query = "SELECT * FROM de_thi WHERE trang_thai = 1 AND ma_nguoi_tao != '$ma_nguoi_tao'";
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
@@ -55,8 +55,10 @@ if($total_data > 0) {
     $start_index = ($page - 1) * $limit + 1;
     foreach($result as $row) {
         $modalID = "chiTietModal" . $start_index;
+        $users = getUsernamebyID($connect, $row['ma_nguoi_tao']);
+        $user = $users->fetch_assoc();
         $output .= '
-        <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
+        <tbody>
             <td>' . $start_index++ . '</td>
             <td>' . $row['ten_de_thi'] . '</td>
             <td>' . $user['ho_va_ten'] . '</td>
@@ -65,19 +67,20 @@ if($total_data > 0) {
 
                     $output .= '
                     <a class=" btn btn-warning mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
-                        <i class="bi bi-trash"></i> Xem Chi Tiết
+                        <i class="bi bi-gear-fill"></i> Xem Chi Tiết
                     </a>
                     <form action="baithi_add.php" method="post">
                         <input type="hidden" name="ma_de_thi" value="'.$row['ma_de_thi'].'">
                         <input type="hidden" name="ma_lop" value="'.$_SESSION['ma_lop'].'">
-                       <button type="submit">Chọn đề thi</button> 
+                       <button class=" btn btn-primary mx-2 " type="submit">
+                        <i class="bi bi-check-circle"></i> Chọn đề thi</button> 
                     </form>';
                     $output .= '
                 </div>
             </td>
         </tbody>';
 
-         //modalChitietDeThi($connect, $row['ma_de_thi'], $modalID); 
+        modalChiTietDT($connect, $row['ma_de_thi'], $modalID); 
     }
 } else {
     $output .= '
@@ -149,3 +152,5 @@ $output .= '
 </div>';
 
 echo $output;
+?>
+<script src="js/bootstrap.min.js"></script>
