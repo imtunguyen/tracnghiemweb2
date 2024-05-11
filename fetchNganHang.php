@@ -3,10 +3,8 @@ include('includes/config.php');
 include('includes/database.php');
 include('includes/functions.php');
 include('includes/functionUsers.php');
-include('includes/functionCauHoi.php');
-include('includes/functionCauTraLoi.php');
 include('includes/functionDeThi.php');
-
+include('includes/functionChiTietDeThi.php');
 $limit = 5;
 $page = 1;
 
@@ -17,8 +15,7 @@ if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = 0;
 }
 $ma_nguoi_tao =  $_SESSION['userId'];
-$users = getUsernamebyID($connect, $ma_nguoi_tao);
-$user = $users->fetch_assoc();
+
 $query = "SELECT * FROM de_thi WHERE trang_thai = 1 AND ma_nguoi_tao != '$ma_nguoi_tao'";
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
@@ -46,7 +43,7 @@ $output = '
         <th>STT</th>
         <th>Tên đề thi</th>
         <th>Người tạo</th>
-        <th>Xem chi tiết</th>
+        <th>Chọn</th>
     </tr>
     </thead>
 ';
@@ -55,6 +52,8 @@ if($total_data > 0) {
     $start_index = ($page - 1) * $limit + 1;
     foreach($result as $row) {
         $modalID = "chiTietModal" . $start_index;
+        $users = getUsernamebyID($connect, $row['ma_nguoi_tao']);
+        $user = $users->fetch_assoc();
         $output .= '
         <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
             <td>' . $start_index++ . '</td>
@@ -64,9 +63,6 @@ if($total_data > 0) {
                 <div class=" btn-group" role="group">';
 
                     $output .= '
-                    <a class=" btn btn-warning mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
-                        <i class="bi bi-trash"></i> Xem Chi Tiết
-                    </a>
                     <form action="baithi_add.php" method="post">
                         <input type="hidden" name="ma_de_thi" value="'.$row['ma_de_thi'].'">
                         <input type="hidden" name="ma_lop" value="'.$_SESSION['ma_lop'].'">
@@ -77,7 +73,7 @@ if($total_data > 0) {
             </td>
         </tbody>';
 
-         //modalChitietDeThi($connect, $row['ma_de_thi'], $modalID); 
+        modalChitietDT($connect, $row['ma_de_thi'], $modalID); 
     }
 } else {
     $output .= '

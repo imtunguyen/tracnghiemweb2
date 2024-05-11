@@ -2,6 +2,7 @@
 include('includes/header.php');
 include('includes/database.php');
 include('includes/functionDeThi.php');
+include('includes/functionChiTietDeThi.php');
 if(isset($_POST['ma_lop'])) {
    $ma_lop = $_POST['ma_lop'];
 }

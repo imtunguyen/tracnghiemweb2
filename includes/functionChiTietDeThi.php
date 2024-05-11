@@ -31,3 +31,36 @@ function AddCHDethi($connect, $ma_de_thi){
     $result=$stm->get_result();
     return $result;
 }
+function modalChitietDT($connect, $ma_de_thi, $modalID){
+    ?>
+    <div class="modal fade" id="<?php echo $modalID; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết đề thi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php 
+                    $result = getChitietdethibyID($connect, $ma_de_thi);
+                        echo "<table>";
+                        echo "<tr><th>Mã câu hỏi</th><th>Nội dung</th></tr>";
+                        while ($cauhoi = $result->fetch_assoc()) {
+                            $noidung1 = $cauhoi['ma_cau_hoi'];
+                            $noidung = getCauHoibyID($connect, $noidung1);
+                            echo "<tr>";
+                            echo "<td>" . $cauhoi['ma_cau_hoi'] . "</td>";
+                            echo "<td>" . $noidung['noi_dung'] . "</td>";
+                            echo "</tr>";
+                        }
+                        echo "</table>";
+                    ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
