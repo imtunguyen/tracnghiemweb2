@@ -27,7 +27,7 @@ if(isset($_POST['submit'])){
 
 if(isset($_SESSION['email'])){
     $email = $_SESSION['email'];
-    $userInfo = getUsername($connect, $email);
+    $row = getUsername($connect, $email);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,11 +66,6 @@ if(isset($_SESSION['email'])){
 </body>
 </html>
 <?php
-//     } else {
-//         echo "Không tìm thấy thông tin người dùng.";
-//     }
-// } else {
-//     echo "Không có dữ liệu được gửi đi.";
 }
 
 
