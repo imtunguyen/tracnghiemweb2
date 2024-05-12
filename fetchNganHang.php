@@ -55,7 +55,7 @@ if($total_data > 0) {
         $users = getUsernamebyID($connect, $row['ma_nguoi_tao']);
         $user = $users->fetch_assoc();
         $output .= '
-        <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
+        <tbody>
             <td>' . $start_index++ . '</td>
             <td>' . $row['ten_de_thi'] . '</td>
             <td>' . $user['ho_va_ten'] . '</td>
@@ -63,10 +63,14 @@ if($total_data > 0) {
                 <div class=" btn-group" role="group">';
 
                     $output .= '
+                    <a class=" btn btn-warning mx-2 " data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
+                        <i class="bi bi-gear-fill"></i> Xem Chi Tiết
+                    </a>
                     <form action="baithi_add.php" method="post">
                         <input type="hidden" name="ma_de_thi" value="'.$row['ma_de_thi'].'">
                         <input type="hidden" name="ma_lop" value="'.$_SESSION['ma_lop'].'">
-                       <button type="submit">Chọn đề thi</button> 
+                       <button class=" btn btn-primary mx-2 " type="submit">
+                        <i class="bi bi-check-circle"></i> Chọn đề thi</button> 
                     </form>';
                     $output .= '
                 </div>
@@ -145,3 +149,5 @@ $output .= '
 </div>';
 
 echo $output;
+?>
+<script src="js/bootstrap.min.js"></script>
