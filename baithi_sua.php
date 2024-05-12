@@ -68,7 +68,7 @@ if(isset($_GET['thongbao'])) {
             <div class="row pt-2">
                 <div class="col-6 col-md-3">
                     <button type="submit" onclick="return validateForm();" class="btn btn-success w-100">
-                        <i class="bi bi-check-circle"></i> Thêm
+                        <i class="bi bi-check-circle"></i> Sửa
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
