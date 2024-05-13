@@ -64,8 +64,9 @@ if(isset($_GET['thong_bao_delete'])) {
       $sql_ten_gv = "SELECT users.ho_va_ten
       FROM users
       JOIN chi_tiet_lop ctl ON ctl.user_id = users.id
-      JOIN chi_tiet_quyen ctq ON ctq.user_id = users.id
-      Where ctq.ma_quyen = 2 AND ctl.ma_lop = $ma_lop";
+      JOIN chi_tiet_quyen ctq on ctq.user_id = users.id
+      Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen  
+      Where ctcn.ma_chuc_nang = 16 AND ctl.ma_lop = $ma_lop";
       $result_ten_gv = mysqli_query($connect, $sql_ten_gv);
       $ten_gv = "";
       $count = 0;
@@ -77,7 +78,7 @@ if(isset($_GET['thong_bao_delete'])) {
           $count++;
       }
     ?>
-    <p >Giáo viên: <?php echo $ten_gv; ?></p>
+    <p style="font-weight: bold;">Giáo viên: <?php echo $ten_gv; ?></p>
   </div>
   <div class="row mb-3">
     <p style="font-weight: bold;">Mã mời: <?php if(check($connect, $_SESSION['userId'], 'them_lophoc')) {echo $ma_moi;} ?></p>
@@ -90,7 +91,7 @@ if(isset($_GET['thong_bao_delete'])) {
       <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm đề thi" />
 
     </div>
-    <div class="col-6 text-end">
+    <div class="col-8 text-end">
       <?php 
       if(check($connect, $_SESSION['userId'], 'them_dethi')) {
         echo

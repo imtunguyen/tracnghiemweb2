@@ -27,9 +27,8 @@ if(isset($_POST['submit'])){
 
 if(isset($_SESSION['email'])){
     $email = $_SESSION['email'];
-    $userInfo = getUsername($connect, $email);
-    if($userInfo !== null && $userInfo->num_rows > 0) {
-        $row = $userInfo->fetch_assoc(); 
+    $row = getUsername($connect, $email);
+   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +73,7 @@ if(isset($_SESSION['email'])){
 // } else {
 //     echo "Không có dữ liệu được gửi đi.";
 }
-}
+
 
 include('includes/admin_footer.php');
 ?>
