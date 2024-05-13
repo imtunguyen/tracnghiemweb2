@@ -3,8 +3,12 @@ ob_start();
 include('../includes/header.php');
 include('../includes/functionMonHoc.php');
 
-thongBao();
-
+if(isset($_GET['thongbao'])) {
+    $thongBao = $_GET['thongbao'];
+    if($thongBao != "") {
+        echo "<script>toastr.error('Thêm môn học mới thành công');</script>";
+    }
+}
 if(isset($_GET['delete'])){
     deleteMonHoc($connect, $_GET['delete']);
     $_SESSION['toastr'] = 'Xóa môn học thành công';
