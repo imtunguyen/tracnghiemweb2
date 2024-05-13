@@ -1,9 +1,11 @@
+<html>
 <?php
+
 include('../includes/config.php');
 include('../includes/database.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
-
+ob_start();
 require_once '../vendor/autoload.php';
 
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -11,37 +13,33 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 
 $questions = getCauHoi($connect);
-
+$output = '';
 $stt = 1;
 while ($question = $questions->fetch_assoc()) {
-    $section->addText("Câu " . $stt . ": " . $question['noi_dung']);
+    $output ="
+				<h5> Câu " . $stt . ": " . $question['noi_dung']."</h5><br>
+			";
     $answers = getCauTraLoi($connect, $question['ma_cau_hoi']);
     $answerLetters = ['A.', 'B.', 'C.', 'D.']; 
     $index = 0; 
     while ($answer = $answers->fetch_assoc()) {
+        $answerTest = $answerLetters[$index] . " " . $answer['noi_dung'];
         if ($answer['la_dap_an'] == 1) {
-            $section->addText($answerLetters[$index] . " " . $answer['noi_dung']. "*");
+            $output .= "<u>". $answerTest. "</u><br>";
         } else {
-            $section->addText($answerLetters[$index] . " " . $answer['noi_dung']);
+            $output .= " $answerTest<br>";
         }
         $index++;  
     }
     $stt++;
+
+    	
+    echo $output;
 }
 
-$filename = 'export.docx';
-$phpWord->save($filename);
+$date = 'export';		
+header("Content-Type: application/vnd.msword");
+header("content-disposition: attachment;filename=".$date.".doc");
 
-header('Content-Description: File Transfer');
-header('Content-Type: application/octet-stream');
-header('Content-Disposition: attachment; filename=' . $filename);
-header('Content-Transfer-Encoding: binary');
-header('Expires: 0');
-header('Cache-Control: must-revalidate');
-header('Pragma: public');
-header('Content-Length: ' . filesize($filename));
-ob_clean();
-flush();
-readfile($filename);
-exit;
-?>
+ob_end_flush();
+?></html>

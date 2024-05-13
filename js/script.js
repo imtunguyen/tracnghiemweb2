@@ -59,9 +59,6 @@ document.getElementById('answerCount').addEventListener('change', function(){
                     <input class="form-check-input" type="radio" value="${i+1}" name="flexRadioDefault" id="flexRadioDefault${i+1}">
                 </div>
                 <input type="text" class="form-control" name="cau_tra_loi[]" id="cau_tra_loi${i+1}">
-                <div class="input-group-text ">
-                    <i class="bi bi-card-image"></i>
-                </div>
             </div>
         </div>
         `;

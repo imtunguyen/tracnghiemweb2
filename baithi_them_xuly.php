@@ -7,7 +7,7 @@
         $tgbd = date('Y-m-d H:i:s', strtotime($_POST['tgbd']));
         $tgkt = date('Y-m-d H:i:s', strtotime($_POST['tgkt']));
         $userId = $_SESSION['userId'];
-        $ma_lop = $_POST['ma_lop'];
+        $ma_lop = $_POST['ma_lop']; 
 
         $sql_check = "SELECT * FROM bai_thi WHERE ma_lop = $ma_lop AND ma_de_thi = $ma_dt";
         $result_check = mysqli_query($connect, $sql_check);

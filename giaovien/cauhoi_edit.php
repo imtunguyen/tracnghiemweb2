@@ -5,6 +5,8 @@ include('../includes/header.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
+
+thongBao();
 if(isset($_POST['cau_hoi'])){
     $trang_thai =1;
     $ma_nguoi_tao =$_SESSION['userId'];
@@ -116,9 +118,6 @@ if(isset($_GET['id'])){
                         <input type="text" class="form-control border shadow" id="floatingInput" placeholder="Nội dung" name="cau_hoi" value="<?php echo $cauhoi_record['noi_dung'];?>">
                         <label for="floatingInput" class="ms-2">Nội dung</label>
                         <div class="error-message" id="question">Vui lòng nhập thông tin Câu hỏi</div>
-                    </div>
-                    <div class="input-group-text btn">
-                        <i class="bi bi-card-image"></i>
                     </div>
                 </div>
             </div>

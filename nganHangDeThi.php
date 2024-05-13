@@ -1,19 +1,13 @@
 <?php
 ob_start();
-include('../includes/database.php');
-include('../includes/header.php');
-include('../includes/functionCauHoi.php');
-include('../includes/functionCauTraLoi.php');
-include('../includes/functionMonHoc.php');
+include('includes/database.php');
+include('includes/header.php');
+include('includes/functionCauHoi.php');
+include('includes/functionCauTraLoi.php');
+include('includes/functionMonHoc.php');
 
-thongBao();
-if(isset($_GET['delete'])){
-    deleteCauHoi($connect, $_GET['delete']);
-    $_SESSION['toastr'] = 'Xóa câu hỏi thành công';
-    header('Location: cauhoi.php');
-    exit();
-}
-
+$ma_lop = $_GET['ma_lop'];
+$_SESSION['ma_lop'] = $ma_lop;
 ob_end_flush();
 ?>
 <!DOCTYPE html>
@@ -28,8 +22,6 @@ ob_end_flush();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
     <script src="../js/script.js"></script>
 </head>
@@ -38,7 +30,7 @@ ob_end_flush();
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center text-white">
-                <h2>Danh sách câu hỏi</h2>
+                <h2>Ngân Hàng Đề Thi</h2>
             </div>
         </div>
     </div>
@@ -46,24 +38,12 @@ ob_end_flush();
         <div class="row pb-3">
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
+                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm đề thi" />
                 </div>
             </div>
-            <div class="col-4 text-end">
-                <?php  if(check($connect, $_SESSION['userId'], 'them_cauhoi')) {echo'
-                <a class="btn btn-success" href="../giaovien/cauhoi_add.php">
-                    <i class="bi bi-plus-circle"></i> Thêm câu hỏi mới
-                </a>';}?>
-            </div>
-            <div class="col-2 ">
-                <?php  if(check($connect, $_SESSION['userId'], 'them_cauhoi')) {echo'
-                
-                <a class="btn btn-primary" href="../giaovien/export_file.php">
-                <i class="bi bi-file-earmark-text-fill"></i> Xuất File
-                </a>';}?>
-            </div>
+            
         </div>
-        <div class="table-responsive" id="dynamic_cauhoi"></div>
+        <div class="table-responsive" id="dynamic_nganhang"></div>
      </div>   
 
 
@@ -74,12 +54,12 @@ $(document).ready(function(){
     function load_data(page, query = '')
     {
         $.ajax({
-            url:"fetchch.php",
+            url:"fetchNganHang.php",
             method:"POST",
             data:{page:page, query:query},
             success:function(data)
             {
-                $('#dynamic_cauhoi').html(data);
+                $('#dynamic_nganhang').html(data);
             }
         });
     }
@@ -98,5 +78,5 @@ $(document).ready(function(){
 </script>
 
 <?php 
-    include('../includes/footer.php');
+    include('includes/footer.php');
 ?>
