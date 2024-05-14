@@ -16,7 +16,7 @@ if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = 0;
 }
 
-$query = "SELECT * FROM cau_hoi WHERE trang_thai = 1";
+$query = "SELECT * FROM cau_hoi WHERE trang_thai = 1 AND ma_nguoi_tao = " .$_SESSION['userId'];
 
 if(isset($_POST['query']) && $_POST['query'] != '') {
     $query .= " AND noi_dung LIKE '%" . str_replace(' ', '%', $_POST['query']) . "%' ";
