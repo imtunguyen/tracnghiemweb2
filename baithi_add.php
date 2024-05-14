@@ -3,9 +3,9 @@ include('includes/header.php');
 include('includes/database.php');
 include('includes/functionDeThi.php');
 include('includes/functionChiTietDeThi.php');
-if(isset($_POST['ma_lop'])) {
-   $ma_lop = $_POST['ma_lop'];
-}
+// if(isset($_POST['ma_lop'])) {
+//    $ma_lop = $_POST['ma_lop'];
+// }
 
 if(isset($_GET['thongbao'])) {
     $thongBao = $_GET['thongbao'];
@@ -27,14 +27,14 @@ if(isset($_GET['thongbao'])) {
     <div class="card-body border p-4">
                 
         <form method="post" class="row" action="baithi_them_xuly.php">
-            <input hidden name="ma_lop" type="text" value="<?php echo $ma_lop; ?>">
+            <input hidden name="ma_lop" type="text" value="<?php echo $_SESSION['ma_lop']; ?>">
             <div class="p-3">
                 <div class="row">
                     <div class="col-6">
                      <label>Chọn đề thi</label>
                     </div>
                     <div class="col-6 text-end">
-                    <a class="btn btn-info " href="nganHangDeThi.php?ma_lop=<?php echo $ma_lop ?>">
+                    <a class="btn btn-info " href="nganHangDeThi.php?ma_lop=<?php echo $_SESSION['ma_lop'] ?>">
                         Chọn đề thi từ ngân hàng</a> 
                 </div>
                 </div>
@@ -88,7 +88,7 @@ if(isset($_GET['thongbao'])) {
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a class="btn btn-secondary w-100" href="lophoc.php">
+                    <a class="btn btn-secondary w-100" href="chitietlophoc.php?ma_lop=<?php echo $_SESSION['ma_lop']?>&&ten_lop=<?php echo $_SESSION['ten_lop']?>&&ma_moi=<?php echo  $_SESSION['ma_moi']?> ">
                         <i class="bi bi-x-circle"></i> Trở về
                     </a>
                 </div>

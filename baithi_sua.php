@@ -72,7 +72,7 @@ if(isset($_GET['thongbao'])) {
                     </button>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a class="btn btn-secondary w-100" href="lophoc.php">
+                    <a class="btn btn-secondary w-100" href="chitietlophoc.php?ma_lop=<?php echo $_SESSION['ma_lop']?>&&ten_lop=<?php echo $_SESSION['ten_lop']?>&&ma_moi=<?php echo  $_SESSION['ma_moi']?> ">
                         <i class="bi bi-x-circle"></i> Trở về
                     </a>
                 </div>
