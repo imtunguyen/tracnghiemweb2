@@ -33,7 +33,7 @@ if(isset($_GET['thongbao'])) {
                     <div class="col-6">
                      <label>Chọn đề thi</label>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 text-end">
                     <a class="btn btn-info " href="nganHangDeThi.php?ma_lop=<?php echo $ma_lop ?>">
                         Chọn đề thi từ ngân hàng</a> 
                 </div>

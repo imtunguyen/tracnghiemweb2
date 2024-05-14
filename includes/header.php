@@ -6,7 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản lý trắc nghiệm</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -61,11 +62,10 @@ $id = $_SESSION['userId'];
       ?>
       </ul>
 
-      <div class="col-md-3 text-end">
-          
+      <div class="col-md-4 d-flex justify-content-end gap-1 text-end">
           <img src="images/<?php echo $res= getImage($connect, $id);?>"  width="32" height="32" class="rounded-circle">
           <a href="http://localhost/tracnghiemweb2/suathongtin.php?id=<?php echo $id?>" class="btn btn-info">Chỉnh sửa</a>
-          <a href="http://localhost/tracnghiemweb2/dangxuat.php" class="btn btn-outline-primary me-2">Đăng xuất</a>
+          <a href="http://localhost/tracnghiemweb2/dangxuat.php" class="btn btn-outline-primary">Đăng xuất</a>
         <?php 
         if(check($connect, $id, "them_nguoidung") || check($connect, $id, "sua_nguoidung") || check($connect, $id, "xoa_nguoidung") || check($connect, $id, "them_quyen") || check($connect, $id, "sua_quyen") || check($connect, $id, "xoa_quyen")) {
             echo '<a href="http://localhost/tracnghiemweb2/admin/index.php" class="btn btn-outline-primary me-2">Admin</a>';

@@ -25,7 +25,7 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
         header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_da_lam_bai=bandalambaithiroi");
     }
 
-    $sql_dh = "SELECT * FROM bai_thi WHERE ma_bai_thi = $ma_bai_thi";
+    $sql_dh = "SELECT * FROM bai_thi WHERE ma_bai_thi = $ma_bai_thi AND trang_thai = 1";
     $result_dh = mysqli_query($connect,$sql_dh);
     $row_dh = mysqli_fetch_assoc($result_dh);
     $tgbd = $row_dh['tg_bat_dau'];

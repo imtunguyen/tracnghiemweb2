@@ -23,7 +23,7 @@ if(!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']))) {
         <div class="col-4">
         <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm sinh viên" />
         </div>
-        <div class="col-6 text-end">
+        <div class="col-8 text-end">
         <form class="btn p-0 m-0" action="thongketheolop.php" method="GET">
                 <input type="hidden" name="ma_lop" value="<?php echo $ma_lop; ?>">
                 <button type="submit" class="btn btn-primary">Xem thống kê</button>
