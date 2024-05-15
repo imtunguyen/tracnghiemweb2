@@ -17,8 +17,8 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
-            <div class="container-fluid d-flex justify-content-between">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow" >
+            <div class="container-fluid d-flex justify-content-between" >
                 <?php 
                 session_start();
                 if(isset($_SESSION["userId"])) {
@@ -35,9 +35,9 @@
 
         </nav>
     </header>
-    <div class="container-fluid">
+    <div class="container-fluid " >
         <div class="loading spinner" style="display:none;"></div>
-        <div class="row">
+        <div class="row" style="height: 100vh;">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark text-light sidebar collapse">
                 <div class="position-static pt-3">
                     <?php
