@@ -1,9 +1,7 @@
 <?php
 ob_start();
 include('../includes/database.php');
-session_start();
-
-include('../includes/functions.php');
+include('../includes/header.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');

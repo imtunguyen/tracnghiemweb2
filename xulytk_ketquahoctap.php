@@ -5,13 +5,14 @@ include('./includes/database.php');
 if(isset($_POST['ma_lop'])) {
     $ma_lop = $_POST['ma_lop'];
     $user_id = $_SESSION['userId'];
-    $sql = "SELECT DISTINCT kq.*, dt.ten_de_thi
+    $sql = "SELECT kq.*, dt.ten_de_thi
     FROM ket_qua kq 
-    JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
-    JOIN bai_thi ON ctl.ma_lop = bai_thi.ma_lop
-    JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi 
-    JOIN users ON users.id = kq.user_id
-    WHERE ctl.ma_lop = $ma_lop AND users.id = $user_id";
+    JOIN bai_thi bt ON kq.ma_bai_thi = bt.ma_bai_thi
+    JOIN de_thi dt ON dt.ma_de_thi = bt.ma_de_thi 
+    JOIN users u ON u.id = kq.user_id
+    JOIN chi_tiet_lop ctl ON ctl.ma_lop = bt.ma_lop
+    WHERE ctl.ma_lop = $ma_lop AND u.id = $user_id
+    GROUP BY dt.ten_de_thi";
 
     $result = mysqli_query($connect, $sql);
     $array = array();
