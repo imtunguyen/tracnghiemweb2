@@ -2,6 +2,7 @@
 ob_start();
 include('../includes/database.php');
 include('../includes/header.php');
+include('../includes/functions.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
@@ -141,7 +142,7 @@ if(isset($_GET['id'])){
                     echo ">";
                     echo "</div>";
                     echo "<input type='text' class='form-control' name='cau_tra_loi[]' id='cau_tra_loi{$cautraloi_record['ma_cau_tra_loi']}' value='{$cautraloi_record['noi_dung']}'>";
-                    echo "<div class='input-group-text'><i class='bi bi-card-image'></i></div>";
+                    
                     echo "</div>";
                     echo "<div class='error-message answer' id='answer{$i}'>Vui lòng nhập thông tin Câu trả lời</div>";
                     echo "</div>";

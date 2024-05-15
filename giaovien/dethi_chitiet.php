@@ -9,7 +9,8 @@
 
     $cauhoi = getCauHoi($connect);
     $monhoc = getMonHoc($connect);
-    $addchdethi=AddCHDethi($connect,$_GET['id']);
+    $ma_nguoi_tao=$_SESSION['userId'];
+    $addchdethi=AddCHDethi($connect,$_GET['id'],$ma_nguoi_tao);
     $dethi = getChiTietDeThibyId($connect, $_GET['id']);
     $_SESSION['ma_de_thi'] = $_GET['id'];
     

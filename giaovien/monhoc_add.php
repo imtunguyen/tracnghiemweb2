@@ -3,7 +3,7 @@ ob_start();
 include('../includes/header.php');
 include('../includes/functionMonHoc.php');
 
-thongBao();
+
 if (isset($_POST['ten_mon_hoc'])) {
     $ten_mon_hoc = trim($_POST['ten_mon_hoc']);
     if (empty($ten_mon_hoc)) {
@@ -22,7 +22,9 @@ if (isset($_POST['ten_mon_hoc'])) {
         $trang_thai = 1;
         addMonHoc($connect, $_POST['ten_mon_hoc'], $trang_thai );
         $_SESSION['toastr'] = 'Thêm môn học mới thành công';
+        
         header('Location: monhoc.php');
+
     }
 }
 ob_end_flush();

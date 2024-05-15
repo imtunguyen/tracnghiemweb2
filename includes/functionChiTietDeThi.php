@@ -24,9 +24,9 @@ function getChiTietDeThibyId($connect, $ma_de_thi) {
     $result = $stm->get_result();
     return $result;
 }
-function AddCHDethi($connect, $ma_de_thi){
-    $stm=$connect->prepare('SELECT ch.ma_cau_hoi FROM cau_hoi ch   WHERE ch.ma_cau_hoi NOT IN (SELECT ct.ma_cau_hoi FROM chi_tiet_de_thi ct JOIN de_thi dt ON dt.ma_de_thi = ct.ma_de_thi WHERE dt.ma_de_thi = ?)');
-    $stm->bind_param('i', $ma_de_thi);
+function AddCHDethi($connect, $ma_de_thi,$ma_nguoi_tao){
+    $stm=$connect->prepare('SELECT ch.ma_cau_hoi FROM cau_hoi ch   WHERE ch.trang_thai=1 AND ch.ma_nguoi_tao= ? AND ch.ma_cau_hoi NOT IN (SELECT ct.ma_cau_hoi FROM chi_tiet_de_thi ct JOIN de_thi dt ON dt.ma_de_thi = ct.ma_de_thi WHERE dt.ma_de_thi = ?)');
+    $stm->bind_param('ii',$ma_nguoi_tao, $ma_de_thi);
     $stm->execute();
     $result=$stm->get_result();
     return $result;

@@ -3,11 +3,8 @@ include('includes/config.php');
 include('includes/database.php');
 include('includes/functions.php');
 include('includes/functionUsers.php');
-include('includes/functionCauHoi.php');
-include('includes/functionCauTraLoi.php');
 include('includes/functionDeThi.php');
 include('includes/functionChiTietDeThi.php');
-
 $limit = 5;
 $page = 1;
 
@@ -46,7 +43,7 @@ $output = '
         <th>STT</th>
         <th>Tên đề thi</th>
         <th>Người tạo</th>
-        <th>Xem chi tiết</th>
+        <th>Chọn</th>
     </tr>
     </thead>
 ';
@@ -80,7 +77,7 @@ if($total_data > 0) {
             </td>
         </tbody>';
 
-        modalChiTietDT($connect, $row['ma_de_thi'], $modalID); 
+        modalChitietDT($connect, $row['ma_de_thi'], $modalID); 
     }
 } else {
     $output .= '

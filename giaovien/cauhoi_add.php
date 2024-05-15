@@ -7,7 +7,6 @@ include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
 require_once '../vendor/autoload.php';
 
-thongBao();
     if(isset($_POST['cau_hoi']) && isset($_POST['ma_mon_hoc']) && isset($_POST['do_kho']) && isset($_POST['cau_tra_loi'])){
         $trang_thai = 1;
         $ma_nguoi_tao = $_SESSION['userId'];
@@ -27,7 +26,9 @@ thongBao();
         }
 
         $_SESSION['toastr'] = 'Thêm câu hỏi thành công';
+        thongBao();
         header('Location: cauhoi.php');
+        
         exit();
     }
 

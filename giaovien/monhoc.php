@@ -2,13 +2,12 @@
 include('../includes/header.php');
 include('../includes/functionMonHoc.php');
 thongBao();
-
 if(isset($_GET['delete'])){
     deleteMonHoc($connect, $_GET['delete']);
-    $_SESSION['toastr'] = 'Xóa môn học thành công';
+    echo $_SESSION['toastr'] = 'Xóa môn học thành công';
+    thongBao();
     
-    
-     header('Location: monhoc.php');
+     //header('Location: monhoc.php');
 }
 ?>
 <!DOCTYPE html>

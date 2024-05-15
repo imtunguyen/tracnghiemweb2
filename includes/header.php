@@ -1,12 +1,4 @@
-<?php
-include('config.php');
-include('functions.php');
-include('functionUsers.php');
-include('database.php');
 
-$id = $_SESSION['userId'];
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,11 +10,21 @@ $id = $_SESSION['userId'];
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
   
 </head>
 <body>
+<?php
+include('config.php');
+include('functions.php');
+include('functionUsers.php');
+include('database.php');
+
+$id = $_SESSION['userId'];
+
+?>
   <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-md-3 mb-2 mb-md-0">
