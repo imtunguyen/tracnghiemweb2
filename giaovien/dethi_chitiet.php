@@ -223,23 +223,22 @@
     });
 </script>
 
-<
 <script>
     $(document).ready(function() {
-$('#search_box, #filter_monhoc, #filter_dokho').change(function() {
-        var searchText = $('#search_box').val();
-        var monHoc = $('#filter_monhoc').val();
-        var doKho = $('#filter_dokho').val();
-        $.ajax({
-            url: 'dethi_search.php',
-            type: 'GET',
-            data: {search_text: searchText, mon_hoc: monHoc, do_kho: doKho,},
-            success: function(response) {
-                $('#t_draggable1 tbody').html(response);
-            }
+    $('#search_box, #filter_monhoc, #filter_dokho').change(function() {
+            var searchText = $('#search_box').val();
+            var monHoc = $('#filter_monhoc').val();
+            var doKho = $('#filter_dokho').val();
+            $.ajax({
+                url: 'dethi_search.php',
+                type: 'GET',
+                data: {search_text: searchText, mon_hoc: monHoc, do_kho: doKho,},
+                success: function(response) {
+                    $('#t_draggable1 tbody').html(response);
+                }
+            });
         });
     });
-});
 </script>
 
     </body>

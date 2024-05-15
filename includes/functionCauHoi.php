@@ -64,7 +64,6 @@ function searchCauHoitrongDeThi($connect, $searchText, $monHoc, $doKho,$madethi,
     return $cauHoiList;
 }
 
-
 function modalXoaCH($ma_cau_hoi, $modalXoaID){
     ?>
     <div class="modal fade" id="<?php echo $modalXoaID; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
