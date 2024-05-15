@@ -21,6 +21,16 @@ isset($_POST['thoi_gian_lam_bai']) && isset($_POST['ten_de_thi'])
     $row_lh = mysqli_fetch_assoc($result_lh);
     $ten_lop = $row_lh['ten_lop'];
     $ma_moi = $row_lh['ma_moi'];
+    //kiem tra de thi rong
+    $check_query = "SELECT COUNT(*) as count FROM chi_tiet_de_thi WHERE ma_de_thi = ?";
+    $check_stmt = $connect->prepare($check_query);
+    $check_stmt->bind_param("s", $ma_de_thi);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result();
+    $check_row = $check_result->fetch_assoc();
+    if($check_row['count']==0){
+        header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&baithirong=baithirong");
+    }
     if($check_lam_bai != 0) {
         header("Location: chitietlophoc.php?ma_lop=$ma_lop&ten_lop=$ten_lop&ma_moi=$ma_moi&thong_bao_da_lam_bai=bandalambaithiroi");
     }

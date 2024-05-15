@@ -2,12 +2,10 @@
 ob_start();
 include('../includes/database.php');
 include('../includes/header.php');
-include('../includes/functions.php');
 include('../includes/functionCauHoi.php');
 include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
 
-thongBao();
 if(isset($_POST['cau_hoi'])){
     $trang_thai =1;
     $ma_nguoi_tao =$_SESSION['userId'];

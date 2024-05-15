@@ -123,12 +123,13 @@ include('./includes/database.php');
                 $user_id = $_SESSION['userId'];
                 $sql_get_all_kq = "SELECT DISTINCT kq.*, dt.ten_de_thi, lop.ten_lop
                 FROM ket_qua kq 
-                JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
-                JOIN bai_thi ON ctl.ma_lop = bai_thi.ma_lop
+                JOIN bai_thi ON kq.ma_bai_thi = bai_thi.ma_bai_thi
                 JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi
-                JOIN lop ON lop.ma_lop = ctl.ma_lop
                 JOIN users ON users.id = kq.user_id
-                WHERE users.id = $user_id";
+                JOIN chi_tiet_lop ctl ON ctl.ma_lop = bai_thi.ma_lop 
+                JOIN lop ON lop.ma_lop = ctl.ma_lop
+                WHERE users.id = $user_id
+";
                 $result_get_all = mysqli_query($connect, $sql_get_all_kq);
                 $stt = 0;
                 while ($row_get_all = mysqli_fetch_assoc($result_get_all)) {
