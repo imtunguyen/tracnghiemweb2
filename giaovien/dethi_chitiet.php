@@ -7,7 +7,7 @@
     include '../includes/functionCauTraLoi.php';
     include '../includes/functionMonHoc.php';
 
-    $cauhoi = getCauHoi($connect);
+    $cauhoi = getCauHoi($connect,$_SESSION['userId']);
     $monhoc = getMonHoc($connect);
     $ma_nguoi_tao=$_SESSION['userId'];
     $addchdethi=AddCHDethi($connect,$_GET['id'],$ma_nguoi_tao);

@@ -12,7 +12,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 $section = $phpWord->addSection();
 
-$questions = getCauHoi($connect);
+$questions = getCauHoi($connect,$_SESSION['userId']);
 $output = '';
 $stt = 1;
 while ($question = $questions->fetch_assoc()) {

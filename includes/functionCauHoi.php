@@ -6,8 +6,9 @@ function getCauHoibyID($connect, $id, $ma_nguoi_tao) {
     $result = $stm->get_result();
     return $result;
 }
-function getCauHoi($connect) {
-    $stm = $connect->prepare('SELECT * FROM cau_hoi WHERE trang_thai =1');
+function getCauHoi($connect, $ma_nguoi_tao) {
+    $stm = $connect->prepare('SELECT * FROM cau_hoi WHERE trang_thai =1 AND ma_nguoi_tao = ?');
+    $stm->bind_param('s', $ma_nguoi_tao);
     $stm->execute();
     $result = $stm->get_result();
     return $result;
