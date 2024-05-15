@@ -16,7 +16,7 @@ if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = 0;
 }
 
-$query = "SELECT 
+$query = "SELECT DISTINCT
 users.id, 
 users.ho_va_ten, 
 users.ngay_sinh, 

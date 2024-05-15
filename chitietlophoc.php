@@ -66,7 +66,7 @@ if(isset($_GET['thong_bao_delete'])) {
       JOIN chi_tiet_lop ctl ON ctl.user_id = users.id
       JOIN chi_tiet_quyen ctq on ctq.user_id = users.id
       Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen  
-      Where ctcn.ma_chuc_nang = 16 AND ctl.ma_lop = $ma_lop";
+      Where ctcn.ma_chuc_nang = 13 AND ctl.ma_lop = $ma_lop and ctcn.cho_phep = 1";
       $result_ten_gv = mysqli_query($connect, $sql_ten_gv);
       $ten_gv = "";
       $count = 0;

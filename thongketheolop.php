@@ -16,40 +16,34 @@ $row_get_count_dethi = mysqli_fetch_assoc($result_get_count_dethi);
 $sl_de_thi = $row_get_count_dethi['countDt'];
 
 // get diem trung binh cua lop
-$sql_get_dtb_lop = "SELECT AVG(subquery.tong_diem) AS trungBinh
-FROM (
-    SELECT SUM(kq.diem) AS tong_diem
-    FROM ket_qua kq
-    JOIN chi_tiet_lop ON kq.user_id = chi_tiet_lop.user_id
-    JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
-    Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
-    Where ctcn.ma_chuc_nang = 22 AND ctcn.cho_phep = 1
-     AND chi_tiet_lop.ma_lop = $ma_lop
-    GROUP BY kq.user_id
-) AS subquery";
+$sql_get_dtb_lop = "SELECT DISTINCT kq.diem, kq.user_id
+From ket_qua kq 
+JOIN bai_thi bt on bt.ma_bai_thi = kq.ma_bai_thi
+Join chi_tiet_lop ctl on ctl.ma_lop = bt.ma_lop 
+JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
+Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 19 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1";
 $result_get_dtb_lop = mysqli_query($connect, $sql_get_dtb_lop);
 $row_get_dtb_lop = mysqli_fetch_assoc($result_get_dtb_lop);
-$dtb_lop = $row_get_dtb_lop['trungBinh'];
+$tong_dtb = 0;
+while($rowssss = mysqli_fetch_assoc($result_get_dtb_lop)) {
+    $tong_dtb += $rowssss['diem'];
+}
+$dtb_lop =  $tong_dtb / mysqli_num_rows($result_get_dtb_lop) ;
+$dtb_lop = number_format($dtb_lop, 2);
 
-// get tong ket qua trong lop
-$sql_get_slKq = "SELECT count(kq.user_id) as SlKq From ket_qua kq Join 
-chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
-JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
-Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1";
-$result_get_slKq = mysqli_query($connect, $sql_get_slKq);
-$row_slKq = mysqli_fetch_assoc($result_get_slKq);
-$slKq = $row_slKq['SlKq'];
+$slKq = mysqli_num_rows($result_get_dtb_lop);
 
 // get tong ket qua trong lop >= 9
 
-$sql_get_slkq9 = "SELECT count(kq.user_id) as slkq From ket_qua kq Join 
+$sql_get_slkq9 = "SELECT DISTINCT kq.user_id, kq.diem
+From ket_qua kq Join 
 chi_tiet_lop ctl on kq.user_id = ctl.user_id Join lop on lop.ma_lop = ctl.ma_lop
 JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
-Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1
+Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 19 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1
 AND kq.diem >= 9";
 $result_get_slkq9 = mysqli_query($connect, $sql_get_slkq9);
 $row_slKq9 = mysqli_fetch_assoc($result_get_slkq9);
-$slKq9 = $row_slKq9['slkq'];
+$slKq9 = mysqli_num_rows($result_get_slkq9);
 ?>
 <div class="container">
     <article>
@@ -78,7 +72,7 @@ $slKq9 = $row_slKq9['slkq'];
                     <img src="./images/dcao.png" alt="">
                     <div class="d-flex flex-column justify-content-center">
                         <p class="mb-1">Tỷ lệ đạt điểm cao của lớp (9đ)</p>
-                        <p class="m-0"><?php if ($slKq != 0) echo ($slKq9 / $slKq) * 100  ?></p>
+                        <p class="m-0"><?php if ($slKq != 0) echo number_format(($slKq9 / $slKq) * 100, 2) . " %"  ?></p>
                     </div>
                 </div>
             </div>
@@ -103,15 +97,14 @@ $slKq9 = $row_slKq9['slkq'];
                     <?php 
                         $sql_select_top10 = "SELECT DISTINCT kq.*, dt.ten_de_thi, users.ho_va_ten
                         FROM ket_qua kq 
-                        JOIN chi_tiet_lop ctl ON kq.user_id = ctl.user_id 
-                        JOIN lop ON lop.ma_lop = ctl.ma_lop
                         JOIN bai_thi ON kq.ma_bai_thi = bai_thi.ma_bai_thi
                         JOIN de_thi dt ON dt.ma_de_thi = bai_thi.ma_de_thi 
+                        JOIN chi_tiet_lop ctl ON ctl.ma_lop = bai_thi.ma_lop
                         JOIN users ON users.id = kq.user_id
                         JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
                         Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen 
-                        Where ctcn.ma_chuc_nang = 22 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1 
-                        ORDER BY kq.diem DESC 
+                        Where ctcn.ma_chuc_nang = 19 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1 
+                        ORDER BY kq.diem, kq.ma_bai_thi DESC 
                         LIMIT 10;
                         ";
                         $result_top10 = mysqli_query($connect, $sql_select_top10);
@@ -136,7 +129,7 @@ $slKq9 = $row_slKq9['slkq'];
                 ]);
 
                 var options = {
-                    title: "Density of Precious Metals, in g/cm^3",
+                    title: "",
                     width: "100%",
                     height: 400,
                     bar: {

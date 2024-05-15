@@ -54,7 +54,7 @@ include('includes/database.php');
                     <img src="./images/de_thi.png" alt="">
                     <div class="d-flex flex-column justify-content-center">
                         <p class="mb-1 fs-4 ">Số câu đúng</p>
-                        <p class="m-0 fs-3 fw-bold"><?php echo $d; ?></p>
+                        <p class="m-0 fs-3 fw-bold"><?php echo number_format($d, 2); ?></p>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@ include('includes/database.php');
                     <img src="./images/dtb.png" alt="">
                     <div class="d-flex flex-column justify-content-center">
                         <p class="mb-1 fs-4 ">Số câu sai</p>
-                        <p class="m-0 fs-3 fw-bold"><?php echo $s; ?></p>
+                        <p class="m-0 fs-3 fw-bold"><?php echo number_format($s, 2); ?></p>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@ include('includes/database.php');
                     <img src="./images/dcao.png" alt="">
                     <div class="d-flex flex-column justify-content-center">
                         <p class="mb-1 fs-4 ">Số câu chưa chọn</p>
-                        <p class="m-0 fs-3 fw-bold"><?php echo $cc  ?></p>
+                        <p class="m-0 fs-3 fw-bold"><?php echo number_format($cc, 2);  ?></p>
                     </div>
                 </div>
             </div>
