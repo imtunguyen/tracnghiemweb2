@@ -95,7 +95,7 @@ include('includes/database.php');
                     <img src="./images/dcao.png" alt="">
                     <div class="d-flex flex-column justify-content-center">
                         <p class="mb-1 fs-4">Kết quả</p>
-                        <p class="m-0 fs-3 fw-bold"><?php echo $diem . " (Điểm)"  ?></p>
+                        <p class="m-0 fs-3 fw-bold"><?php echo number_format($diem, 2) . " (Điểm)";  ?></p>
                     </div>
                 </div>
             </div>

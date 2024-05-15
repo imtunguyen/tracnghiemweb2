@@ -23,7 +23,6 @@ Join chi_tiet_lop ctl on ctl.ma_lop = bt.ma_lop
 JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
 Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 19 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1";
 $result_get_dtb_lop = mysqli_query($connect, $sql_get_dtb_lop);
-$row_get_dtb_lop = mysqli_fetch_assoc($result_get_dtb_lop);
 $tong_dtb = 0;
 while($rowssss = mysqli_fetch_assoc($result_get_dtb_lop)) {
     $tong_dtb += $rowssss['diem'];
@@ -42,7 +41,6 @@ JOIN chi_tiet_quyen ctq on ctq.user_id = kq.user_id
 Join chi_tiet_chuc_nang ctcn on ctcn.ma_quyen = ctq.ma_quyen Where ctcn.ma_chuc_nang = 19 AND ctl.ma_lop = $ma_lop AND ctcn.cho_phep = 1
 AND kq.diem >= 9";
 $result_get_slkq9 = mysqli_query($connect, $sql_get_slkq9);
-$row_slKq9 = mysqli_fetch_assoc($result_get_slkq9);
 $slKq9 = mysqli_num_rows($result_get_slkq9);
 ?>
 <div class="container">
