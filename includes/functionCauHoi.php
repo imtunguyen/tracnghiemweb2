@@ -1,7 +1,7 @@
 <?php
-function getCauHoibyID($connect, $id) {
-    $stm = $connect->prepare('SELECT * FROM cau_hoi WHERE ma_cau_hoi =?');
-    $stm->bind_param('i', $id);
+function getCauHoibyID($connect, $id, $ma_nguoi_tao) {
+    $stm = $connect->prepare('SELECT * FROM cau_hoi WHERE ma_cau_hoi =? AND ma_nguoi_tao = ?');
+    $stm->bind_param('ss', $id, $ma_nguoi_tao);
     $stm->execute();
     $result = $stm->get_result();
     return $result;
@@ -86,7 +86,7 @@ function modalXoaCH($ma_cau_hoi, $modalXoaID){
 </div>
 <?php
 }
-function modalChitietCH($connect, $ma_cau_hoi, $modalID){
+function modalChitietCH($connect, $ma_cau_hoi, $modalID, $ma_nguoi_tao){
     ?>
     <div class="modal fade" id="<?php echo $modalID; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -97,7 +97,7 @@ function modalChitietCH($connect, $ma_cau_hoi, $modalID){
             </div>
             <div class="modal-body" id="modalContent">
                 <?php 
-                $result = getCauHoibyID($connect, $ma_cau_hoi);
+                $result = getCauHoibyID($connect, $ma_cau_hoi, $ma_nguoi_tao);
                 $result1 = getCauTraLoi($connect, $ma_cau_hoi);
 
                 $record = $result->fetch_assoc();

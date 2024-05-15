@@ -1,5 +1,3 @@
-
-
 <?php 
     include '../includes/header.php';
     include '../includes/database.php';
@@ -68,7 +66,7 @@
                             <option disabled selected>Môn học</option>
                             <?php while($monhoc_record = $monhoc->fetch_assoc()) { ?>
                                 <option value="<?php echo $monhoc_record['ma_mon_hoc']; ?>"><?php echo $monhoc_record['ten_mon_hoc']; ?></option>
-<?php } ?>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="col-3">
@@ -95,9 +93,9 @@
                     </tr>
                     <?php
                     $stt = 1; 
-                    
                     while ($cauhoi_record = $addchdethi->fetch_assoc()) { 
-                        $noidung = getCauHoibyID($connect, $cauhoi_record["ma_cau_hoi"]);
+                        $noidung = getCauHoibyID($connect, $cauhoi_record["ma_cau_hoi"], $_SESSION['userId']);
+                       
                         $chdethi = $noidung->fetch_assoc(); ?>
                         <tr>
                         <td> <?php echo $stt ?> </td>
@@ -133,7 +131,7 @@
                             $stt = 1;
                             $stt = 1;
                             while ($chiTiet = $dethi->fetch_assoc()) {
-                                $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"]);
+                                $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"], $_SESSION['userId']);
                                 $noidungch = $noidung->fetch_assoc();
                                 echo '<tr>';
                                 echo '<td>' . $stt . '</td>';

@@ -37,7 +37,7 @@ if(isset($_POST['cau_hoi'])){
 }
 if(isset($_GET['id'])){
     $ma_cau_hoi = $_GET['id'];
-    $cauhoi = getCauHoibyID($connect, $ma_cau_hoi);
+    $cauhoi = getCauHoibyID($connect, $ma_cau_hoi, $_SESSION['userId']);
     $cauhoi_record = $cauhoi->fetch_assoc();
     $ma_mon_hoc = $cauhoi_record['ma_mon_hoc'];
     $monhoc = getMonHoc($connect);

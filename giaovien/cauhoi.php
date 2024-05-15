@@ -48,6 +48,22 @@ ob_end_flush();
                 <div class="form-group">
                     <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
                 </div>
+                <div class="col-3">
+                        <select class="form-select" name="filter_monhoc" id="filter_monhoc">
+                            <option disabled selected>Môn học</option>
+                            <?php while($monhoc_record = $monhoc->fetch_assoc()) { ?>
+                                <option value="<?php echo $monhoc_record['ma_mon_hoc']; ?>"><?php echo $monhoc_record['ten_mon_hoc']; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <select class="form-select" name="filter_dokho" id="filter_dokho">
+                            <option disabled selected>Độ khó</option>
+                            <option value="Dễ">Dễ</option>
+                            <option value="Trung bình">Trung bình</option>
+                            <option value="Khó">Khó</option>
+                        </select>
+                    </div>
             </div>
             <div class="col-4 text-end">
                 <?php  if(check($connect, $_SESSION['userId'], 'them_cauhoi')) {echo'
