@@ -13,12 +13,15 @@ include('includes/database.php');
         if(isset($_POST['ma_de_thi'])) {
             $ma_de_thi = $_POST['ma_de_thi'];
         }
-        $query = "SELECT ch.* from chi_tiet_de_thi ctdt join de_thi dt on ctdt.ma_de_thi = dt.ma_de_thi join cau_hoi ch on ch.ma_cau_hoi = ctdt.ma_cau_hoi where dt.ma_de_thi = $ma_de_thi";
+        $d=$s=$cc=$diem=0;
+        $check_query = "SELECT COUNT(*) as count FROM chi_tiet_de_thi WHERE ma_de_thi = '$ma_de_thi'";
+        $check_result = mysqli_query($connect, $check_query);
+        $check_row = mysqli_fetch_assoc($check_result);
+        if($check_row['count'] > 0){
+            $query = "SELECT ch.* from chi_tiet_de_thi ctdt join de_thi dt on ctdt.ma_de_thi = dt.ma_de_thi join cau_hoi ch on ch.ma_cau_hoi = ctdt.ma_cau_hoi where dt.ma_de_thi = $ma_de_thi";
         $select_socauhoi = mysqli_query($connect,$query);
         $tong = mysqli_num_rows($select_socauhoi); 
         //so cau dung
-        $d = 0;
-        $s = 0;
         while($row = mysqli_fetch_assoc($select_socauhoi)) {
             $ma_cau_hoi = $row['ma_cau_hoi'];
 
@@ -41,6 +44,15 @@ include('includes/database.php');
         so_cau_sai, so_cau_chua_chon, diem) VALUES 
         ($ma_bai_thi, $user_id, $d, $s, $cc, $diem)";
         $res_insert = mysqli_query($connect, $sql_insert);
+        }
+        else {
+            
+            $user_id = $_SESSION['userId'];
+            $sql_insert = "INSERT INTO ket_qua(ma_bai_thi, user_id, so_cau_dung, 
+            so_cau_sai, so_cau_chua_chon, diem) VALUES 
+            ($ma_bai_thi, $user_id, 0, 0, 0, 0)";
+            $res_insert = mysqli_query($connect, $sql_insert);
+        }
     }
 
 ?>

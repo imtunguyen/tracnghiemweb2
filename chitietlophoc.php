@@ -21,7 +21,12 @@ if(isset($_GET['thong_bao'])) {
     echo "<script>toastr.success('Thêm đề thi vào lớp thành công');</script>";
 }
 }
-
+if(isset($_GET['baithirong'])) {
+  $thong_bao_bai_thi_rong =  $_GET['baithirong'];
+  if($thong_bao_bai_thi_rong != "") {
+    echo "<script>toastr.error('Bài thi này rỗng, xin chọn bài thi khác!');</script>";
+}
+}
 if(isset($_GET['thong_bao_da_lam_bai'])) {
   $thong_bao_da_lam_bai =  $_GET['thong_bao_da_lam_bai'];
   if($thong_bao_da_lam_bai != "") {
