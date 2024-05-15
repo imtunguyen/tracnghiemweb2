@@ -7,6 +7,7 @@ include('../includes/functionCauTraLoi.php');
 include('../includes/functionMonHoc.php');
 
 thongBao();
+$monhoc = getMonHoc($connect);
 if(isset($_GET['delete'])){
     deleteCauHoi($connect, $_GET['delete']);
     $_SESSION['toastr'] = 'Xóa câu hỏi thành công';
@@ -45,9 +46,27 @@ ob_end_flush();
     <div class="card-body border p-4">
         <div class="row pb-3">
             <div class="col-6">
-                <div class="form-group">
-                    <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
-                </div>
+               <div class="row">
+                    <div class="form-group col-6">
+                        <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Tìm kiếm câu hỏi" />
+                    </div>
+                    <div class="col-3">
+                        <select class="form-select" name="filter_monhoc" id="filter_monhoc">
+                            <option disabled selected>Môn học</option>
+                            <?php while($monhoc_record = $monhoc->fetch_assoc()) { ?>
+                                <option value="<?php echo $monhoc_record['ma_mon_hoc']; ?>"><?php echo $monhoc_record['ten_mon_hoc']; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <select class="form-select" name="filter_dokho" id="filter_dokho">
+                            <option disabled selected>Độ khó</option>
+                            <option value="Dễ">Dễ</option>
+                            <option value="Trung bình">Trung bình</option>
+                            <option value="Khó">Khó</option>
+                        </select>
+                    </div>
+               </div>
             </div>
             <div class="col-4 text-end">
                 <?php  if(check($connect, $_SESSION['userId'], 'them_cauhoi')) {echo'
@@ -66,19 +85,21 @@ ob_end_flush();
         <div class="table-responsive" id="dynamic_cauhoi"></div>
      </div>   
 
-
 <script>
 $(document).ready(function(){
     load_data(1);
 
-    function load_data(page, query = '')
-    {
+    function load_data(page, search_query = '', monHoc = '', doKho = '') {
         $.ajax({
-            url:"fetchch.php",
-            method:"POST",
-            data:{page:page, query:query},
-            success:function(data)
-            {
+            url: "fetchch.php",
+            method: "POST",
+            data: {
+                page: page,
+                query: search_query,
+                mon_hoc: monHoc,
+                do_kho: doKho
+            },
+            success: function(data) {
                 $('#dynamic_cauhoi').html(data);
             }
         });
@@ -86,15 +107,34 @@ $(document).ready(function(){
 
     $(document).on('click', '.page-link', function(){
         var page = $(this).data('page_number');
-        var query = $('#search_box').val();
-        load_data(page, query);
+        var search_query = $('#search_box').val();
+        var monHoc = $('#filter_monhoc').val();
+        var doKho = $('#filter_dokho').val();
+        load_data(page, search_query, monHoc, doKho);
     });
 
     $('#search_box').keyup(function(){
-        var query = $('#search_box').val();
-        load_data(1, query);
+        var search_query = $(this).val();
+        var monHoc = $('#filter_monhoc').val();
+        var doKho = $('#filter_dokho').val();
+        load_data(1, search_query, monHoc, doKho);
+    });
+
+    $('#filter_monhoc').change(function(){
+        var search_query = $('#search_box').val();
+        var monHoc = $(this).val();
+        var doKho = $('#filter_dokho').val();
+        load_data(1, search_query, monHoc, doKho);
+    });
+
+    $('#filter_dokho').change(function(){
+        var search_query = $('#search_box').val();
+        var monHoc = $('#filter_monhoc').val();
+        var doKho = $(this).val();
+        load_data(1, search_query, monHoc, doKho);
     });
 });
+
 </script>
 
 <?php 

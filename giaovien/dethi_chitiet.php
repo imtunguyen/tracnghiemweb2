@@ -1,5 +1,3 @@
-
-
 <?php 
     include '../includes/header.php';
     include '../includes/database.php';
@@ -9,7 +7,7 @@
     include '../includes/functionCauTraLoi.php';
     include '../includes/functionMonHoc.php';
 
-    $cauhoi = getCauHoi($connect);
+    $cauhoi = getCauHoi($connect,$_SESSION['userId']);
     $monhoc = getMonHoc($connect);
     $ma_nguoi_tao=$_SESSION['userId'];
     $addchdethi=AddCHDethi($connect,$_GET['id'],$ma_nguoi_tao);
@@ -69,7 +67,7 @@
                             <option disabled selected>Môn học</option>
                             <?php while($monhoc_record = $monhoc->fetch_assoc()) { ?>
                                 <option value="<?php echo $monhoc_record['ma_mon_hoc']; ?>"><?php echo $monhoc_record['ten_mon_hoc']; ?></option>
-<?php } ?>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="col-3">
@@ -96,9 +94,9 @@
                     </tr>
                     <?php
                     $stt = 1; 
-                    
                     while ($cauhoi_record = $addchdethi->fetch_assoc()) { 
-                        $noidung = getCauHoibyID($connect, $cauhoi_record["ma_cau_hoi"]);
+                        $noidung = getCauHoibyID($connect, $cauhoi_record["ma_cau_hoi"], $_SESSION['userId']);
+                       
                         $chdethi = $noidung->fetch_assoc(); ?>
                         <tr>
                         <td> <?php echo $stt ?> </td>
@@ -134,7 +132,7 @@
                             $stt = 1;
                             $stt = 1;
                             while ($chiTiet = $dethi->fetch_assoc()) {
-                                $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"]);
+                                $noidung = getCauHoibyID($connect, $chiTiet["ma_cau_hoi"], $_SESSION['userId']);
                                 $noidungch = $noidung->fetch_assoc();
                                 echo '<tr>';
                                 echo '<td>' . $stt . '</td>';
@@ -225,23 +223,22 @@
     });
 </script>
 
-<
 <script>
     $(document).ready(function() {
-$('#search_box, #filter_monhoc, #filter_dokho').change(function() {
-        var searchText = $('#search_box').val();
-        var monHoc = $('#filter_monhoc').val();
-        var doKho = $('#filter_dokho').val();
-        $.ajax({
-            url: 'dethi_search.php',
-            type: 'GET',
-            data: {search_text: searchText, mon_hoc: monHoc, do_kho: doKho,},
-            success: function(response) {
-                $('#t_draggable1 tbody').html(response);
-            }
+    $('#search_box, #filter_monhoc, #filter_dokho').change(function() {
+            var searchText = $('#search_box').val();
+            var monHoc = $('#filter_monhoc').val();
+            var doKho = $('#filter_dokho').val();
+            $.ajax({
+                url: 'dethi_search.php',
+                type: 'GET',
+                data: {search_text: searchText, mon_hoc: monHoc, do_kho: doKho,},
+                success: function(response) {
+                    $('#t_draggable1 tbody').html(response);
+                }
+            });
         });
     });
-});
 </script>
 
     </body>

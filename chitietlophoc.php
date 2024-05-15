@@ -12,6 +12,8 @@ if (!(isset($_GET['ma_lop']) && isset($_GET['ten_lop']) && isset($_GET['ma_moi']
   $_SESSION['ma_lop'] = $ma_lop;
   $ten_lop = $_GET['ten_lop'];
   $ma_moi = $_GET['ma_moi'];
+  $_SESSION['ten_lop']=$ten_lop;
+  $_SESSION['ma_moi']=$ma_moi;
 }
 if(isset($_GET['thong_bao'])) {
   $thong_bao =  $_GET['thong_bao'];
@@ -69,14 +71,8 @@ if(isset($_GET['thong_bao_delete'])) {
       Where ctcn.ma_chuc_nang = 13 AND ctl.ma_lop = $ma_lop and ctcn.cho_phep = 1";
       $result_ten_gv = mysqli_query($connect, $sql_ten_gv);
       $ten_gv = "";
-      $count = 0;
-      while($row_gv = mysqli_fetch_assoc($result_ten_gv)) {
-          if ($count > 0) {
-            $ten_gv .= " - ";
-          }
-          $ten_gv .= $row_gv['ho_va_ten'];
-          $count++;
-      }
+      $row_gv = mysqli_fetch_assoc($result_ten_gv);
+      $ten_gv .= $row_gv['ho_va_ten'];
     ?>
     <p style="font-weight: bold;">Giáo viên: <?php echo $ten_gv; ?></p>
   </div>

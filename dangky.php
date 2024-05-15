@@ -61,11 +61,6 @@
                             
                             <span class="error text-danger" id="birthday-error"></span>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="avatar" class="form-label">Chọn Avatar</label>
-                            <input class="form-control" type="file" name="avatar" id="avatar" accept=".png, .jpg, .jpeg, .gif, .bmp, .tiff, .raw, .webp, .svg" onchange="displayFileName()">
-                            <span class="error text-danger" id="avatar-error"></span>
-                        </div>
                         <div id="file-name"></div>
                         <div class="form-group mb-3">
                             <select name="permission" id="permission" class="form-select" id="permission">

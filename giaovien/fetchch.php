@@ -8,33 +8,42 @@ include('../includes/functionMonHoc.php');
 
 $limit = 5;
 $page = 1;
+$start = 0;
 
 if(isset($_POST['page']) && $_POST['page'] > 1) {
     $start = (($_POST['page'] - 1) * $limit);
     $page = $_POST['page'];
-} else {
-    $start = 0;
 }
 
-$query = "SELECT * FROM cau_hoi WHERE trang_thai = 1 AND ma_nguoi_tao = " .$_SESSION['userId'];
+$searchText = $_POST['query'] ?? '';
+$monHoc = $_POST['mon_hoc'] ?? '';
+$doKho = $_POST['do_kho'] ?? '';
 
-if(isset($_POST['query']) && $_POST['query'] != '') {
-    $query .= " AND noi_dung LIKE '%" . str_replace(' ', '%', $_POST['query']) . "%' ";
+$query = "SELECT * FROM cau_hoi WHERE trang_thai=1 AND ma_nguoi_tao=" . $_SESSION['userId'];
+
+if($searchText != '') {
+    $query .= " AND noi_dung LIKE '%$searchText%'";
 }
 
-$query .= " ORDER BY ma_cau_hoi ASC ";
+if($monHoc != '') {
+    $query .= " AND ma_mon_hoc = '$monHoc'";
+}
 
-$filter_query = $query . " LIMIT " . $start . ", " . $limit;
+if($doKho != '') {
+    $query .= " AND do_kho = '$doKho'";
+}
+
+$query .= " LIMIT $start, $limit";
 
 $statement = $connect->prepare($query);
 $statement->execute();
 $statement->store_result();
 $total_data = $statement->num_rows;
 
-$statement = $connect->prepare($filter_query);
+$statement = $connect->prepare($query);
 $statement->execute();
 $result = $statement->get_result();
-$total_filter_data = $result->num_rows; 
+$total_filter_data = $result->num_rows;
 
 $output = '
 <table class="table table-striped table-bordered">
@@ -52,7 +61,7 @@ if($total_data > 0) {
     foreach($result as $row) {
         $modalID = "chiTietModal" . $start_index;
         $modalXoaID = "xoaModal" . $start_index;
-        
+
         $output .= '
         <tbody data-bs-toggle="modal" data-bs-target="#' . $modalID . '">
             <td>' . $start_index++ . '</td>
@@ -77,7 +86,7 @@ if($total_data > 0) {
         </tbody>';
 
         modalXoaCH($row['ma_cau_hoi'], $modalXoaID);
-        modalChitietCH($connect, $row['ma_cau_hoi'], $modalID); 
+        modalChitietCH($connect, $row['ma_cau_hoi'], $modalID, $_SESSION['userId']); 
     }
 } else {
     $output .= '
@@ -149,3 +158,4 @@ $output .= '
 </div>';
 
 echo $output;
+?>
